@@ -7,6 +7,8 @@ gem 'rails', '3.0.3'
 
 gem 'mysql'
 
+gem 'inherited_resources', '~> 1.2.1'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
