@@ -1,14 +1,14 @@
 [
   {
     "id": 1, 
-    "first_name": "Matthew", 
-    "middle_initial": "J.",
+    "first_name": "Jonathan", 
+    "middle_initial": "Matthew",
     "last_name": "Dean" 
   }, 
   {
     "id": 2, 
     "first_name": "Samuel", 
-    "middle_initial": "L.",
+    "middle_initial": "Lewis",
     "last_name": "Carpenter" 
   }
 ]

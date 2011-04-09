@@ -29,8 +29,8 @@ protected
       :only => [
         :id,
         :first_name,
-        :last_name,
-        :middle_initial
+        :middle_name,
+        :last_name
       ]
     }
   end
