@@ -3,6 +3,13 @@ Api::Application.routes.draw do
 
   resources :members
 
+  match "oauth/authorize" => "oauth#authorize"
+  match "oauth/grant" => "oauth#grant"
+
+  mount Rack::OAuth2::Server::Admin=>"/oauth/admin"
+
+  root :to => "welcome#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

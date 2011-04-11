@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'rack/oauth2/server/admin'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -17,7 +18,7 @@ module Api
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+    # config.p'ugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
@@ -38,5 +39,19 @@ module Api
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    config.after_initialize do
+
+      config.oauth.database = Mongo::Connection.new["vantage_api_auth"]
+
+      config.oauth.authenticator = lambda do |username, password|
+        user = User.find(username)
+        user if user && user.authenticated?(password)
+      end
+
+      Rack::OAuth2::Server::Admin.set :client_id, "4da3271ee374553e66000001"
+      Rack::OAuth2::Server::Admin.set :client_secret, "32aa2bf32addec5d24ba150e7bfd77676f23f1902f8b6da753789bc2cc950800"
+
+    end
   end
 end

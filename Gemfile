@@ -12,6 +12,11 @@ gem 'inherited_resources', '~> 1.2.1'
 gem 'devise'
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 
+gem 'SystemTimer', '~> 1.2.0'
+
+gem 'json'
+gem 'rack-oauth2-server'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
