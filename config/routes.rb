@@ -1,7 +1,11 @@
 Api::Application.routes.draw do
+  get "welcome/index"
+
   devise_for :users
 
   resources :members
+
+  root :to => 'welcome#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
