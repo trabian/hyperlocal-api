@@ -1,9 +1,10 @@
 Api::Application.routes.draw do
-  get "welcome/index"
 
   devise_for :users
 
   resources :members
+
+  match "current_session.json", :to => "current_session#show"
 
   root :to => 'welcome#index'
 
