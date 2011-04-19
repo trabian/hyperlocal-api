@@ -5,8 +5,18 @@ Api::Application.routes.draw do
   resources :users do
     resources :tickets
   end
+  
+  scope "/users" do
+    resources :groups do
+      resources :tickets
+    end
+  end
 
   resources :members do
+    resources :tickets
+  end
+  
+  resources :tags do
     resources :tickets
   end
 
