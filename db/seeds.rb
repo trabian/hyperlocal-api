@@ -16,8 +16,8 @@
 
 # User.all.each {|u| u.delete }
 #   
-# User.create(:email => "david@trabian.com", :password => "password", :member_id => Member.last.id)
-# User.create(:email => "matt@trabian.com", :password => "password", :member_id => Member.first.id)
+# User.create(:email => "david@trabian.com", :password => "password", :first_name => "David", :last_name => "Radcliffe")
+# User.create(:email => "matt@trabian.com", :password => "password", :member_id => Member.first.id, :first_name => "Matt", :last_name => "Dean")
 # 
 
 Ticket.all.each {|a| a.delete }
@@ -40,4 +40,26 @@ Ticket.create(
   :assigned_user_id => User.last.id,
   :tags_raw => "deceased_account notification",
   :member_id => Member.last.id
+)
+
+
+Comment.create(
+  :ticket => Ticket.first,
+  :user_id => User.first.id,
+  :body => "This is the first comment!",
+  :public => false
+)
+
+Comment.create(
+  :ticket => Ticket.first,
+  :user_id => User.first.id,
+  :body => "This is the second comment!",
+  :public => false
+)
+
+Comment.create(
+  :ticket => Ticket.first,
+  :user_id => User.first.id,
+  :body => "Dear X, We ARE working on this. Chill yo.",
+  :public => true
 )

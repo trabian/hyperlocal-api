@@ -11,11 +11,30 @@ class User < ActiveRecord::Base
   has_many :tickets, :foreign_key => 'assigned_user_id'
 
   def first_name
-    member.try(:first_name)
+    member.try(:first_name) or super
   end
 
   def last_name
-    member.try(:last_name)
+    member.try(:last_name) or super
+  end
+  
+  def to_json (options={})
+    options.merge!(User.json_options)
+    super(options)
+  end
+  
+  def self.json_options
+    {
+      :only => [
+        :id,
+        :first_name,
+        :last_name
+      ],
+      :methods => [
+        :first_name,
+        :last_name
+      ]
+    }
   end
 
 end
