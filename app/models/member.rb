@@ -12,8 +12,7 @@ class Member < ActiveRecord::Base
     {
       :except => [
         :created_at,
-        :updated_at,
-        :id
+        :updated_at
       ],
       :methods => [
         :first_name,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110419032256) do
+ActiveRecord::Schema.define(:version => 20110419043119) do
 
   create_table "comments", :force => true do |t|
     t.integer  "ticket_id"
@@ -27,6 +27,11 @@ ActiveRecord::Schema.define(:version => 20110419032256) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "middle_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "phone"
   end
 
   create_table "rails_admin_histories", :force => true do |t|

@@ -1,18 +1,31 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Daley', :city => cities.first)
 
-# Member.all.each do |m|
-#   m.delete
-# end
-# 
-# Member.create(:first_name => "Jonathan", :last_name => "Dean", :middle_name => "Matthew")
-# Member.create(:first_name => "Samuel", :last_name => "Carpenter", :middle_name => "Lewis")
-# Member.create(:first_name => "David", :last_name => "Radcliffe", :middle_name => "W")
+# NOTE: This will currently clear some of the existing data!!!
+
+Member.all.each {|a| a.delete }
+
+Member.create(
+  :first_name => "Jonathan",
+  :last_name => "Dean",
+  :middle_name => "Matthew",
+  :street => "1234 Some Street",
+  :city => "Fishers",
+  :state => "IN",
+  :zip => "46038",
+  :phone => "555 123-4567"
+)
+Member.create(:first_name => "Samuel", :last_name => "Carpenter", :middle_name => "Lewis")
+Member.create(
+  :first_name => "David",
+  :last_name => "Radcliffe",
+  :middle_name => "W",
+  :street => "870 Halyard Drive",
+  :city => "Avon",
+  :state => "IN",
+  :zip => "46123",
+  :phone => "123 456-7890"
+)
 
 # User.all.each {|u| u.delete }
 #   
