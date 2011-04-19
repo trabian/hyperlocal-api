@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110412031331) do
+ActiveRecord::Schema.define(:version => 20110419012054) do
+
+  create_table "comments", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "user_id"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "members", :force => true do |t|
     t.string   "first_name"
@@ -32,6 +40,18 @@ ActiveRecord::Schema.define(:version => 20110412031331) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
+
+  create_table "tickets", :force => true do |t|
+    t.string   "title"
+    t.string   "ticket_type"
+    t.integer  "account_id"
+    t.integer  "member_id"
+    t.string   "state"
+    t.integer  "assigned_user_id"
+    t.string   "tags_raw"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
