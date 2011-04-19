@@ -5,6 +5,7 @@ class TicketsController < ApplicationController
   inherit_resources
   
   belongs_to :user, :optional => true
+  belongs_to :member, :optional => true
 
   actions :index, :show, :update
 
