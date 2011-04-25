@@ -10,7 +10,41 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110412031331) do
+ActiveRecord::Schema.define(:version => 20110425162821) do
+
+  create_table "accounts", :force => true do |t|
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "member_id"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "user_id"
+    t.text     "body"
+    t.boolean  "public"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.integer  "actor_id"
+    t.string   "actor_type"
+    t.integer  "subject_id"
+    t.string   "subject_type"
+    t.string   "event_type"
+    t.string   "ancestry"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["ancestry"], :name => "index_events_on_ancestry"
+
+  create_table "groups", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "members", :force => true do |t|
     t.string   "first_name"
@@ -18,6 +52,11 @@ ActiveRecord::Schema.define(:version => 20110412031331) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "middle_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "phone"
   end
 
   create_table "rails_admin_histories", :force => true do |t|
@@ -32,6 +71,14 @@ ActiveRecord::Schema.define(:version => 20110412031331) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
+
+  create_table "tickets", :force => true do |t|
+    t.string   "title"
+    t.string   "state"
+    t.integer  "assigned_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
@@ -48,6 +95,8 @@ ActiveRecord::Schema.define(:version => 20110412031331) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "member_id"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

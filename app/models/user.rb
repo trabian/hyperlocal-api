@@ -9,12 +9,27 @@ class User < ActiveRecord::Base
 
   belongs_to :member
 
-  def first_name
-    member.try(:first_name)
+  def as_json(options={})
+    options.merge!(self.class.json_options)
+    super options
   end
 
-  def last_name
-    member.try(:last_name)
+  def name
+    [self.first_name, self.last_name].compact.join ' '
+  end
+
+  def self.json_options
+    {
+      :only => [
+        :email,
+        :id,
+        :first_name,
+        :last_name
+      ],
+      :methods => [
+        :name
+      ]
+    }
   end
 
 end
