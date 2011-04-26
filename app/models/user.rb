@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :member_id
 
   belongs_to :member
+  has_many :tickets, :foreign_key => 'assigned_user_id'
 
   def as_json(options={})
     options.merge!(self.class.json_options)

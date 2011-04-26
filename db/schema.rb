@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110425162821) do
+ActiveRecord::Schema.define(:version => 20110425200154) do
 
   create_table "accounts", :force => true do |t|
     t.string   "number"
@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(:version => 20110425162821) do
     t.string   "ancestry"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "secondary_subject_id"
+    t.string   "secondary_subject_type"
+    t.integer  "member_id"
+    t.integer  "user_id"
   end
 
   add_index "events", ["ancestry"], :name => "index_events_on_ancestry"
@@ -78,6 +82,10 @@ ActiveRecord::Schema.define(:version => 20110425162821) do
     t.integer  "assigned_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ticket_type"
+    t.integer  "account_id"
+    t.integer  "member_id"
+    t.string   "tags_row"
   end
 
   create_table "users", :force => true do |t|

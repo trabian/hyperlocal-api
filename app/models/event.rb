@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :actor, :polymorphic => true
   belongs_to :subject, :polymorphic => true
+  belongs_to :secondary_subject, :polymorphic => true
 
   has_ancestry
 
@@ -17,15 +18,24 @@ class Event < ActiveRecord::Base
     subject.as_json
   end
 
+  def secondary_subject_json
+    secondary_subject.as_json
+  end
+
   def actor_json
     actor.as_json
+  end
+
+  def events
+    self.children
   end
 
   def self.json_options
     {
       :methods => [
         :subject_json,
-        :actor_json
+        :actor_json,
+        :secondary_subject_json
       ]
     }
   end
