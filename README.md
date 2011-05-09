@@ -1,1 +1,1 @@
-See [the wiki](https://github.com/trabian/vantage-api/wiki) for more information.
+See [the wiki](https://github.com/trabian/hyperlocal-api/wiki) for more information.
