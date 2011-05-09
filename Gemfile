@@ -17,6 +17,8 @@ gem 'redis'
 
 gem 'ancestry'
 
+gem "transitions", :require => ["transitions", "active_record/transitions"]
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

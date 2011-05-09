@@ -1,5 +1,7 @@
 class Ticket < ActiveRecord::Base
 
+  include ActiveRecord::Transitions
+
   has_many :comments
 
   belongs_to :member
@@ -8,6 +10,21 @@ class Ticket < ActiveRecord::Base
 
   scope :ascending, :order => "created_at"
   scope :descending, :order => "created_at DESC"
+
+  state_machine do
+
+    state :open
+    state :completed
+
+    event :complete do
+      transitions :to => :complete, :from => :open
+    end
+
+    event :reopen do
+      transitions :to => :open, :from => :completed
+    end
+
+  end
 
   def as_json(options={})
     options.merge!(self.class.json_options)

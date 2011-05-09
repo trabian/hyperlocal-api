@@ -8,4 +8,34 @@ class TicketsController < ApplicationController
 
   respond_to :json
 
+  def complete
+
+    resource.complete!
+
+    log_state_change(resource)
+
+    respond_with resource
+
+  end
+
+  def reopen
+
+    resource.reopen!
+
+    log_state_change(resource)
+
+    respond_with resource
+
+  end
+
+  protected
+
+    def log_state_change(ticket)
+      Event.create(
+        :event_type => 'tickets:change_state',
+        :actor => current_user,
+        :member => ticket.member
+      )
+    end
+
 end

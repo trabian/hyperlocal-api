@@ -29,6 +29,10 @@ Api::Application.routes.draw do
 
   resources :tickets do
     resources :comments
+    member do
+      post 'close'
+      post 'reopen'
+    end
   end
 
   resources :events do
