@@ -24,6 +24,6 @@ unless module.parent
     port: 3001
 
   exports.boot config, (app) ->
-    console.log "Started API server on port #{config.port}"
+    console.log "Started API server on port #{config.port}. You can access it at http://localhost:#{config.port}/members.json"
     app.listen config.port
     return app
