@@ -6,12 +6,14 @@ exports.boot = (config, next) ->
 
   require('app/models').load(config)
 
-  { MembersController } = require('./app/controllers').load(config)
+  { AccountsController, MembersController } = require('./app/controllers').load(config)
 
   app = express.createServer()
 
   app.get '/members.json', MembersController.index
   app.get '/members/:id.json', MembersController.show
+
+  app.get '/members/:member_id/accounts.json', AccountsController.index
 
   next app
 

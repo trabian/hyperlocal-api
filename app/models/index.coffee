@@ -10,4 +10,5 @@ exports.load = (config) ->
 
   config.models =
 
+    Account: require('./account').load(mongoose)
     Member: require('./member').load(mongoose)

@@ -9,7 +9,7 @@ config =
 
 require('app/models').load(config)
 
-{ Member } = config.models
+{ Account, Member } = config.models
 
 membersToCreate = 5
 
@@ -33,7 +33,13 @@ Member.remove {}, ->
         state: Faker.Address.usState(true)
         zip: Faker.Address.zipCode()
 
-    member.save callback
+    member.save ->
+
+      account = new Account
+        number: 1
+        member_id: member._id
+
+      account.save callback
 
   async.parallel (createMember for num in [1..membersToCreate]), ->
     console.timeEnd timer

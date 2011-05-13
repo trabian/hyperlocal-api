@@ -4,4 +4,5 @@ module.exports =
 
     controllers =
 
+      AccountsController: require('./accounts').load(config)
       MembersController: require('./members').load(config)
