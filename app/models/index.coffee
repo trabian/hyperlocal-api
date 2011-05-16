@@ -1,4 +1,5 @@
 mongoose = require 'mongoose'
+_ = require 'underscore'
 
 mongoose.connect 'mongodb://localhost/hyperlocal_api'
 
@@ -8,7 +9,7 @@ exports.load = (config) ->
 
   mongoose.connect config.database
 
-  config.models =
+  config.models = {}
 
-    Account: require('./account').load(mongoose)
-    Member: require('./member').load(mongoose)
+  _.each ['Account', 'Member'], (name) ->
+    config.models[name] = mongoose.model name, require("./#{name.toLowerCase()}")

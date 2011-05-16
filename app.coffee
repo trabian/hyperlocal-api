@@ -14,6 +14,7 @@ exports.boot = (config, next) ->
   app.get '/members/:id.json', MembersController.show
 
   app.get '/members/:member_id/accounts.json', AccountsController.index
+  app.get '/accounts/:id.json', AccountsController.show
 
   next app
 

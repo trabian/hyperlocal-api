@@ -2,9 +2,11 @@ module.exports =
 
   formatter: (account) ->
     output =
-      id: account.id
+      id: account._id
+      name: account.name
       nickname: account.nickname
-      number: account.number
+      balance: account.balance
+      available_balance: account.available_balance
 
   load: (config) ->
 
