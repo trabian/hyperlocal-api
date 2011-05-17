@@ -1,4 +1,3 @@
-
 module.exports =
 
   formatter: (member) ->
@@ -21,9 +20,15 @@ module.exports =
       index: (req, res) ->
 
         Member.find {}, (err, members) ->
-          res.send members.map(formatter)
+          if err
+            console.log err
+          else
+            res.send members.map(formatter)
 
       show: (req, res) ->
 
         Member.findById req.params.id, (err, member) ->
-          res.send formatter(member)
+          if err
+            console.log err
+          else
+            res.send formatter(member)
