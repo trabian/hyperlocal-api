@@ -1,8 +1,12 @@
 module.exports =
 
-  load: (config) ->
+  load: (app) ->
 
-    controllers =
+    AccountsController = require('./accounts').load(app.settings)
+    MembersController = require('./members').load(app.settings)
 
-      AccountsController: require('./accounts').load(config)
-      MembersController: require('./members').load(config)
+    app.get '/members.json', MembersController.index
+    app.get '/members/:id.json', MembersController.show
+
+    app.get '/members/:member_id/accounts.json', AccountsController.index
+    app.get '/accounts/:id.json', AccountsController.show

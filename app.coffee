@@ -2,29 +2,22 @@ require.paths.unshift '.'
 
 express = require 'express'
 
-exports.boot = (config, next) ->
-
-  require('app/models').load(config)
-
-  { AccountsController, MembersController } = require('./app/controllers').load(config)
+exports.boot = (next) ->
 
   app = express.createServer()
 
-  app.get '/members.json', MembersController.index
-  app.get '/members/:id.json', MembersController.show
+  app.set 'database', 'mongodb://localhost/hyperlocal_api'
+  app.set 'port', 3001
 
-  app.get '/members/:member_id/accounts.json', AccountsController.index
-  app.get '/accounts/:id.json', AccountsController.show
+  require('app/models').load app.settings 
+  require('app/controllers').load app
 
   next app
 
 unless module.parent
 
-  config =
-    database: 'mongodb://localhost/hyperlocal_api'
-    port: 3001
-
-  exports.boot config, (app) ->
-    console.log "Started API server on port #{config.port}. You can access it at http://localhost:#{config.port}/members.json"
-    app.listen config.port
+  exports.boot (app) ->
+    port = app.set('port')
+    console.log "Started API server on port #{port}. You can access it at http://localhost:#{port}/members.json"
+    app.listen port
     return app

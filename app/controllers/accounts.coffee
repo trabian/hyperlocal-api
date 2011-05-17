@@ -8,9 +8,9 @@ module.exports =
       balance: account.balance
       available_balance: account.available_balance
 
-  load: (config) ->
+  load: (settings) ->
 
-    { Account, Member } = config.models
+    { Account, Member } = settings.models
 
     formatter = @formatter
 

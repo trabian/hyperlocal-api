@@ -10,9 +10,9 @@ module.exports =
       phone: member.phone
       address: member.address
 
-  load: (config) ->
+  load: (settings) ->
 
-    { Member } = config.models
+    { Member } = settings.models
 
     formatter = @formatter
 
