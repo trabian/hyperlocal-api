@@ -17,8 +17,11 @@ exports.boot = (next) ->
 
   app.set 'port', 3001
 
-  require('app/models').load app.settings 
-  require('app/controllers').load app
+  app.get '/test', (req, res) ->
+    res.send 'Testing'
+
+  # require('app/models').load app.settings 
+  # require('app/controllers').load app
 
   next app
 

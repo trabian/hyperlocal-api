@@ -6,9 +6,6 @@ module.exports =
     MembersController = require('./members').load(app.settings)
     SeedController = require('./seed').load(app.settings)
 
-    app.get '/test', (req, res) ->
-      res.send 'Testing'
-
     app.get '/members.json', MembersController.index
     app.get '/members/:id.json', MembersController.show
 
