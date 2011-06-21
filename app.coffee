@@ -7,21 +7,14 @@ exports.boot = (next) ->
 
   app = express.createServer()
 
-  boundServices = if process.env.VCAP_SERVICES then JSON.parse(process.env.VCAP_SERVICES) else null
-
-  if boundServices
-    credentials = boundServices['mongodb-1.8'][0]['credentials']
-    app.set 'database', "mongodb://#{credentials.username}:#{credentials.password}@#{credentials.hostname}:#{credentials.port}/#{credentials.db}"
-  else
-    app.set 'database', 'mongodb://localhost/hyperlocal_api'
-
+  app.set 'database', process.env.MONGOHQ_URL ? 'mongodb://localhost/hyperlocal_api'
   app.set 'port', 3001
 
   app.get '/test', (req, res) ->
     res.send 'Testing'
 
-  # require('app/models').load app.settings 
-  # require('app/controllers').load app
+  require('app/models').load app.settings 
+  require('app/controllers').load app
 
   next app
 
