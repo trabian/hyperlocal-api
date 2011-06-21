@@ -25,7 +25,7 @@ exports.boot = (next) ->
 unless module.parent
 
   exports.boot (app) ->
-    port = process.env.VMC_APP_PORT || app.set('port')
+    port = process.env.PORT || app.set('port')
     console.log "Started API server on port #{port} using db: #{app.set('database')}. You can access it at http://localhost:#{port}/members.json"
     app.listen port
     return app
