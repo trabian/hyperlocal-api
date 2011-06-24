@@ -9,7 +9,7 @@ exports.load = (settings) ->
 
   models = {}
 
-  _.each ['Account', 'Member'], (name) ->
+  _.each ['Account', 'Member', 'Transaction'], (name) ->
     models[name] = mongoose.model name, require("./#{name.toLowerCase()}")
 
   settings.models = models

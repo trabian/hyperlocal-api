@@ -3,14 +3,14 @@ async = require 'async'
 
 module.exports =
 
-  createMultiple: (options, callback) =>
+  createMultiple: (options) =>
 
     createMember = (callback) ->
 
       module.exports.create options, (member) ->
         options.onCreate(member, callback)
 
-    async.parallel (createMember for num in [1..options.count]), callback
+    async.parallel (createMember for num in [1..options.count]), options.callback
 
   create: (options, callback) =>
 

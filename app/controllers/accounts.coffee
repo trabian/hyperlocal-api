@@ -1,29 +1,19 @@
+{ ResponseHelper } = require 'app/helpers'
+
 module.exports =
 
-  formatter: (account) ->
-    output =
-      id: account._id
-      name: account.name
-      nickname: account.nickname
-      balance: account.balance
-      available_balance: account.available_balance
+  load: (app) ->
 
-  load: (settings) ->
+    { Account, Member } = app.settings.models
 
-    { Account, Member } = settings.models
+    fields = ["name", "nickname", "balance", "available_balance"]
 
-    formatter = @formatter
+    app.get '/members/:member_id/accounts.json', (req, res) ->
 
-    actions =
+      Account.find { member_id: req.params.member_id }, (err, accounts) ->
+        ResponseHelper.sendCollection res, accounts, { fields, err }
 
-      index: (req, res) ->
+    app.get '/accounts/:id.json', (req, res) ->
 
-        Account.find { member_id: req.params.member_id }, (err, accounts) ->
-          res.send
-            data: accounts.map(formatter)
-
-      show: (req, res) ->
-
-        Account.findById req.params.id, (err, account) ->
-          res.send
-            data: formatter(account)
+      Account.findById req.params.id, (err, account) ->
+        ResponseHelper.send res, account, { fields, err }

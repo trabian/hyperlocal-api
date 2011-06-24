@@ -2,67 +2,67 @@ Faker = require 'lib/Faker'
 async = require 'async'
 _ = require 'underscore'
 
-randomNumberInRange = (lower, upper) ->
-  lower + Math.random() * (upper - lower)
+{ RandomHelper } = require 'app/helpers'
 
 module.exports =
 
-  createMultiple: (options, callback) =>
+  createMultiple: (options) =>
 
     samples = _.values(module.exports.samples)
 
     startingAccount = 0
-    accountCount = 1 + Math.floor(Math.random() * samples.length)
+    accountCount = 2 + Math.floor(Math.random() * (samples.length - 1))
 
     createAccount = (accountCallback) ->
 
       options.sample = samples[startingAccount++]
 
       module.exports.create options, (account) ->
-        accountCallback()
+        options.onCreate(account, accountCallback)
 
-    async.parallel (createAccount for num in [1..accountCount]), callback
+    async.parallel (createAccount for num in [1..accountCount]), options.callback
 
   create: (options, callback) =>
 
-    { member, sample } = options
+    { member, sample, models } = options
 
-    id = "#{member._id}-#{options.sample.suffix}"
+    id = "#{member._id}-#{sample.suffix}"
 
-    balance = randomNumberInRange(options.sample.min, options.sample.max).toFixed(2)
+    balance = RandomHelper.inRange(sample.min, sample.max).toFixed(2)
 
     availableBalance = 0
 
     if options.sample.type == 'share'
-      availableBalance = (balance - randomNumberInRange(0, 300)).toFixed(2)
+      availableBalance = (balance - RandomHelper.inRange(0, 300)).toFixed(2)
     else
-      availableBalance = (balance - options.sample.min).toFixed(2)
+      availableBalance = (balance - sample.min).toFixed(2)
 
-    account = new options.models.Account
+    account = new models.Account
       _id: id
       member_id: member._id
-      name: options.sample.name
+      name: sample.name
       balance: balance
       available_balance: availableBalance
 
-    account.nickname = "My #{options.sample.name} Account" if Math.random() < 0.5
+    account.nickname = "My #{sample.name} Account" if Math.random() < 0.5
 
-    account.save callback
+    account.save ->
+      callback account
 
   samples:
-
-    "share_savings":
-      name: "Share Savings"
-      min: 5.0
-      max: 3500.0
-      suffix: "S1"
-      type: "share"
 
     "checking":
       name: "Checking"
       min: 200.0
       max: 15000.0
       suffix: "S10"
+      type: "share"
+
+    "share_savings":
+      name: "Share Savings"
+      min: 5.0
+      max: 3500.0
+      suffix: "S1"
       type: "share"
 
     "auto":
