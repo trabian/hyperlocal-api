@@ -19,9 +19,11 @@ module.exports =
       index: (req, res) ->
 
         Account.find { member_id: req.params.member_id }, (err, accounts) ->
-          res.send accounts.map(formatter)
+          res.send
+            data: accounts.map(formatter)
 
       show: (req, res) ->
 
         Account.findById req.params.id, (err, account) ->
-          res.send formatter(account)
+          res.send
+            data: formatter(account)

@@ -23,7 +23,8 @@ module.exports =
           if err
             console.log err
           else
-            res.send members.map(formatter)
+            res.send
+              data: members.map(formatter)
 
       show: (req, res) ->
 
@@ -31,4 +32,5 @@ module.exports =
           if err
             console.log err
           else
-            res.send formatter(member)
+            res.send
+              data: formatter(member)
