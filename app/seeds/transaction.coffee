@@ -42,7 +42,7 @@ module.exports =
     transaction = new Transaction
       account_id: account._id
       name: merchant.name
-      amount: RandomHelper.inRange(merchant.min, merchant.max).toFixed(2)
+      amount: -RandomHelper.inRange(merchant.min, merchant.max).toFixed(2)
       posted_at: posted_at
 
     transaction.save ->
