@@ -5,5 +5,6 @@ module.exports = new Schema
   member_id: Number
   name: String
   nickname: String
+  type: String
   balance: Number
   available_balance: Number

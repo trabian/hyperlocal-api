@@ -10,17 +10,21 @@ module.exports =
 
     samples = _.values(module.exports.samples)
 
-    startingAccount = 0
-    accountCount = 2 + Math.floor(Math.random() * (samples.length - 1))
+    # Let's include all of them for now
+    # startingAccount = 0
 
-    createAccount = (accountCallback) ->
+    # accountCount = 2 + Math.floor(Math.random() * (samples.length - 1))
 
-      options.sample = samples[startingAccount++]
+    createAccount = (sample, accountCallback) ->
+
+      options.sample = sample
 
       module.exports.create options, (account) ->
         options.onCreate(account, accountCallback)
 
-    async.parallel (createAccount for num in [1..accountCount]), options.callback
+    async.forEach samples, createAccount, options.callback
+
+    # async.parallel (createAccount for num in [1..accountCount]), options.callback
 
   create: (options, callback) =>
 
@@ -43,6 +47,7 @@ module.exports =
       name: sample.name
       balance: balance
       available_balance: availableBalance
+      type: sample.type
 
     account.nickname = "My #{sample.name} Account" if Math.random() < 0.5
 
@@ -69,7 +74,7 @@ module.exports =
       name: "Auto Loan"
       min: -10000.0
       max: -500.0
-      suffix: "S10"
+      suffix: "L10"
       type: "loan"
 
     "heloc":
