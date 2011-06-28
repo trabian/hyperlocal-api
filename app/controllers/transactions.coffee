@@ -11,13 +11,17 @@ module.exports =
     app.get '/accounts/:account_id/transactions.json', (req, res) ->
 
       count = req.param('count') ? 10
+      before = req.param 'before'
 
-      Transaction
+      query = Transaction
         .find(account_id: req.params.account_id)
         .limit(count)
         .sort('posted_at', -1)
-        .execFind (err, transactions) ->
-          ResponseHelper.sendCollection res, transactions, { fields, err }
+
+      query = query.lt 'posted_at', before if before?
+
+      query.execFind (err, transactions) ->
+        ResponseHelper.sendCollection res, transactions, { fields, err }
 
     app.get '/transactions/:id.json', (req, res) ->
 
