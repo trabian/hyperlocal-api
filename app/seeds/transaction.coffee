@@ -85,10 +85,10 @@ module.exports =
       amount: amount
       posted_at: posted_at
 
-    if Math.random() < 0.2
+    if Math.random() < 0.5
       transaction.nickname = merchant.nickname
 
-    if Math.random() < 0.2
+    if Math.random() < 0.5
       transaction.category = merchant.category
 
     transaction.save callback
