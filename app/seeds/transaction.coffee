@@ -38,8 +38,7 @@ module.exports =
 
       account = options.account
 
-      # pendingTransactionsToCreate = RandomHelper.inRange(0, 10)
-      pendingTransactionsToCreate = 2
+      pendingTransactionsToCreate = RandomHelper.inRange(0, 10)
       transactionCount = 0
 
       addBalance = (transaction, callback) ->
