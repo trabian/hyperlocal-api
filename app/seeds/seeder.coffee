@@ -65,6 +65,8 @@ module.exports = class Seeder
         id: data[1]
         min: +data[2]
         max: +data[3]
+        nickname: data[4]
+        category: data[5]
 
     onComplete = ->
       callback merchants

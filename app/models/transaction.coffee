@@ -9,3 +9,4 @@ module.exports = new Schema
   posted_at: Date
   type: String
   pending: Boolean
+  category: String
