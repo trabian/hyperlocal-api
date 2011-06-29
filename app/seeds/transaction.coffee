@@ -29,9 +29,48 @@ module.exports =
 
   createMultiple: (options) =>
 
+    options.account.seedBalance = options.account.available_balance
+    options.account.previousAmount = 0
+
     createFunction = async.apply(module.exports.createTransactionsForDay, options)
 
-    async.forEach [0..options.days], createFunction, options.callback
+    async.forEach [0..options.days], createFunction, ->
+
+      account = options.account
+
+      # pendingTransactionsToCreate = RandomHelper.inRange(0, 10)
+      pendingTransactionsToCreate = 2
+      transactionCount = 0
+
+      addBalance = (transaction, callback) ->
+
+        balance = account.seedBalance = (account.seedBalance - account.previousAmount).toFixed(2)
+
+        if transactionCount < pendingTransactionsToCreate
+          transaction.pending = true
+        else if transactionCount == pendingTransactionsToCreate
+          account.balance = balance
+          account.save()
+
+        transactionCount = transactionCount + 1
+
+        account.previousAmount = transaction.amount
+
+        transaction.balance = balance
+
+        # account.previousAmount = transaction.amount
+
+        transaction.save callback
+
+      options.models.Transaction
+        .find(account_id: account.id)
+        .sort('posted_at', -1)
+        .execFind (err, transactions) ->
+
+          account.seedBalance = account.available_balance
+          account.previousAmount = 0
+
+          async.forEachSeries transactions, addBalance, options.callback
 
   create: (options, callback) =>
 
@@ -39,11 +78,12 @@ module.exports =
 
     { Transaction } = models
 
+    amount = -RandomHelper.inRange(merchant.min, merchant.max).toFixed(2)
+
     transaction = new Transaction
       account_id: account._id
       name: merchant.name
-      amount: -RandomHelper.inRange(merchant.min, merchant.max).toFixed(2)
+      amount: amount
       posted_at: posted_at
 
-    transaction.save ->
-      callback transaction
+    transaction.save callback

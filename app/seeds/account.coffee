@@ -45,9 +45,11 @@ module.exports =
       _id: id
       member_id: member._id
       name: sample.name
-      balance: balance
       available_balance: availableBalance
       type: sample.type
+
+    # Don't set balance for checking accounts -- will be determined based on pending transactions
+    account.balance = balance unless account.name == "Checking"
 
     account.nickname = "My #{sample.name} Account" if Math.random() < 0.5
 
