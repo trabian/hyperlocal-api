@@ -49,7 +49,7 @@ module.exports = class Seeder
         account: account
         models: @options.models
         merchants: @merchants
-        days: 30
+        days: 120
         callback: callback
 
     else
