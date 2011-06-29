@@ -74,6 +74,7 @@ module.exports =
         name: "Direct Deposit: BigCo"
         amount: options.paycheckAmount
         posted_at: date
+        category: "Paycheck"
 
       transaction.save createCallback
 
