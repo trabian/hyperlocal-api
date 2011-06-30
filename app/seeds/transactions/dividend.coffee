@@ -8,11 +8,27 @@ module.exports = class DividendTransactionSeed extends TransactionSeed
 
     posted_at = RandomHelper.timeInDay date
 
+    account = @options.account
+
+    amount = account.balance * @options.rate
+    balance = (account.balance + amount).toFixed 2
+
     transaction = new @options.models.Transaction
-      account_id: @options.account._id
+      account_id: account._id
       posted_at: posted_at
-      amount: @options.amount
+      amount: amount.toFixed(2)
       name: 'Dividend'
       category: "Dividend"
+      dividend_rate: @options.rate
+      dividend_balance: account.balance
+      balance: balance
+      type: "dividend"
 
-    transaction.save callback
+    transaction.save =>
+
+      account.balance = balance
+
+      @options.models.Account.update { _id: account.id },
+        { balance: account.balance },
+        (err, doc) =>
+          callback()

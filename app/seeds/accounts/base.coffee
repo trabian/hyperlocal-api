@@ -17,8 +17,8 @@ module.exports = class AccountSeed
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 
-    account.save =>
-      @createManyTransactions account, callback
+    account.save (err, doc) =>
+      @createManyTransactions doc, callback
 
   createId: ->
     [@options.member._id, @options.suffix].join '-'
@@ -27,15 +27,18 @@ module.exports = class AccountSeed
 
     create = =>
 
-      postDates = for daysAgo in [0..@options.daysToCreate]
+      postDates = for daysAgo in [@options.daysToCreate..0]
         date = new Date()
         date.setDate date.getDate() - daysAgo
         date
 
       createTransactionsForDay = async.apply @createTransactionsForDay, account
 
-      async.forEach postDates, createTransactionsForDay, =>
-        @addBalances account, callback
+      async.forEachSeries postDates, createTransactionsForDay, =>
+        if @options.addBalancesAtEnd
+          @addBalances account, callback
+        else
+          callback()
 
     if @beforeCreateManyTransactions?
       @beforeCreateManyTransactions account, create

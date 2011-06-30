@@ -6,7 +6,7 @@ module.exports =
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category"]
+    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance"]
 
     app.get '/accounts/:account_id/transactions.json', (req, res) ->
 

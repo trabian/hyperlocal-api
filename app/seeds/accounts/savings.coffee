@@ -16,32 +16,24 @@ module.exports = class SavingsAccountSeed extends AccountSeed
       name: "Share Savings"
       suffix: "S11"
       type: "share"
-      availableBalance: RandomHelper.amountInRange 5, 20000
+      balance: RandomHelper.amountInRange 5, 20000
       daysToCreate: 120
       pendingTransactions: 0
       dividendDay: 12
+      rate: 0.035
 
   createTransactionsForDay: (account, date, callback) =>
 
     seeds = []
 
-    # seeds.push (seedCallback) =>
-
-    #   merchantSeed = new MerchantTransactionSeed
-    #     account: account
-    #     models: @options.models
-    #     merchants: @options.merchants
-
-    #   merchantSeed.createManyForDay date, seedCallback
-
-    if date.getDate() == @options.dividendDay
+    if date.getDate() == (new Date date.getYear(), date.getMonth() + 1, 0).getDate()
 
       seeds.push (seedCallback) =>
 
         dividendSeed = new DividendTransactionSeed
           account: account
           models: @options.models
-          amount: 13.45
+          rate: @options.rate
 
         dividendSeed.create date, 0, seedCallback
 

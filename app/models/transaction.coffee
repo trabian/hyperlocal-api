@@ -10,3 +10,5 @@ module.exports = new Schema
   type: String
   pending: Boolean
   category: String
+  dividend_rate: Number
+  dividend_balance: Number
