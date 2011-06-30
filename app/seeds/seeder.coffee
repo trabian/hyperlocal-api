@@ -2,9 +2,6 @@ async = require 'async'
 
 memberSeed = require('app/seeds/member')
 accountSeed = require('app/seeds/account')
-transactionSeed = require('app/seeds/transaction')
-
-csv = require 'lib/csv'
 
 module.exports = class Seeder
 
@@ -34,7 +31,7 @@ module.exports = class Seeder
 
   createAccounts: (member, callback) =>
 
-    accountSeed.createMultiple
+    accountSeed.create
       member: member
       models: @options.models
       callback: callback

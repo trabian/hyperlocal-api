@@ -13,13 +13,14 @@ module.exports = class CheckingAccountSeed extends AccountSeed
 
   constructor: (@options = {}) ->
 
-    @options = _.defaults @options,
+    @options = _.defaults _.clone(@options),
       name: "Checking"
       suffix: "S10"
       type: "share"
       availableBalance: RandomHelper.amountInRange 200, 15000
       daysToCreate: 120
       paycheckAmount: RandomHelper.amountInRange 1500, 6000
+      pendingTransactions: Math.floor RandomHelper.inRange 0, 10
 
   beforeCreateManyTransactions: (account, callback) =>
     @loadMerchants callback
@@ -41,8 +42,6 @@ module.exports = class CheckingAccountSeed extends AccountSeed
     if date.getDate() == 15 or date.getDate() == (new Date date.getYear(), date.getMonth() + 1, 0).getDate()
 
       seeds.push (seedCallback) =>
-
-        console.log 'add paycheck', @options.paycheckAmount
 
         paycheckSeed = new PaycheckTransactionSeed
           account: account

@@ -4,33 +4,21 @@ _ = require 'underscore'
 
 { RandomHelper } = require 'app/helpers'
 
-CheckingAccountSeed = require 'app/seeds/accounts/checking'
+SeedClasses = (require "app/seeds/accounts/#{seed}" for seed in ['checking', 'savings'])
 
 module.exports =
 
-  createMultiple: (options) =>
+  create: (options) =>
 
-    samples = _.values(module.exports.samples)
+    seeds = []
 
-    createAccount = (sample, accountCallback) ->
-      options.sample = sample
-      module.exports.create options, accountCallback
+    seeds = for seedClass in SeedClasses
+      do (seedClass) ->
+        (seedCallback) -> (new seedClass options).create seedCallback
 
-    createAccount null, options.callback
-
-    # async.forEach samples, createAccount, options.callback
-
-  create: (options, callback) =>
-    (new CheckingAccountSeed options).create callback
+    async.parallel seeds, options.callback
 
   samples:
-
-    "share_savings":
-      name: "Share Savings"
-      min: 5.0
-      max: 3500.0
-      suffix: "S1"
-      type: "share"
 
     "auto":
       name: "Auto Loan"

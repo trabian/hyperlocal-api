@@ -26,6 +26,7 @@ module.exports = class AccountSeed
   createManyTransactions: (account, callback) =>
 
     create = =>
+
       postDates = for daysAgo in [0..@options.daysToCreate]
         date = new Date()
         date.setDate date.getDate() - daysAgo
@@ -33,9 +34,44 @@ module.exports = class AccountSeed
 
       createTransactionsForDay = async.apply @createTransactionsForDay, account
 
-      async.forEach postDates, createTransactionsForDay, callback
+      async.forEach postDates, createTransactionsForDay, =>
+        @addBalances account, callback
 
     if @beforeCreateManyTransactions?
       @beforeCreateManyTransactions account, create
     else
       create()
+
+  addBalances: (account, callback) =>
+
+    pendingTransactionsToCreate = @options.pendingTransactions
+
+    transactionCount = 0
+
+    addBalance = (transaction, callback) ->
+
+      balance = account.seedBalance = (account.seedBalance - account.previousAmount).toFixed(2)
+
+      if transactionCount < pendingTransactionsToCreate
+        transaction.pending = true
+      else if transactionCount == pendingTransactionsToCreate
+        account.balance = balance
+        account.save()
+
+      transactionCount = transactionCount + 1
+
+      account.previousAmount = transaction.amount
+
+      transaction.balance = balance
+
+      transaction.save callback
+
+    @options.models.Transaction
+      .find(account_id: account.id)
+      .sort('posted_at', -1)
+      .execFind (err, transactions) ->
+
+        account.seedBalance = account.available_balance
+        account.previousAmount = 0
+
+        async.forEachSeries transactions, addBalance, callback
