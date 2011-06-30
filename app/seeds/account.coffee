@@ -4,66 +4,26 @@ _ = require 'underscore'
 
 { RandomHelper } = require 'app/helpers'
 
+CheckingAccountSeed = require 'app/seeds/accounts/checking'
+
 module.exports =
 
   createMultiple: (options) =>
 
     samples = _.values(module.exports.samples)
 
-    # Let's include all of them for now
-    # startingAccount = 0
-
-    # accountCount = 2 + Math.floor(Math.random() * (samples.length - 1))
-
     createAccount = (sample, accountCallback) ->
-
       options.sample = sample
+      module.exports.create options, accountCallback
 
-      module.exports.create options, (account) ->
-        options.onCreate(account, accountCallback)
+    createAccount null, options.callback
 
-    async.forEach samples, createAccount, options.callback
-
-    # async.parallel (createAccount for num in [1..accountCount]), options.callback
+    # async.forEach samples, createAccount, options.callback
 
   create: (options, callback) =>
-
-    { member, sample, models } = options
-
-    id = "#{member._id}-#{sample.suffix}"
-
-    balance = RandomHelper.inRange(sample.min, sample.max).toFixed(2)
-
-    availableBalance = 0
-
-    if options.sample.type == 'share'
-      availableBalance = (balance - RandomHelper.inRange(0, 300)).toFixed(2)
-    else
-      availableBalance = (balance - sample.min).toFixed(2)
-
-    account = new models.Account
-      _id: id
-      member_id: member._id
-      name: sample.name
-      available_balance: availableBalance
-      type: sample.type
-
-    # Don't set balance for checking accounts -- will be determined based on pending transactions
-    account.balance = balance unless account.name == "Checking"
-
-    account.nickname = "My #{sample.name} Account" if Math.random() < 0.5
-
-    account.save ->
-      callback account
+    (new CheckingAccountSeed options).create callback
 
   samples:
-
-    "checking":
-      name: "Checking"
-      min: 200.0
-      max: 15000.0
-      suffix: "S10"
-      type: "share"
 
     "share_savings":
       name: "Share Savings"
