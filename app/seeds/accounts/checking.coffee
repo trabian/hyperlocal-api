@@ -62,7 +62,7 @@ module.exports = class CheckingAccountSeed extends AccountSeed
           account: account
           models: @options.models
           number: @startingCheckNumber++
-          amount: RandomHelper.amountInRange 50, 200
+          amount: - RandomHelper.amountInRange 50, 200
 
         checkSeed.create date, 0, seedCallback
 
