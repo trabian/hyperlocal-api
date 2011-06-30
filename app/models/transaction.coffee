@@ -12,3 +12,4 @@ module.exports = new Schema
   category: String
   dividend_rate: Number
   dividend_balance: Number
+  check_number: Number

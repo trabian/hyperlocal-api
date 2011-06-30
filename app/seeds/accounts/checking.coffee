@@ -6,12 +6,15 @@ csv = require 'lib/csv'
 
 AccountSeed = require 'app/seeds/accounts/base'
 
+CheckTransactionSeed = require 'app/seeds/transactions/check'
 MerchantTransactionSeed = require 'app/seeds/transactions/merchant'
 PaycheckTransactionSeed = require 'app/seeds/transactions/paycheck'
 
 module.exports = class CheckingAccountSeed extends AccountSeed
 
   constructor: (@options = {}) ->
+
+    @startingCheckNumber = 4323
 
     @options = _.defaults _.clone(@options),
       name: "Checking"
@@ -50,6 +53,18 @@ module.exports = class CheckingAccountSeed extends AccountSeed
           paycheckAmount: @options.paycheckAmount
 
         paycheckSeed.create date, 0, seedCallback
+
+    if Math.random() < 0.2
+
+      seeds.push (seedCallback) =>
+
+        checkSeed = new CheckTransactionSeed
+          account: account
+          models: @options.models
+          number: @startingCheckNumber++
+          amount: RandomHelper.amountInRange 50, 200
+
+        checkSeed.create date, 0, seedCallback
 
     async.parallel seeds, callback
 

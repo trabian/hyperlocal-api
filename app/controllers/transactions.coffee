@@ -1,3 +1,6 @@
+path = require 'path'
+fs = require 'fs'
+
 { ResponseHelper } = require 'app/helpers'
 
 module.exports =
@@ -6,7 +9,7 @@ module.exports =
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance"]
+    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number"]
 
     app.get '/accounts/:account_id/transactions.json', (req, res) ->
 
@@ -27,3 +30,12 @@ module.exports =
 
       Transaction.findById req.params.id, (err, transaction) ->
         ResponseHelper.send res, transaction, { fields, err }
+
+    app.get '/transactions/:id/check/:side.jpg', (req, res) ->
+
+      checkFile = path.join process.cwd(), "fixtures/checks/#{req.param('side')}.jpg"
+
+      fs.readFile checkFile, "binary", (err, file) ->
+        res.writeHead 200
+        res.write file, "binary"
+        res.end()
