@@ -7,6 +7,9 @@ exports.boot = (next) ->
 
   app = express.createServer()
 
+  app.use express.bodyParser()
+  app.use express.methodOverride()
+
   app.set 'database', process.env.MONGOHQ_URL ? 'mongodb://localhost/hyperlocal_api'
   app.set 'port', 3001
 

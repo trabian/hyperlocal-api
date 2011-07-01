@@ -47,7 +47,7 @@ module.exports =
       Transaction.findById req.params.id, (err, transaction) ->
 
         transaction.set
-          note: req.params.transaction.note
+          note: req.body.transaction.note
 
         transaction.save ->
           ResponseHelper.send res, transaction, { fields, err }

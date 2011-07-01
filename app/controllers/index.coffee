@@ -1,3 +1,5 @@
+express = require 'express'
+
 module.exports =
 
   load: (app) ->
