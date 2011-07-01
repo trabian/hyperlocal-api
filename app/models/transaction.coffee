@@ -13,3 +13,4 @@ module.exports = new Schema
   dividend_rate: Number
   dividend_balance: Number
   check_number: Number
+  note: String

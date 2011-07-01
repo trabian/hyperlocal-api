@@ -9,7 +9,7 @@ module.exports =
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number"]
+    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number", "note"]
 
     app.get '/accounts/:account_id/transactions.json', (req, res) ->
 
@@ -39,3 +39,9 @@ module.exports =
         res.writeHead 200
         res.write file, "binary"
         res.end()
+
+    app.put '/transactions/:id.json', (req, res) ->
+
+      Transaction.findById req.params.id (err, transaction) ->
+        transaction.save req.params.transaction, (err, transaction) ->
+          ResponseHelper.send res, transaction, { fields, err }
