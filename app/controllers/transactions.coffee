@@ -5,11 +5,13 @@ fs = require 'fs'
 
 module.exports =
 
+  fields: ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number", "note"]
+
   load: (app) ->
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number", "note"]
+    fields = module.exports.fields
 
     app.get '/accounts/:account_id/transactions.json', (req, res) ->
 

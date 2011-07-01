@@ -2,6 +2,8 @@
 
 async = require 'async'
 
+TransactionController = require 'app/controllers/transactions'
+
 module.exports =
 
   load: (app) ->
@@ -22,7 +24,10 @@ module.exports =
               .limit(transactionCount)
               .sort('posted_at', -1)
               .execFind (err, transactions) ->
-                account.transactions = transactions
+
+                account.transactions = transactions.map (transaction) ->
+                  ResponseHelper.format transaction, TransactionController.fields
+
                 callback()
 
           async.forEach accounts, loadTransactions, ->

@@ -10,6 +10,8 @@ format = (object, fields) ->
 
 module.exports =
 
+  format: format
+
   send: (res, object, options) =>
 
     formatter = options.formatter ? (object) ->
