@@ -10,11 +10,13 @@ module.exports =
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "balance", "available_balance", "type", "transactions"]
+    fields = ["name", "nickname", "balance", "available_balance", "type", "transactions", "priority"]
 
     app.get '/members/:member_id/accounts.json', (req, res) ->
 
-      Account.find { member_id: req.params.member_id }, (err, accounts) ->
+      Account.find(member_id: req.params.member_id)
+             .sort('priority', 1)
+             .execFind (err, accounts) ->
 
         if transactionCount = req.param("transactions")
 

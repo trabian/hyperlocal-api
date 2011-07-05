@@ -1,10 +1,12 @@
 { ResponseHelper } = require 'app/helpers'
 
+async = require 'async'
+
 module.exports =
 
   load: (app) ->
 
-    { Member } = app.settings.models
+    { Account, Member } = app.settings.models
 
     fields = ["first_name", "middle_name", "last_name", "phone", "address"]
 
@@ -17,3 +19,20 @@ module.exports =
 
       Member.findById req.params.id, (err, member) ->
         ResponseHelper.send res, member, { fields, err }
+
+    app.put '/members/:id.json', (req, res) ->
+
+      member = req.body.member
+
+      if member.accountOrder?
+
+        order = 0
+
+        updateAccountPriority = (accountId, callback) ->
+          Account.update {_id: accountId}, { priority: order++}, callback
+
+        async.forEachSeries member.accountOrder, updateAccountPriority, ->
+          res.send {}
+
+      else
+        res.send {}

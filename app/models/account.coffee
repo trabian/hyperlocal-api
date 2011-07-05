@@ -8,3 +8,4 @@ module.exports = new Schema
   type: String
   balance: Number
   available_balance: Number
+  priority: Number
