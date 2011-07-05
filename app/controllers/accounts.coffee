@@ -42,3 +42,10 @@ module.exports =
 
       Account.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
+
+    app.put '/accounts/:id.json', (req, res) ->
+
+      account = req.body.account
+
+      Account.update { _id: req.params.id }, { nickname: account.nickname }, =>
+        res.send {}
