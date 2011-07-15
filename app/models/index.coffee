@@ -9,7 +9,13 @@ exports.load = (settings) ->
 
   models = {}
 
-  _.each ['Account', 'Member', 'Transaction'], (name) ->
-    models[name] = mongoose.model name, require("./#{name.toLowerCase()}")
+  modelFiles =
+    Account: 'account'
+    ExternalAccount: 'external_account'
+    Member: 'member'
+    Transaction: 'transaction'
+
+  for name, file of modelFiles
+    models[name] = mongoose.model name, require("./#{file}")
 
   settings.models = models
