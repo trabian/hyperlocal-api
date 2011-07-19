@@ -18,3 +18,13 @@ module.exports =
       seeder.seed ->
         duration = new Date().getTime() - startTime
         res.send "Created #{count} members in #{duration} milliseconds"
+
+    app.get '/seed/institutions', (req, res) ->
+      startTime = new Date().getTime()
+
+      seeder = new Seeder
+        models: models
+
+      seeder.seedInstitutions ->
+        duration = new Date().getTime() - startTime
+        res.send "Loaded institutions in #{duration} milliseconds"

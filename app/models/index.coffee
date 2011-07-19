@@ -12,6 +12,7 @@ exports.load = (settings) ->
   modelFiles =
     Account: 'account'
     ExternalAccount: 'external_account'
+    Institution: 'institution'
     Member: 'member'
     Transaction: 'transaction'
 

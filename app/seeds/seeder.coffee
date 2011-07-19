@@ -2,6 +2,7 @@ async = require 'async'
 
 memberSeed = require('app/seeds/member')
 accountSeed = require('app/seeds/account')
+institutionSeed = require('app/seeds/institution')
 
 module.exports = class Seeder
 
@@ -19,6 +20,13 @@ module.exports = class Seeder
         console.log 
       else
         @createMembers callback
+
+  seedInstitutions: (callback) ->
+
+    { Institution } = @options.models
+
+    Institution.remove {}, =>
+      institutionSeed.createMultiple @options, callback
 
   createMembers: (callback) =>
 

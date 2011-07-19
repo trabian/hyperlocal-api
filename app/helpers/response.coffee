@@ -18,7 +18,7 @@ module.exports =
       format object, options.fields
 
     if err = options.err?
-      console.log err
+      res.send err
     else
       res.send
         data: if object then formatter(object) else {}
@@ -29,7 +29,8 @@ module.exports =
       format object, options.fields
 
     if err = options.err?
-      console.log err
+      res.send err
+
     else
       res.send
         data: collection.map formatter
