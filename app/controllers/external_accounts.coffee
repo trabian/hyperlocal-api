@@ -1,6 +1,7 @@
 { ResponseHelper } = require 'app/helpers'
 
 async = require 'async'
+_ = require 'underscore'
 
 module.exports =
 
@@ -8,7 +9,7 @@ module.exports =
 
     { ExternalAccount } = app.settings.models
 
-    fields = ["nickname", "institution", "routing_number", "account_number", "type", "priority"]
+    fields = ["nickname", "institution", "routing_number", "account_number", "type", "priority", "withdrawable"]
 
     app.post '/members/:member_id/accounts/external.json', (req, res) ->
 
@@ -21,6 +22,11 @@ module.exports =
         institution: data.institution
         account_number: data.account_number
         routing_number: data.routing_number
+        withdrawable: data.routing_number
+
+      if data.withdrawable is "verify_on_save"
+        account.withdrawable = "pending"
+        account.withdrawable_verification = [34, 56]
 
       account.save (err, doc) =>
         ResponseHelper.send res, doc, { fields, err }
@@ -40,7 +46,32 @@ module.exports =
 
     app.put '/accounts/external/:id.json', (req, res) ->
 
-      account = req.body.account
+      data = req.body.account
 
-      ExternalAccount.update { _id: req.params.id }, { nickname: account.nickname }, =>
-        res.send {}
+      if verify_amounts = data.verify_withdrawal
+
+        ExternalAccount.findById req.params.id, (err, account) ->
+          if err
+            res.send "Error finding account"
+            console.log 'err', err
+          else
+
+            amounts = account.withdrawable_verification?[0..1]
+            verify_amounts = (+amount for amount in verify_amounts) # Convert to integers
+
+            if _.isEmpty _.without(verify_amounts, amounts...)
+
+              res.send
+                data:
+                  withdrawable: 'verified'
+
+              # ExternalAccount.update { _id: req.params.id }, { withdrawable: 'verified', withdrawable_verification: null }, =>
+              #   res.send
+              #     withdrawable: 'verified'
+
+            else
+              res.send "Numbers didn't match", 403
+
+      else
+        ExternalAccount.update { _id: req.params.id }, { nickname: data.nickname }, =>
+          res.send {}

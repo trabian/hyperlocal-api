@@ -10,7 +10,9 @@ InstitutionSchema = new Schema
   address: String
   city: String
   state: String
-  zip: String
+  zip:
+    type: String
+    index: true
 
 InstitutionSchema.static 'search', (query, callback) ->
 
@@ -18,7 +20,8 @@ InstitutionSchema.static 'search', (query, callback) ->
     { 'routing_number': query },
     {
       'name': new RegExp query, 'i'
-    }
+    },
+    { 'zip': query }
   ]
 
   @find orQuery, callback

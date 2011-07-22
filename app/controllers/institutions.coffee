@@ -1,6 +1,7 @@
 { ResponseHelper } = require 'app/helpers'
 
 async = require 'async'
+_ = require 'underscore'
 
 module.exports =
 
@@ -8,7 +9,7 @@ module.exports =
 
     { Institution } = app.settings.models
 
-    fields = ["name", "routing_number", "address", "city", "state", "zip"]
+    fields = ["name", "routing_number", "states"]
 
     app.get '/institutions.json', (req, res) ->
 
@@ -19,7 +20,29 @@ module.exports =
       Institution
         .search(query)
         .sort('name', 1, 'state', 1, 'city', 1)
-        .limit(pageSize)
-        .skip((page - 1) * pageSize)
         .execFind (err, institutions) ->
-          ResponseHelper.sendCollection res, institutions, { fields, err }
+
+          found = {}
+          combined = []
+
+          for institution in institutions
+
+            key = institution.routing_number
+            state = institution.state
+            state = null if _.isEmpty state
+
+            if (index = found[key]) >= 0
+              existing = combined[index]
+              existing.states.push state unless _.isNull(state) || _.include(existing.states, state)
+            else
+              found[key] = combined.length
+              combined.push
+                name: institution.name
+                routing_number: institution.routing_number
+                states: _.compact [state]
+
+          start = (page - 1) * pageSize
+          end = start + pageSize
+
+          res.send
+            data: combined[start...end]
