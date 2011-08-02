@@ -19,4 +19,8 @@ module.exports =
     date.setMinutes inRange(0, 60)
     date.setSeconds inRange(0, 60)
 
+    # Make sure times are in the past
+    if date > new Date()
+      date.setHours (new Date()).getHours() - 1
+
     date

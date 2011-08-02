@@ -5,11 +5,13 @@ _ = require 'underscore'
 
 module.exports =
 
+  fields: ["nickname", "institution", "routing_number", "account_number", "type", "priority", "withdrawable"]
+
   load: (app) ->
 
     { ExternalAccount } = app.settings.models
 
-    fields = ["nickname", "institution", "routing_number", "account_number", "type", "priority", "withdrawable"]
+    fields = module.exports.fields
 
     app.post '/members/:member_id/accounts/external.json', (req, res) ->
 
@@ -22,7 +24,7 @@ module.exports =
         institution: data.institution
         account_number: data.account_number
         routing_number: data.routing_number
-        withdrawable: data.routing_number
+        withdrawable: data.withdrawable
 
       if data.withdrawable is "verify_on_save"
         account.withdrawable = "pending"
@@ -65,9 +67,9 @@ module.exports =
                 data:
                   withdrawable: 'verified'
 
-              # ExternalAccount.update { _id: req.params.id }, { withdrawable: 'verified', withdrawable_verification: null }, =>
-              #   res.send
-              #     withdrawable: 'verified'
+              ExternalAccount.update { _id: req.params.id }, { withdrawable: 'verified', withdrawable_verification: null }, =>
+                res.send
+                  withdrawable: 'verified'
 
             else
               res.send "Numbers didn't match", 403

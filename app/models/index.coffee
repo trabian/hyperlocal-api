@@ -15,8 +15,12 @@ exports.load = (settings) ->
     Institution: 'institution'
     Member: 'member'
     Transaction: 'transaction'
+    Transfer: 'transfer'
+    TransferInstance: 'transfer_instance'
 
   for name, file of modelFiles
-    models[name] = mongoose.model name, require("./#{file}")
+    schema = require("./#{file}")
+    schema.models = models
+    models[name] = mongoose.model name, schema
 
   settings.models = models

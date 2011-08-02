@@ -1,7 +1,8 @@
-format = (object, fields) ->
+format = (object, fields, mapId = true) ->
 
-  output =
-    id: object._id
+  output = {}
+
+  output.id = object._id if mapId
 
   for field in fields
     output[field] = object[field]
@@ -32,5 +33,8 @@ module.exports =
       res.send err
 
     else
+      # response =
+      #   data: collection.map formatter
+
       res.send
         data: collection.map formatter

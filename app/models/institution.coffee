@@ -1,6 +1,6 @@
 Schema = require('mongoose').Schema
 
-InstitutionSchema = new Schema
+Institution = new Schema
   name:
     type: String
     index: true
@@ -14,7 +14,7 @@ InstitutionSchema = new Schema
     type: String
     index: true
 
-InstitutionSchema.static 'search', (query, callback) ->
+Institution.static 'search', (query, callback) ->
 
   orQuery = $or: [
     { 'routing_number': query },
@@ -26,4 +26,4 @@ InstitutionSchema.static 'search', (query, callback) ->
 
   @find orQuery, callback
 
-module.exports = InstitutionSchema
+module.exports = Institution

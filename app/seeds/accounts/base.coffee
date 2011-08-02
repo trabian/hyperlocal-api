@@ -14,6 +14,7 @@ module.exports = class AccountSeed
       balance: @options.balance
       available_balance: @options.availableBalance
       type: @options.type
+      priority: @options.priority
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 

@@ -25,6 +25,7 @@ module.exports = class CheckingAccountSeed extends AccountSeed
       paycheckAmount: RandomHelper.amountInRange 1500, 6000
       pendingTransactions: Math.floor RandomHelper.inRange 0, 10
       addBalancesAtEnd: true
+      priority: 0
 
   beforeCreateManyTransactions: (account, callback) =>
     @loadMerchants callback

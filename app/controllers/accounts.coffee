@@ -6,11 +6,13 @@ TransactionController = require 'app/controllers/transactions'
 
 module.exports =
 
+  fields: ["name", "nickname", "balance", "available_balance", "type", "transactions", "priority"]
+
   load: (app) ->
 
     { Account, Transaction } = app.settings.models
 
-    fields = ["name", "nickname", "balance", "available_balance", "type", "transactions", "priority"]
+    fields = module.exports.fields
 
     app.get '/members/:member_id/accounts.json', (req, res) ->
 

@@ -5,10 +5,19 @@ express = require 'express'
 
 exports.boot = (next) ->
 
-  app = express.createServer()
+  app = express.createServer express.logger(),
+    express.bodyParser(),
+    express.methodOverride()
 
-  app.use express.bodyParser()
-  app.use express.methodOverride()
+  app.use (req, res, next) ->
+
+    originalEnd = res.end
+
+    res.end = (body) ->
+      console.log 'Response:', body
+      originalEnd body
+
+    do next
 
   app.set 'database', process.env.MONGOHQ_URL ? 'mongodb://localhost/hyperlocal_api'
   app.set 'port', 3001
@@ -17,6 +26,7 @@ exports.boot = (next) ->
     res.send 'Testing'
 
   require('app/models').load app.settings 
+
   require('app/controllers').load app
 
   next app

@@ -21,6 +21,7 @@ module.exports = class SavingsAccountSeed extends AccountSeed
       pendingTransactions: 0
       dividendDay: 12
       rate: 0.0025
+      priority: 1
 
   createTransactionsForDay: (account, date, callback) =>
 
