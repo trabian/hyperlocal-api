@@ -159,6 +159,21 @@ module.exports =
             transfer.schedule = ResponseHelper.format transfer.schedule, scheduleFields, false
             ResponseHelper.send res, transfer, { fields, err }
 
+    app.del '/transfers/:id.json', (req, res) ->
+
+      Transfer.remove { _id: req.params.id }, =>
+        res.send {}
+
+    app.post '/transfers/:id.json', (req, res) ->
+
+      if req.body.action is 'delete'
+
+        Transfer.remove { _id: req.params.id }, =>
+          res.send {}
+
+      else
+        res.send {}
+
     app.post '/members/:member_id/transfers.json', (req, res) ->
 
       data = req.body.transfer
