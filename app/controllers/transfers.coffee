@@ -7,6 +7,7 @@ _ = require 'underscore'
 
 AccountController = require 'app/controllers/accounts'
 ExternalAccountController = require 'app/controllers/external_accounts'
+MemberAccountController = require 'app/controllers/member_accounts'
 TransactionController = require 'app/controllers/transactions'
 
 scheduleFields = ['type', 'start_at', 'end_at', 'frequency', 'last_occurrence', 'next_occurrence', 'state']
@@ -19,20 +20,19 @@ module.exports =
 
   load: (app) ->
 
-    { Account, ExternalAccount, Schedule, Transaction, Transfer, TransferInstance } = app.settings.models
+    { Account, ExternalAccount, MemberAccount, Schedule, Transaction, Transfer, TransferInstance } = app.settings.models
 
     fields = module.exports.fields
 
-    app.get '/members/:member_id/transfers.json', (req, res) ->
-
-      count = req.param('count') ? 10
-      member_id = req.params.member_id
-
-      query = Transfer
-        .find({ member_id })
-        .limit(count)
+    loadTransfers = (query, callback) ->
 
       query.execFind (err, transfers) ->
+
+        if _.isEmpty transfers
+          callback transfers, err
+          return
+
+        member_id = transfers[0].member_id + ""
 
         accounts = {}
 
@@ -55,9 +55,14 @@ module.exports =
             accounts.external = mapAccounts external
             do callback
 
-        accountFields = ['name', 'nickname', 'id', 'type', 'balance', 'available_balance', 'routing_number', 'account_number']
+        fetchMember = (callback) =>
+          MemberAccount.find { member_id }, (err, member) ->
+            accounts.member = mapAccounts member
+            do callback
 
-        async.parallel [fetchInternal, fetchExternal], =>
+        accountFields = ['name', 'nickname', 'id', 'type', 'balance', 'available_balance', 'routing_number', 'account_number', 'member_number', 'member_name_verification']
+
+        async.parallel [fetchInternal, fetchExternal, fetchMember], =>
 
           for transfer in transfers
 
@@ -68,6 +73,8 @@ module.exports =
               collection = switch transfer["#{association}_type"]
                 when "external"
                   accounts.external
+                when "member"
+                  accounts.member
                 else
                   accounts.internal
 
@@ -75,7 +82,30 @@ module.exports =
 
             transfer.schedule = ResponseHelper.format transfer.schedule, scheduleFields, false
 
-          ResponseHelper.sendCollection res, transfers, { fields, err }
+          callback transfers, err
+
+    app.get '/members/:member_id/transfers.json', (req, res) ->
+
+      count = req.param('count') ? 10
+      member_id = req.params.member_id
+
+      query = Transfer
+        .find({ member_id })
+        .limit(count)
+
+      loadTransfers query, (transfers, err) ->
+        ResponseHelper.sendCollection res, transfers, { fields, err }
+
+    app.get '/accounts/:account_id/transfers.json', (req, res) ->
+
+      count = req.param('count') ? 10
+
+      query = Transfer
+        .forAccount(req.params.account_id)
+        .limit(count)
+
+      loadTransfers query, (transfers, err) ->
+        ResponseHelper.sendCollection res, transfers, { fields, err }
 
     app.get '/transfers/:id.json', (req, res) ->
 
@@ -104,6 +134,9 @@ module.exports =
               when "external"
                 class: ExternalAccount
                 fields: ExternalAccountController.fields
+              when "member"
+                class: MemberAccount
+                fields: MemberAccountController.fields
               else
                 class: Account
                 fields: AccountController.fields

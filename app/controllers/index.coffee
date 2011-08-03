@@ -4,5 +4,5 @@ module.exports =
 
   load: (app) ->
 
-    for controller in ["accounts", "external_accounts", "members", "seed", "transactions", "institutions", "transfers"]
+    for controller in ["accounts", "external_accounts", "member_accounts", "members", "seed", "transactions", "institutions", "transfers"]
       (require "./#{controller}").load app

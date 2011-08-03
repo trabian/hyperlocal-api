@@ -33,6 +33,15 @@ Transfer = new Schema
     next_occurrence: ScheduleExtensions.nextOccurrence
     state: ScheduleExtensions.state
 
+Transfer.static 'forAccount', (account_id, callback) ->
+
+  orQuery = $or: [
+    { 'source_id': account_id },
+    { 'destination_id': account_id }
+  ]
+
+  @find orQuery, callback
+
 Transfer.pre 'save', (next) ->
 
   if @schedule.type is 'now'
@@ -44,9 +53,9 @@ Transfer.method 'createTransactions', (callback) ->
 
   transfer = @
 
-  { Account, ExternalAccount, Transaction, TransferInstance } = Transfer.models
+  { Account, ExternalAccount, MemberAccount, Transaction, TransferInstance } = Transfer.models
 
-  createTransaction = (account_id, account_type, amount, transferInstance, callback) ->
+  createTransaction = (account_id, account_type, alternate_account_id, alternate_account_type, amount, transferInstance, direction, callback) ->
 
     transaction = new Transaction
       member_id: @member_id
@@ -60,24 +69,31 @@ Transfer.method 'createTransactions', (callback) ->
       type: 'transfer'
       transfer_instance_id: transferInstance.id
 
-    internal = true
+    accountClasses = for type in [account_type, alternate_account_type]
+      switch type
+        when "external"
+          internal: false
+          class: ExternalAccount
+        when "member"
+          internal: false
+          class: MemberAccount
+        else
+          internal: true
+          class: Account
 
-    accountClass = switch account_type
-      when "external"
-        internal = false
-        ExternalAccount
-      else
-        Account
+    account = accountClasses[0].class.findById account_id, (err, account) ->
 
-    account = accountClass.findById account_id, (err, account) ->
+      alternateAccount = accountClasses[1].class.findById alternate_account_id, (err, alternateAccount) ->
 
-      if internal
-        available_balance = (account.available_balance or account.balance or 0) + transaction.amount
-        Account.update { _id: account_id }, { available_balance: available_balance }, (err, account) ->
-          transaction.balance = available_balance
+        transaction.name = "Transfer #{direction} #{alternateAccount.nickname or alternateAccount.name}"
+
+        if accountClasses[0].internal
+          available_balance = (account.available_balance or account.balance or 0) + transaction.amount
+          Account.update { _id: account_id }, { available_balance: available_balance }, (err, account) ->
+            transaction.balance = available_balance
+            transaction.save callback
+        else
           transaction.save callback
-      else
-        transaction.save callback
 
   if @schedule.type is 'now'
 
@@ -96,7 +112,7 @@ Transfer.method 'createTransactions', (callback) ->
           @instances = [transferInstance]
 
           creators.push (callback) =>
-            createTransaction @source_id, @source_type, -@amount, transferInstance, (err, doc) =>
+            createTransaction @source_id, @source_type, @destination_id, @destination_type, -@amount, transferInstance, 'to', (err, doc) =>
 
               transferInstance.source = doc
               transferInstance.source_transaction_id = doc.id
@@ -104,7 +120,7 @@ Transfer.method 'createTransactions', (callback) ->
               @save callback
 
           creators.push (callback) =>
-            createTransaction @destination_id, @destination_type, @amount, transferInstance, (err, doc) =>
+            createTransaction @destination_id, @destination_type, @source_id, @source_type, @amount, transferInstance, 'from', (err, doc) =>
 
               transferInstance.destination = doc
               transferInstance.destination_transaction_id = doc.id
