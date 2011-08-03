@@ -18,6 +18,7 @@ module.exports = class SavingsAccountSeed extends AccountSeed
       type: "share"
       balance: RandomHelper.amountInRange 5, 20000
       daysToCreate: 120
+      checking: false
       pendingTransactions: 0
       dividendDay: 12
       rate: 0.0025

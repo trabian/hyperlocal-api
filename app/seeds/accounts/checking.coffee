@@ -20,6 +20,7 @@ module.exports = class CheckingAccountSeed extends AccountSeed
       name: "Checking"
       suffix: "S10"
       type: "share"
+      checking: true
       availableBalance: RandomHelper.amountInRange 200, 15000
       daysToCreate: 120
       paycheckAmount: RandomHelper.amountInRange 1500, 6000
