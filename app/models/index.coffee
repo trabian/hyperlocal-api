@@ -15,6 +15,7 @@ exports.load = (settings) ->
     MemberAccount: 'member_account'
     Institution: 'institution'
     Member: 'member'
+    Statement: 'statement'
     StopPayment: 'stop_payment'
     Transaction: 'transaction'
     Transfer: 'transfer'
