@@ -16,6 +16,9 @@ exports.boot = (next) ->
       store: new RedisStore
       key: 'session_id'
 
+  app.configure 'production', ->
+    app.set 'authenticate', true
+
   app.use (req, res, next) ->
 
     originalEnd = res.end
