@@ -186,6 +186,7 @@ module.exports =
         destination_type: data.destination_type
         amount: data.amount
         schedule: data.schedule
+        note: data.note
 
       transfer.save (err, doc) =>
 

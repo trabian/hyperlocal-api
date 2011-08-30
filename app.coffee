@@ -5,16 +5,23 @@ express = require 'express'
 
 exports.boot = (next) ->
 
+  RedisStore = require('connect-redis') express
+
   app = express.createServer express.logger(),
     express.bodyParser(),
-    express.methodOverride()
+    express.methodOverride(),
+    express.cookieParser(),
+    express.session
+      secret: 'hyperlocal'
+      store: new RedisStore
+      key: 'session_id'
 
   app.use (req, res, next) ->
 
     originalEnd = res.end
 
     res.end = (body) ->
-      console.log 'Response:', body
+      console.log 'Response:', body if body?
       originalEnd body
 
     do next

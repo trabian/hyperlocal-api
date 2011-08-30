@@ -1,4 +1,6 @@
-{ ResponseHelper } = require 'app/helpers'
+{ Authentication, ResponseHelper } = require 'app/helpers'
+
+auth = Authentication.middleware
 
 async = require 'async'
 
@@ -14,7 +16,7 @@ module.exports =
 
     fields = module.exports.fields
 
-    app.get '/members/:member_id/accounts.json', (req, res) ->
+    app.get '/members/:member_id/accounts.json', auth, (req, res) ->
 
       Account.find(member_id: req.params.member_id)
              .sort('priority', 1)
@@ -40,12 +42,12 @@ module.exports =
         else
           ResponseHelper.sendCollection res, accounts, { fields, err }
 
-    app.get '/accounts/:id.json', (req, res) ->
+    app.get '/accounts/:id.json', auth, (req, res) ->
 
       Account.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
 
-    app.put '/accounts/:id.json', (req, res) ->
+    app.put '/accounts/:id.json', auth, (req, res) ->
 
       account = req.body.account
 

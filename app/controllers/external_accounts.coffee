@@ -63,13 +63,14 @@ module.exports =
 
             if _.isEmpty _.without(verify_amounts, amounts...)
 
-              res.send
-                data:
-                  withdrawable: 'verified'
+              # res.send
+              #   data:
+              #     withdrawable: 'verified'
 
               ExternalAccount.update { _id: req.params.id }, { withdrawable: 'verified', withdrawable_verification: null }, =>
                 res.send
-                  withdrawable: 'verified'
+                  data:
+                    withdrawable: 'verified'
 
             else
               res.send "Numbers didn't match", 403

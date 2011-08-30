@@ -26,6 +26,10 @@ module.exports =
         city: Faker.Address.city()
         state: Faker.Address.usState(true)
         zip: Faker.Address.zipCode()
+      mfaQuestion:
+        question: "What was your first pet's name?"
+        answer: "Fido"
+      password: 'password'
 
     member.save ->
       callback(member)
