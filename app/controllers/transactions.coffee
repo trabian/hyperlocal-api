@@ -5,7 +5,7 @@ fs = require 'fs'
 
 module.exports =
 
-  fields: ["name", "nickname", "amount", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number", "note", "pending", "account_id", "account_type", "account", "transfer_instance_id"]
+  fields: ["name", "nickname", "amount", "principal", "interest", "posted_at", "type", "balance", "category", "dividend_rate", "dividend_balance", "check_number", "note", "pending", "account_id", "account_type", "account", "transfer_instance_id"]
 
   load: (app) ->
 

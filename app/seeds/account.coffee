@@ -4,7 +4,7 @@ _ = require 'underscore'
 
 { RandomHelper } = require 'app/helpers'
 
-SeedClasses = (require "app/seeds/accounts/#{seed}" for seed in ['checking', 'savings'])
+SeedClasses = (require "app/seeds/accounts/#{seed}" for seed in ['checking', 'savings', 'loan'])
 
 module.exports =
 
@@ -19,13 +19,6 @@ module.exports =
     async.parallel seeds, options.callback
 
   samples:
-
-    "auto":
-      name: "Auto Loan"
-      min: -10000.0
-      max: -500.0
-      suffix: "L10"
-      type: "loan"
 
     "heloc":
       name: "Home Equity Line of Credit"

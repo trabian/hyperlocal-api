@@ -6,6 +6,8 @@ module.exports = new Schema
   name: String
   nickname: String
   amount: Number
+  principal: Number
+  interest: Number
   balance: Number
   posted_at: Date
   type: String

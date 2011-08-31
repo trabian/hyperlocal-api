@@ -16,6 +16,12 @@ module.exports = class AccountSeed
       type: @options.type
       priority: @options.priority
       checking: @options.checking
+      rate: @options.rate
+      original_amount: @options.original_amount
+      original_date: @options.original_date
+      payment_amount: @options.payment_amount
+      next_payment_date: @options.next_payment_date
+      term: @options.term
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 
@@ -65,7 +71,7 @@ module.exports = class AccountSeed
 
       transactionCount = transactionCount + 1
 
-      account.previousAmount = transaction.amount
+      account.previousAmount = transaction.principal || transaction.amount
 
       transaction.balance = balance
 

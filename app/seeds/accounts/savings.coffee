@@ -1,6 +1,5 @@
 _ = require 'underscore'
 async = require 'async'
-csv = require 'lib/csv'
 
 { RandomHelper } = require 'app/helpers'
 

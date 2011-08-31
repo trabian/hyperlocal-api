@@ -19,6 +19,8 @@ Transfer = new Schema
 
   amount: Number
 
+  payment_type: String
+
   created_at:
     type: Date
     default: Date.now
@@ -55,11 +57,13 @@ Transfer.method 'createTransactions', (callback) ->
 
   { Account, ExternalAccount, MemberAccount, Transaction, TransferInstance } = Transfer.models
 
-  createTransaction = (account_id, account_type, alternate_account_id, alternate_account_type, amount, transferInstance, direction, callback) ->
+  createTransaction = (account_id, account_type, alternate_account_id, alternate_account_type, amount, interest, principal, transferInstance, direction, callback) ->
 
     transaction = new Transaction
       member_id: @member_id
       amount: amount
+      interest: interest
+      principal: principal
       account_id: account_id
       account_type: account_type
       name: "Transfer"
@@ -88,7 +92,10 @@ Transfer.method 'createTransactions', (callback) ->
         transaction.name = "Transfer #{direction} #{alternateAccount.nickname or alternateAccount.name}"
 
         if accountClasses[0].internal
-          available_balance = (account.available_balance or account.balance or 0) + transaction.amount
+          amountToPost = principal || amount
+          console.log 'amount to post', +amountToPost
+          available_balance = (account.available_balance or account.balance or 0) + +amountToPost
+          console.log 'available balance', available_balance
           Account.update { _id: account_id }, { available_balance: available_balance }, (err, account) ->
             transaction.balance = available_balance
             transaction.save callback
@@ -112,7 +119,8 @@ Transfer.method 'createTransactions', (callback) ->
           @instances = [transferInstance]
 
           creators.push (callback) =>
-            createTransaction @source_id, @source_type, @destination_id, @destination_type, -@amount, transferInstance, 'to', (err, doc) =>
+
+            createTransaction @source_id, @source_type, @destination_id, @destination_type, -@amount, 0, 0, transferInstance, 'to', (err, doc) =>
 
               transferInstance.source = doc
               transferInstance.source_transaction_id = doc.id
@@ -120,7 +128,15 @@ Transfer.method 'createTransactions', (callback) ->
               @save callback
 
           creators.push (callback) =>
-            createTransaction @destination_id, @destination_type, @source_id, @source_type, @amount, transferInstance, 'from', (err, doc) =>
+
+            interest = 0
+            principal = 0
+
+            if @payment_type is 'regular'
+              interest = (@amount * 0.15).toFixed 2
+              principal = (@amount - interest).toFixed 2
+
+            createTransaction @destination_id, @destination_type, @source_id, @source_type, @amount, interest, principal, transferInstance, 'from', (err, doc) =>
 
               transferInstance.destination = doc
               transferInstance.destination_transaction_id = doc.id
