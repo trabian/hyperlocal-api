@@ -5,7 +5,7 @@ express = require 'express'
 
 exports.boot = (next) ->
 
-  RedisStore = require('connect-redis') express
+  # RedisStore = require('connect-redis') express
 
   app = express.createServer express.logger(),
     express.bodyParser(),
@@ -13,8 +13,8 @@ exports.boot = (next) ->
     express.cookieParser(),
     express.session
       secret: 'hyperlocal'
-      store: new RedisStore
-      key: 'session_id'
+      # store: new RedisStore
+      # key: 'session_id'
 
   app.configure 'production', ->
     app.set 'authenticate', true
