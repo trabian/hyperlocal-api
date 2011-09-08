@@ -2,6 +2,7 @@ require.paths.unshift '.'
 require.paths.unshift './node_modules'
 
 express = require 'express'
+form = require 'connect-form'
 
 exports.boot = (next) ->
 
@@ -11,6 +12,7 @@ exports.boot = (next) ->
     express.bodyParser(),
     express.methodOverride(),
     express.cookieParser(),
+    form( keepExtensions: true ),
     express.session
       secret: 'hyperlocal'
       # store: new RedisStore

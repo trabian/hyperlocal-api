@@ -7,6 +7,9 @@
     "async": ">= 0.1.9",
     "underscore": ">= 1.1.6",
     "coffee-script": ">= 1.1.1",
-    "connect-redis": ">= 0.0.1"
+    "connect-form": ">= 0.0.1",
+    "vows": ">= 0.5.11",
+    "connect-redis": ">= 0.0.1",
+    "request": ">= 2.1.1"
   }
 }
