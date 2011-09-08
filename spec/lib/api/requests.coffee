@@ -49,7 +49,9 @@ module.exports =
 
     authenticate: (callback) ->
 
-      fetch 'GET', "/auth/createdevsession/#{memberNumber}?test_mode=1", null, (err, req, res) ->
+      test = process.env.TEST isnt 'false'
+
+      fetch 'GET', "/auth/createdevsession/#{memberNumber}#{if test then '?test_mode=1'}", null, (err, req, res) ->
 
         unless res.body.data?
           console.log 'Response body', res.body
