@@ -1,21 +1,20 @@
 assert = require 'assert'
 
+apiUrl = process.env.API_URL
+memberNumber = process.env.MEMBER_NUMBER
+
+requests = (require './requests').load apiUrl, memberNumber
+
 module.exports =
 
-  load: (apiUrl, memberNumber) ->
+  urls: require './urls'
 
-    api = {}
+  requests: requests
 
-    requests = (require './requests').load api, apiUrl, memberNumber
+  authenticate: requests.authenticate
+  request: requests.request
 
-    api.authenticate = requests.authenticate
-    api.request = requests.request
+  assertStatus: (code) ->
+    (err, req, res) -> assert.equal res?.statusCode, code, "Expected a 200 response, but got #{res.statusCode} with body: #{res.body}"
 
-    api.assertStatus = (code) ->
-      (err, req, res) -> assert.equal res?.statusCode, code
-
-    structure = (require './structure').load api
-
-    api.assertStructure = structure.assert
-
-    api
+module.exports.structure = (require './structure').load module.exports

@@ -10,6 +10,10 @@ module.exports =
       list: '/accounts/payees'
     otherMemberAccounts:
       list: '/accounts/member_accounts'
+    transfers:
+      all: '/transfers'
+      forAccount: '/accounts/{{account_id}}/transfers'
+      create: '/transfers'
 
   actual:
     accounts:
@@ -21,3 +25,7 @@ module.exports =
       list: '/billpay/payee/list'
     otherMemberAccounts:
       list: '/transfers/bookmark/list'
+    transfers:
+      all: '/transfers/list'
+      forAccount: '/transfers/list?account_id={{account_id}}'
+      create: '/transfers/transfer'

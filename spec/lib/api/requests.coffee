@@ -4,18 +4,21 @@ auth = {}
 
 module.exports =
 
-  load: (api, apiUrl, memberNumber) ->
+  load: (apiUrl, memberNumber) ->
 
     fetch = (method, url, data, callback) ->
 
       headers =
         Accept: 'application/json'
 
-      if api.auth?.sessionId
-        headers.Cookie = "session-id=#{api.auth.sessionId}"
+      if data
+        headers['Content-Type'] = 'application/json'
 
-      if api.auth?.clientKey
-        headers['x-client-key'] = api.auth.clientKey
+      if sessionId = auth.sessionId
+        headers.Cookie = "session-id=#{sessionId}"
+
+      if clientKey = auth.clientKey
+        headers['x-client-key'] = clientKey
 
       requestData =
         method: method
@@ -30,23 +33,31 @@ module.exports =
 
     request:
 
+      fetch: fetch
+
       get: (url, data) ->
         -> fetch 'GET', url, data, @callback
 
       post: (url, data) ->
         -> fetch  'POST', url, data, @callback
 
+      getWithCallback: (url, data, callback) ->
+        fetch  'GET', url, data, callback
+
+      postWithCallback: (url, data, callback) ->
+        fetch  'POST', url, data, callback
+
     authenticate: (callback) ->
 
-      fetch 'GET', "/auth/createdevsession/#{memberNumber}", null, (err, req, res) ->
+      fetch 'GET', "/auth/createdevsession/#{memberNumber}?test_mode=1", null, (err, req, res) ->
 
-        console.log 'Error', err if err?
+        unless res.body.data?
+          console.log 'Response body', res.body
 
-        api.auth =
-          sessionId: res.body.data.SessionID
-          clientKey: res.body.data.ClientKey
+        auth.sessionId = res.body.data.SessionID
+        auth.clientKey = res.body.data.ClientKey
 
-        console.log "###\nAuthenticated\n  sessionId: #{api.auth.sessionId}\n  clientKey: #{api.auth.clientKey}\n###\n"
+        console.log "###\nAuthenticated\n  sessionId: #{auth.sessionId}\n  clientKey: #{auth.clientKey}\n###\n"
 
         callback null
 

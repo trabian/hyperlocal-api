@@ -1,21 +1,17 @@
 vows = require 'vows'
 assert = require 'assert'
-request = require 'request'
 
-apiUrl = process.env.API_URL
-memberNumber = process.env.MEMBER_NUMBER
+api = require './lib/api'
 
-api = (require './lib/api').load apiUrl, memberNumber
-
-urls = require './helpers/urls'
+urls = api.urls.actual
 
 context =
   topic: ->
     api.authenticate @callback
 
-for url in [urls.actual.accounts.list, urls.actual.externalAccounts.list, urls.actual.payees.list, urls.actual.otherMemberAccounts.list]
+for url in [urls.accounts.list, urls.externalAccounts.list, urls.payees.list, urls.otherMemberAccounts.list]
   do (url) ->
-    context["GET #{url}"] = api.assertStructure url
+    context["GET #{url}"] = api.structure.assert url
 
 vows.describe('Top-level API endpoints').addBatch
 
