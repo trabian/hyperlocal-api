@@ -55,7 +55,7 @@ vows.describe('Transfers').addBatch
           @callback null, res.body.data
           return
 
-        'if the required fields are present':
+        'an internal transfer':
 
           topic: (accounts) ->
 
@@ -76,6 +76,71 @@ vows.describe('Transfers').addBatch
 
             return
 
-          'it should return a 200 response': api.assertStatus 200
+          'should return a 200 response': api.assertStatus 200
+
+        'with external accounts':
+
+          topic: (accounts) ->
+
+            api.request.getWithCallback urls.externalAccounts.list, null, (err, req, res) =>
+
+              externalAccounts = res.body.data
+
+              unless _.isArray externalAccounts
+                console.log "FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide."
+                externalAccounts = externalAccounts.external_accounts
+
+              if _.isEmpty externalAccounts
+                @callback 'External accounts are empty for this member'
+              else
+                @callback null, accounts, externalAccounts
+
+              return
+
+          'and an external destination':
+
+            topic: (accounts, externalAccounts) ->
+
+              source = accounts[0]
+              destination = externalAccounts[0]
+
+              transfer =
+                amount: 100
+                source_id: source.id
+                source_type: 'internal'
+                destination_id: destination.id
+                destination_type: 'external'
+                schedule:
+                  type: 'now'
+                transfer_type: 'transfer'
+
+              api.request.postWithCallback urls.transfers.create, transfer, @callback
+
+              return
+
+            'should return a 200 response': api.assertStatus 200
+
+          'and an external source':
+
+            topic: (accounts, externalAccounts) ->
+
+              source = externalAccounts[0]
+              destination = accounts[0]
+
+              transfer =
+                amount: 100
+                source_id: source.id
+                source_type: 'external'
+                destination_id: destination.id
+                destination_type: 'internal'
+                schedule:
+                  type: 'now'
+                transfer_type: 'transfer'
+
+              api.request.postWithCallback urls.transfers.create, transfer, @callback
+
+              return
+
+            'should return a 200 response': api.assertStatus 200
 
 .export module
