@@ -40,6 +40,8 @@ module.exports =
 
       fetch 'GET', "/auth/createdevsession/#{memberNumber}", null, (err, req, res) ->
 
+        console.log 'Error', err if err?
+
         api.auth =
           sessionId: res.body.data.SessionID
           clientKey: res.body.data.ClientKey
