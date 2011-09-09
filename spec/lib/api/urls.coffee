@@ -18,6 +18,8 @@ module.exports =
       list: '/accounts/{{account_id}}/transactions'
     estatements:
       list: '/documents/estatements'
+    institutions:
+      list: '/institutions?q={{query}}'
 
   actual:
     accounts:
@@ -37,3 +39,5 @@ module.exports =
       list: '/TransactionHistory/{{account_id}}'
     estatements:
       list: '/estatements/statement/list'
+    institutions:
+      list: '/TransfersInstitutionLookup?q={{query}}'

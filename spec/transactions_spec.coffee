@@ -51,7 +51,6 @@ vows.describe('Transactions').addBatch
             assert.ok page, "No 'page' object was found at the top level"
 
             assert.include page, 'next'
-            assert.include page, 'total'
 
           '(the data)':
 
@@ -64,6 +63,8 @@ vows.describe('Transactions').addBatch
 
             "should be an array of objects": (data) ->
               assert.isArray data
+
+          'pagination': api.structure.assertPagination
 
 .export module
 

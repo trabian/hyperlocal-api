@@ -21,6 +21,8 @@ vows.describe('Documents').addBatch
 
       '(the data)': api.structure.assertDataFormat
 
+      'pagination': api.structure.assertPagination
+
       'with a sample eStatement':
 
         topic: (req, res) ->

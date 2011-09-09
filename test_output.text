@@ -1,24 +1,130 @@
 
+♢ [1mAccounts[22m
+
+### Authenticated with sessionId: bc6a638d-c04d-4dfe-920d-48ceb69abad8 and clientKey: 624c23fe-1609-40d1-969c-f6e946ac577d ###
+  (While logged in) Account list (with a sample account)
+    ✓ [32mthe account id should be the "short" id[39m
+ 
 ♢ [1mDocuments[22m
 
-###
-Authenticated
-  sessionId: 9898f847-e493-4f65-8094-e80a885cefc0
-  clientKey: b09d13a7-d19d-4ce7-88a2-e1cc331e148d
-###
-
+### Authenticated with sessionId: 51289786-d086-4ed9-ae27-17a3f2c57013 and clientKey: 180c920d-2325-48bb-ae79-6c060e68c6ca ###
   (While logged in) eStatement list
     ✓ [32mshould return a 200 response[39m
+FYI: estatements array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
   (While logged in) eStatement list (the data)
     ✓ [32mshould be present[39m
-    ✓ [32mshould be an array of objects[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead we got a hash with the following key(s): estatements[39m[90m // vows.js:93[39m
+  (While logged in) eStatement list pagination
+    ✗ [33mshould be present[39m
+      » [33mNo 'page' object was found at the top level[39m[90m // vows.js:93[39m
+    ✓ [32mshould include a "next" field[39m
   (While logged in) eStatement list with a sample eStatement
     ✓ [32mit should have a "url" field[39m
-    ✓ [32mit should have a valid "date" field[39m
-    ✓ [32mit should have a "description" field[39m
+    ✗ [33mit should have a valid "date" field[39m
+      » [33mexpected [1m{
+    id: '4457902',
+    url: '/estatements/statement/4457902',
+    Date: '/Date(1201766400000+0000)/',
+    Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2008                      ',
+    DocPath: '\\V42\\3358\\3002133.pdf     ',
+    Category: 'Monthly'
+}[22m to include [1m'date'[22m[39m[90m // vows.js:93[39m
+    ✗ [33mit should have a "description" field[39m
+      » [33mexpected [1m{
+    id: '4457902',
+    url: '/estatements/statement/4457902',
+    Date: '/Date(1201766400000+0000)/',
+    Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2008                      ',
+    DocPath: '\\V42\\3358\\3002133.pdf     ',
+    Category: 'Monthly'
+}[22m to include [1m'description'[22m[39m[90m // vows.js:93[39m
   (While logged in) eStatement list with a sample eStatement and the associated pdf
     ✓ [32mshould return a 200 response[39m
     ✓ [32mshould be a PDF[39m
  
-✓ [32m[1mOK[22m[39m » [1m8[22m honored[90m (10.546s)[39m
+♢ [1mInstitution lookup[22m
+
+### Authenticated with sessionId: 0605ddd9-4cdf-4ccb-be5f-8145b7142767 and clientKey: 6530932d-fb09-4b91-a98f-fa45c2dd851a ###
+  (While logged in) matches list with a sample query ('community')
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) matches list with a sample query ('community') (the data)
+    ✗ [33mshould be present[39m
+      » [33mThe 'data' element wasn't returned at the top level of the response body[39m[90m // vows.js:93[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead it was empty.[39m[90m // vows.js:93[39m
+  (While logged in) matches list with a sample query ('community') pagination
+    ✗ [33mshould be present[39m
+      » [33mNo 'page' object was found at the top level[39m[90m // vows.js:93[39m
+    ✓ [32mshould include a "next" field[39m
+  (While logged in) matches list with a sample query ('community') with a sample institution
+    ✗ [31mit should have an "id" field[39m
+      » [31mAn unexpected error was caught: [1m"Response body did not include a 'data' object at the root"[22m[39m
+    ✗ [31mit should have a "routing_number" field[39m
+      » [31mAn unexpected error was caught: [1m"Response body did not include a 'data' object at the root"[22m[39m
+    ✗ [31mit should have a "name" field[39m
+      » [31mAn unexpected error was caught: [1m"Response body did not include a 'data' object at the root"[22m[39m
+    ✗ [31mit should have a valid "states" field[39m
+      » [31mAn unexpected error was caught: [1m"Response body did not include a 'data' object at the root"[22m[39m
+ 
+♢ [1mTop-level API endpoints[22m
+
+### Authenticated with sessionId: 0f8f5082-cfa2-49ab-bb3b-ac3f92c35a80 and clientKey: 04b601b3-d3e1-451e-8bcc-ac6c8a4844cf ###
+  (While logged in) GET /AccountDetails/accounts
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) GET /AccountDetails/accounts (the data)
+    ✓ [32mshould be present[39m
+    ✓ [32mshould be an array of objects[39m
+  (While logged in) GET /transfers/externalaccounts
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) GET /transfers/externalaccounts (the data)
+    ✓ [32mshould be present[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead we got a hash with the following key(s): external_accounts[39m[90m // vows.js:93[39m
+  (While logged in) GET /billpay/payee/list
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) GET /billpay/payee/list (the data)
+    ✓ [32mshould be present[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead we got a hash with the following key(s): payees[39m[90m // vows.js:93[39m
+  (While logged in) GET /transfers/bookmark/list
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) GET /transfers/bookmark/list (the data)
+    ✓ [32mshould be present[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead we got a hash with the following key(s): bookmarks[39m[90m // vows.js:93[39m
+ 
+♢ [1mTransactions[22m
+
+### Authenticated with sessionId: 0129f399-4def-42d1-a4d1-6ba35c435251 and clientKey: d1e86651-258a-40f6-b303-21192372bbfe ###
+  (While logged in) Transfer list (with a sample account) the list of transactions
+    ✓ [32mshould return a 200 response[39m
+    ✓ [32mshould include pagination[39m
+  (While logged in) Transfer list (with a sample account) the list of transactions (the data)
+    ✓ [32mshould be present[39m
+    ✓ [32mshould be an array of objects[39m
+  (While logged in) Transfer list (with a sample account) the list of transactions pagination
+    ✓ [32mshould be present[39m
+    ✓ [32mshould include a "next" field[39m
+ 
+♢ [1mTransfers[22m
+
+### Authenticated with sessionId: 3503890a-0bb8-4193-af5d-747cb90391de and clientKey: cabfbd98-a392-499e-9c57-886cb41acf64 ###
+FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
+  (While logged in) Posting a transfer (with accounts) an internal transfer
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) Posting a transfer (with accounts) with external accounts and an external destination
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) Posting a transfer (with accounts) with external accounts and an external source
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) Transfer list
+    ✓ [32mshould return a 200 response[39m
+  (While logged in) Transfer list (the data)
+    ✓ [32mshould be present[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mThe top level 'data' element should return an array. Instead we got a hash with the following key(s): transfers[39m[90m // vows.js:93[39m
+  (While logged in) Transfer list (individual transfers)
+    ✓ [32meach transfer should have a 'schedule' object[39m
+ 
+✗ [31m[1mErrored[22m[39m » [1m30[22m honored ∙ [1m11[22m broken ∙ [1m4[22m errored[90m (17.703s)[39m
 

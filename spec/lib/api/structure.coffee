@@ -1,4 +1,23 @@
 assert = require 'assert'
+_ = require 'underscore'
+
+assertDataFormat =
+  topic: (req, res) ->
+    @callback null, res.body.data
+    return
+
+  'should be present': (data) ->
+    assert.ok data, "The 'data' element wasn't returned at the top level of the response body"
+
+  "should be an array of objects": (data) ->
+
+    message = ->
+      if data
+        "Instead we got a hash with the following key(s): #{_.keys(data).join ', '}"
+      else
+        "Instead it was empty."
+
+    assert.isArray data, "The top level 'data' element should return an array. #{do message}"
 
 module.exports =
 
@@ -10,26 +29,17 @@ module.exports =
 
       'should return a 200 response': api.assertStatus 200
 
-      '(the data)':
+      '(the data)': assertDataFormat
 
-        topic: (req, res) ->
-          @callback null, res.body.data
-          return
+    assertDataFormat: assertDataFormat
 
-        'should be present': (data) ->
-          assert.ok data, "The 'data' element wasn't returned at the top level of the response body"
-
-        "should be an array of objects": (data) ->
-          assert.isArray data
-
-    assertDataFormat:
+    assertPagination:
 
       topic: (req, res) ->
-        @callback null, res.body.data
-        return
+        @callback null, res.body.page
 
-      'should be present': (data) ->
-        assert.ok data, "The 'data' element wasn't returned at the top level of the response body"
+      'should be present': (err, page) ->
+        assert.ok page, "No 'page' object was found at the top level"
 
-      "should be an array of objects": (data) ->
-        assert.isArray data
+      'should include a "next" field': (err, page) ->
+        assert.include page, 'next'
