@@ -1,13 +1,23 @@
 
 ♢ [1mAccounts[22m
 
-### Authenticated with sessionId: bc6a638d-c04d-4dfe-920d-48ceb69abad8 and clientKey: 624c23fe-1609-40d1-969c-f6e946ac577d ###
+###
+Authenticated
+  sessionId: eee0ec5c-72f2-4a00-a878-9d2b27f525b7
+  clientKey: 4e099dc3-c43a-4d87-877a-bb138f46b1ca
+###
+
   (While logged in) Account list (with a sample account)
     ✓ [32mthe account id should be the "short" id[39m
  
 ♢ [1mDocuments[22m
 
-### Authenticated with sessionId: 51289786-d086-4ed9-ae27-17a3f2c57013 and clientKey: 180c920d-2325-48bb-ae79-6c060e68c6ca ###
+###
+Authenticated
+  sessionId: 3fd5934d-2214-49e5-b753-6e530ff0dc68
+  clientKey: 090c8053-6afe-44dd-bf2d-945de3eeb46e
+###
+
   (While logged in) eStatement list
     ✓ [32mshould return a 200 response[39m
 FYI: estatements array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
@@ -45,7 +55,12 @@ FYI: estatements array was not at root of 'data' object, but we're checking for 
  
 ♢ [1mInstitution lookup[22m
 
-### Authenticated with sessionId: 0605ddd9-4cdf-4ccb-be5f-8145b7142767 and clientKey: 6530932d-fb09-4b91-a98f-fa45c2dd851a ###
+###
+Authenticated
+  sessionId: a6148323-b6c1-4e7c-ae31-000193452e42
+  clientKey: ad8c38c6-a723-4e5a-a5af-fac03f893395
+###
+
   (While logged in) matches list with a sample query ('community')
     ✓ [32mshould return a 200 response[39m
   (While logged in) matches list with a sample query ('community') (the data)
@@ -69,7 +84,12 @@ FYI: estatements array was not at root of 'data' object, but we're checking for 
  
 ♢ [1mTop-level API endpoints[22m
 
-### Authenticated with sessionId: 0f8f5082-cfa2-49ab-bb3b-ac3f92c35a80 and clientKey: 04b601b3-d3e1-451e-8bcc-ac6c8a4844cf ###
+###
+Authenticated
+  sessionId: 9de95aba-e964-4201-ab33-9625a30dbc98
+  clientKey: 050f1b74-7aa3-4525-9da5-9c01f2f78204
+###
+
   (While logged in) GET /AccountDetails/accounts
     ✓ [32mshould return a 200 response[39m
   (While logged in) GET /AccountDetails/accounts (the data)
@@ -96,7 +116,12 @@ FYI: estatements array was not at root of 'data' object, but we're checking for 
  
 ♢ [1mTransactions[22m
 
-### Authenticated with sessionId: 0129f399-4def-42d1-a4d1-6ba35c435251 and clientKey: d1e86651-258a-40f6-b303-21192372bbfe ###
+###
+Authenticated
+  sessionId: ffdb0ba5-1107-4ad3-9232-335f4fd7c437
+  clientKey: c2504ef9-4661-47e5-a720-9e3cca8c68fa
+###
+
   (While logged in) Transfer list (with a sample account) the list of transactions
     ✓ [32mshould return a 200 response[39m
     ✓ [32mshould include pagination[39m
@@ -109,10 +134,15 @@ FYI: estatements array was not at root of 'data' object, but we're checking for 
  
 ♢ [1mTransfers[22m
 
-### Authenticated with sessionId: 3503890a-0bb8-4193-af5d-747cb90391de and clientKey: cabfbd98-a392-499e-9c57-886cb41acf64 ###
-FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
+###
+Authenticated
+  sessionId: 72c50c3b-a63b-439b-95e0-384cfb10bfd4
+  clientKey: 7442ab34-4564-497f-9346-28f3107d0137
+###
+
   (While logged in) Posting a transfer (with accounts) an internal transfer
     ✓ [32mshould return a 200 response[39m
+FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
   (While logged in) Posting a transfer (with accounts) with external accounts and an external destination
     ✓ [32mshould return a 200 response[39m
   (While logged in) Posting a transfer (with accounts) with external accounts and an external source
@@ -126,5 +156,5 @@ FYI: external accounts array was not at root of 'data' object, but we're checkin
   (While logged in) Transfer list (individual transfers)
     ✓ [32meach transfer should have a 'schedule' object[39m
  
-✗ [31m[1mErrored[22m[39m » [1m30[22m honored ∙ [1m11[22m broken ∙ [1m4[22m errored[90m (17.703s)[39m
+✗ [31m[1mErrored[22m[39m » [1m30[22m honored ∙ [1m11[22m broken ∙ [1m4[22m errored[90m (18.552s)[39m
 

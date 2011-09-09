@@ -19,7 +19,7 @@ module.exports =
     estatements:
       list: '/documents/estatements'
     institutions:
-      list: '/institutions?q={{query}}'
+      list: '/transfers/institutions?q={{query}}'
 
   actual:
     accounts:
@@ -40,4 +40,4 @@ module.exports =
     estatements:
       list: '/estatements/statement/list'
     institutions:
-      list: '/TransfersInstitutionLookup?q={{query}}'
+      list: '/transfers/institutions?q={{query}}'
