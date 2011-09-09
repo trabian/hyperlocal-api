@@ -43,4 +43,15 @@ vows.describe('Documents').addBatch
         'it should have a "description" field': (estatement) ->
           assert.include estatement, 'description'
 
+        'and the associated pdf':
+
+          topic: (estatement) ->
+            api.request.getWithCallback estatement.url, null, @callback
+            return
+
+          'should return a 200 response': api.assertStatus 200
+
+          'should be a PDF': (err, req, res) ->
+            assert.equal res.headers['content-type'], 'application/pdf'
+
 .export module

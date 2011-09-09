@@ -54,9 +54,6 @@ fs.readdir './spec', (err, files) ->
   chooseTests = (callback) ->
 
     if spec = program.spec
-
-      console.log 'Running spec', spec
-
       callback spec
 
     else
