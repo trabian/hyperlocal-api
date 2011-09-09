@@ -48,17 +48,14 @@ vows.describe('Institution lookup').addBatch
 
           return
 
-        'it should have an "id" field': (institution) ->
-          assert.include institution, 'id'
-
         'it should have a "routing_number" field': (institution) ->
           assert.include institution, 'routing_number'
 
-        'it should have a "name" field': (institution) ->
-          assert.include institution, 'name'
-
         'it should have a valid "states" field': (institution) ->
           assert.include institution, 'states'
-          assert.isArray institution.states
+          assert.isArray institution?.states
+
+        'it should have a "name" field': (institution) ->
+          assert.include institution, 'name'
 
 .export module

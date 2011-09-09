@@ -30,4 +30,27 @@ vows.describe('Accounts').addBatch
 
           assert.match id, /^([S,L].*)/, "The short id format without the member number should be returned in the account list. A sample id returned from the API was: #{id}"
 
+        'should have a "urls" hash': (err, account) ->
+          assert.include account, 'urls'
+
+      '(with a sample real estate account)':
+
+        topic: (req, res) ->
+
+          accounts = res.body.data
+
+          for account in accounts
+            if account.type is 'mortgage'
+              @callback null, account
+              return
+
+          @callback "Couldn't find a mortgage account for this member"
+          return
+
+        'should include a "due_date" field': (account) ->
+          assert.include account, 'due_date'
+
+        'should include an "amount_due" field': (account) ->
+          assert.include account, 'amount_due'
+
 .export module
