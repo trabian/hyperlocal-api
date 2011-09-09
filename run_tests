@@ -13,8 +13,8 @@ fs.readdir './spec', (err, files) ->
   program
     .version('0.0.1')
     .option('-a, --all', 'Run all specs')
-    .option('-s, --spec', "Run a specific spec [available: #{availableSpecs.join ', '}]")
-    .option('-u, --url [url]', "Customize API url (will use the API_URL environment variable by default if available)", process.env.API_URL)
+    .option('-s, --spec <spec>', "Run a specific spec [available: #{availableSpecs.join ', '}]")
+    .option('-u, --url <url>]', "Customize API url (will use the API_URL environment variable by default if available)", process.env.API_URL)
     .option('-m, --member [member_number]', "Customize member number (will use the MEMBER_NUMBER environment variable by default if available)", process.env.MEMBER_NUMBER)
     .parse process.argv
 
@@ -53,22 +53,30 @@ fs.readdir './spec', (err, files) ->
 
   chooseTests = (callback) ->
 
-    fileString = null
+    if spec = program.spec
 
-    if program.all
-      callback '*'
+      console.log 'Running spec', spec
+
+      callback spec
+
     else
 
-      console.log 'Please choose one of the following specs:'
+      fileString = null
 
-      availableAndAll = _.flatten ['all', availableSpecs]
+      if program.all
+        callback '*'
+      else
 
-      program.choose availableAndAll, (index) ->
-        if spec = availableAndAll[index]
-          callback if spec is 'all' then '*' else spec
-        else
-          console.log 'Please choose a valid spec'
-          do chooseTests callback
+        console.log 'Please choose one of the following specs:'
+
+        availableAndAll = _.flatten ['all', availableSpecs]
+
+        program.choose availableAndAll, (index) ->
+          if spec = availableAndAll[index]
+            callback if spec is 'all' then '*' else spec
+          else
+            console.log 'Please choose a valid spec'
+            do chooseTests callback
 
   checkUrl = (callback) ->
 

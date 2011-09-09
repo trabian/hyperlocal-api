@@ -1,19 +1,730 @@
 
-♢ [1mTransactions[22m
+♢ [1mDocuments[22m
 
 ###
 Authenticated
-  sessionId: 15b804d0-614d-4b4a-ae01-bf86129db43b
-  clientKey: dfb9a2b5-87d3-438c-a3f3-56790c696589
+  sessionId: 4006fe73-2d06-4bd2-8986-db229389a9d6
+  clientKey: 764dac70-3a34-4d20-bb9a-d0d492eba615
 ###
 
-!!! The account list returned ids in the long format (with member number) but we'll test for that elsewhere and shorten it for the sake of these tests.
-  (While logged in) Transfer list (with a sample account) the list of transactions
+  (While logged in) eStatement list
     ✓ [32mshould return a 200 response[39m
-    ✓ [32mshould include pagination[39m
-  (While logged in) Transfer list (with a sample account) the list of transactions (the data)
+FYI: estatements array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide.
+  (While logged in) eStatement list (the data)
     ✓ [32mshould be present[39m
-    ✓ [32mshould be an array of objects[39m
+    ✗ [33mshould be an array of objects[39m
+      » [33mexpected [1m{
+    estatements: [
+        {
+            id: '4457902',
+            url: '/estatements/statement/4457902',
+            date: '2008-01-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2008                      ',
+            DocPath: '\\V42\\3358\\3002133.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4563780',
+            url: '/estatements/statement/4563780',
+            date: '2008-02-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 02/15/2008                            ',
+            DocPath: '\\V42\\3552\\3110305.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4589607',
+            url: '/estatements/statement/4589607',
+            date: '2008-02-29T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 02/29/2008                      ',
+            DocPath: '\\V43\\3591\\3135863.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4621007',
+            url: '/estatements/statement/4621007',
+            date: '2008-03-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 03/15/2008                            ',
+            DocPath: '\\V43\\3627\\3166411.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4653972',
+            url: '/estatements/statement/4653972',
+            date: '2008-03-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 03/31/2008                      ',
+            DocPath: '\\V43\\3681\\3200123.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4699863',
+            url: '/estatements/statement/4699863',
+            date: '2008-04-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 04/15/2008                            ',
+            DocPath: '\\V43\\3753\\3246124.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4726470',
+            url: '/estatements/statement/4726470',
+            date: '2008-04-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 04/30/2008                      ',
+            DocPath: '\\V43\\3794\\3273341.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4772215',
+            url: '/estatements/statement/4772215',
+            date: '2008-05-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 05/15/2008                            ',
+            DocPath: '\\V43\\3865\\3319175.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4798227',
+            url: '/estatements/statement/4798227',
+            date: '2008-05-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 05/31/2008                      ',
+            DocPath: '\\V44\\3906\\3345564.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4825079',
+            url: '/estatements/statement/4825079',
+            date: '2008-06-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 06/15/2008                            ',
+            DocPath: '\\V44\\3940\\3372482.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4864477',
+            url: '/estatements/statement/4864477',
+            date: '2008-06-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 06/30/2008                      ',
+            DocPath: '\\V44\\4004\\3412205.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4891864',
+            url: '/estatements/statement/4891864',
+            date: '2008-07-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 07/15/2008                            ',
+            DocPath: '\\V44\\4042\\3440603.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4919665',
+            url: '/estatements/statement/4919665',
+            date: '2008-07-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 07/31/2008                      ',
+            DocPath: '\\V44\\4082\\3467511.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '4949485',
+            url: '/estatements/statement/4949485',
+            date: '2008-08-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 08/15/2008                            ',
+            DocPath: '\\V44\\4116\\3498202.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '4974973',
+            url: '/estatements/statement/4974973',
+            date: '2008-08-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 08/31/2008                      ',
+            DocPath: '\\V44\\4155\\3525331.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5004075',
+            url: '/estatements/statement/5004075',
+            date: '2008-09-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 09/15/2008                            ',
+            DocPath: '\\V44\\4194\\3555816.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5031965',
+            url: '/estatements/statement/5031965',
+            date: '2008-09-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 09/30/2008                      ',
+            DocPath: '\\V45\\4243\\3583793.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5078408',
+            url: '/estatements/statement/5078408',
+            date: '2008-10-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 10/15/2008                            ',
+            DocPath: '\\V45\\4318\\3629865.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5107546',
+            url: '/estatements/statement/5107546',
+            date: '2008-10-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 10/31/2008                      ',
+            DocPath: '\\V45\\4359\\3659538.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5135017',
+            url: '/estatements/statement/5135017',
+            date: '2008-11-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 11/15/2008                            ',
+            DocPath: '\\V45\\4393\\3686314.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5157645',
+            url: '/estatements/statement/5157645',
+            date: '2008-11-30T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 11/30/2008                      ',
+            DocPath: '\\V45\\4429\\3709830.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5186948',
+            url: '/estatements/statement/5186948',
+            date: '2008-12-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 12/15/2008                            ',
+            DocPath: '\\V45\\4466\\3739110.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5229862',
+            url: '/estatements/statement/5229862',
+            date: '2008-12-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 12/31/2008                      ',
+            DocPath: '\\V45\\4537\\3782202.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5260853',
+            url: '/estatements/statement/5260853',
+            date: '2009-01-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 01/15/2009                            ',
+            DocPath: '\\V45\\4579\\3813054.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5299487',
+            url: '/estatements/statement/5299487',
+            date: '2009-01-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2009                      ',
+            DocPath: '\\V46\\4644\\3851281.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5332656',
+            url: '/estatements/statement/5332656',
+            date: '2009-02-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 02/15/2009                            ',
+            DocPath: '\\V46\\4686\\3884522.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5355414',
+            url: '/estatements/statement/5355414',
+            date: '2009-02-28T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 02/28/2009                      ',
+            DocPath: '\\V46\\4722\\3906938.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5389351',
+            url: '/estatements/statement/5389351',
+            date: '2009-03-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 03/15/2009                            ',
+            DocPath: '\\V46\\4767\\3941436.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5428132',
+            url: '/estatements/statement/5428132',
+            date: '2009-03-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 03/31/2009                      ',
+            DocPath: '\\V46\\4828\\3981367.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5455960',
+            url: '/estatements/statement/5455960',
+            date: '2009-04-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 04/15/2009                            ',
+            DocPath: '\\V46\\4866\\4010193.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5487368',
+            url: '/estatements/statement/5487368',
+            date: '2009-04-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 04/30/2009                      ',
+            DocPath: '\\V46\\4913\\4041960.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5520367',
+            url: '/estatements/statement/5520367',
+            date: '2009-05-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 05/15/2009                            ',
+            DocPath: '\\V47\\4959\\4077520.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5547097',
+            url: '/estatements/statement/5547097',
+            date: '2009-05-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 05/31/2009                      ',
+            DocPath: '\\V47\\5001\\4103820.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5576628',
+            url: '/estatements/statement/5576628',
+            date: '2009-06-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 06/15/2009                            ',
+            DocPath: '\\V47\\5039\\4133409.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5616537',
+            url: '/estatements/statement/5616537',
+            date: '2009-06-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 06/30/2009                      ',
+            DocPath: '\\V47\\5101\\4174347.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5647413',
+            url: '/estatements/statement/5647413',
+            date: '2009-07-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 07/15/2009                            ',
+            DocPath: '\\V47\\5143\\4205835.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5678538',
+            url: '/estatements/statement/5678538',
+            date: '2009-07-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 07/31/2009                      ',
+            DocPath: '\\V47\\5187\\4238259.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5710130',
+            url: '/estatements/statement/5710130',
+            date: '2009-08-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 08/15/2009                            ',
+            DocPath: '\\V47\\5228\\4271931.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5742098',
+            url: '/estatements/statement/5742098',
+            date: '2009-08-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 08/31/2009                      ',
+            DocPath: '\\V47\\5271\\4304146.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5772784',
+            url: '/estatements/statement/5772784',
+            date: '2009-09-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 09/15/2009                            ',
+            DocPath: '\\V48\\5312\\4335313.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5816266',
+            url: '/estatements/statement/5816266',
+            date: '2009-09-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 09/30/2009                      ',
+            DocPath: '\\V48\\5379\\4379630.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '5846696',
+            url: '/estatements/statement/5846696',
+            date: '2009-10-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 10/15/2009                            ',
+            DocPath: '\\V48\\5420\\4411154.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '5907941',
+            url: '/estatements/statement/5907941',
+            date: '2009-10-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 10/31/2009                      ',
+            DocPath: '\\V48\\5466\\4442551.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6061256',
+            url: '/estatements/statement/6061256',
+            date: '2009-11-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 11/15/2009                            ',
+            DocPath: '\\V48\\5509\\4475746.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6093402',
+            url: '/estatements/statement/6093402',
+            date: '2009-11-30T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 11/30/2009                      ',
+            DocPath: '\\V48\\5554\\4508749.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6129617',
+            url: '/estatements/statement/6129617',
+            date: '2009-12-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 12/15/2009                            ',
+            DocPath: '\\V48\\5603\\4544508.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6166243',
+            url: '/estatements/statement/6166243',
+            date: '2009-12-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 12/31/2009                      ',
+            DocPath: '\\V49\\5662\\4581235.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6244110',
+            url: '/estatements/statement/6244110',
+            date: '2010-01-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 01/15/2010                            ',
+            DocPath: '\\V49\\5732\\4631711.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6275559',
+            url: '/estatements/statement/6275559',
+            date: '2010-01-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2010                      ',
+            DocPath: '\\V49\\5777\\4664043.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6307207',
+            url: '/estatements/statement/6307207',
+            date: '2010-02-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 02/15/2010                            ',
+            DocPath: '\\V49\\5820\\4696051.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6337066',
+            url: '/estatements/statement/6337066',
+            date: '2010-02-28T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 02/28/2010                      ',
+            DocPath: '\\V49\\5864\\4726678.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6372734',
+            url: '/estatements/statement/6372734',
+            date: '2010-03-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 03/15/2010                            ',
+            DocPath: '\\V49\\5911\\4763715.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6414486',
+            url: '/estatements/statement/6414486',
+            date: '2010-03-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 03/31/2010                      ',
+            DocPath: '\\V50\\5973\\4806248.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6449255',
+            url: '/estatements/statement/6449255',
+            date: '2010-04-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 04/15/2010                            ',
+            DocPath: '\\V50\\6023\\4841802.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6482927',
+            url: '/estatements/statement/6482927',
+            date: '2010-04-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 04/30/2010                      ',
+            DocPath: '\\V50\\6070\\4876399.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6517058',
+            url: '/estatements/statement/6517058',
+            date: '2010-05-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 05/15/2010                            ',
+            DocPath: '\\V50\\6116\\4910539.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6550395',
+            url: '/estatements/statement/6550395',
+            date: '2010-05-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 05/31/2010                      ',
+            DocPath: '\\V51\\6162\\4944602.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6583757',
+            url: '/estatements/statement/6583757',
+            date: '2010-06-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 06/15/2010                            ',
+            DocPath: '\\V51\\6212\\4980164.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6627662',
+            url: '/estatements/statement/6627662',
+            date: '2010-06-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 06/30/2010                      ',
+            DocPath: '\\V51\\6278\\5026862.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6665103',
+            url: '/estatements/statement/6665103',
+            date: '2010-07-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 07/15/2010                            ',
+            DocPath: '\\V51\\6341\\5070816.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6698931',
+            url: '/estatements/statement/6698931',
+            date: '2010-07-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 07/31/2010                      ',
+            DocPath: '\\V51\\6394\\5109698.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6734697',
+            url: '/estatements/statement/6734697',
+            date: '2010-08-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 08/15/2010                            ',
+            DocPath: '\\V52\\6450\\5149492.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6771965',
+            url: '/estatements/statement/6771965',
+            date: '2010-08-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 08/31/2010                      ',
+            DocPath: '\\V52\\6504\\5189140.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6806823',
+            url: '/estatements/statement/6806823',
+            date: '2010-09-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 09/15/2010                            ',
+            DocPath: '\\V52\\6553\\5224901.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6851198',
+            url: '/estatements/statement/6851198',
+            date: '2010-09-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 09/30/2010                      ',
+            DocPath: '\\V52\\6631\\5276194.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6890928',
+            url: '/estatements/statement/6890928',
+            date: '2010-10-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 10/15/2010                            ',
+            DocPath: '\\V53\\6690\\5319157.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6925074',
+            url: '/estatements/statement/6925074',
+            date: '2010-10-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 10/31/2010                      ',
+            DocPath: '\\V53\\6741\\5356280.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '6959384',
+            url: '/estatements/statement/6959384',
+            date: '2010-11-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 11/15/2010                            ',
+            DocPath: '\\V53\\6800\\5396336.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '6993956',
+            url: '/estatements/statement/6993956',
+            date: '2010-11-30T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 11/30/2010                      ',
+            DocPath: '\\V53\\6864\\5437890.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '7030287',
+            url: '/estatements/statement/7030287',
+            date: '2010-12-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 12/15/2010                            ',
+            DocPath: '\\V53\\6930\\5482241.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '7074538',
+            url: '/estatements/statement/7074538',
+            date: '2010-12-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 12/31/2010                      ',
+            DocPath: '\\V54\\7003\\5529348.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '7123085',
+            url: '/estatements/statement/7123085',
+            date: '2011-01-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 01/15/2011                            ',
+            DocPath: '\\V54\\7084\\5580988.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '7163613',
+            url: '/estatements/statement/7163613',
+            date: '2011-01-31T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2011                      ',
+            DocPath: '\\V54\\7148\\5625474.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '7195678',
+            url: '/estatements/statement/7195678',
+            date: '2011-02-15T05:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 02/15/2011                            ',
+            DocPath: '\\V55\\7201\\5660903.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '7227794',
+            url: '/estatements/statement/7227794',
+            date: '2011-02-28T05:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 02/28/2011                      ',
+            DocPath: '\\V55\\7251\\5695361.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '7261828',
+            url: '/estatements/statement/7261828',
+            date: '2011-03-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 03/15/2011                            ',
+            DocPath: '\\V55\\7303\\5731010.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '7308387',
+            url: '/estatements/statement/7308387',
+            date: '2011-03-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 03/31/2011                      ',
+            DocPath: '\\V55\\7376\\5779476.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '7348856',
+            url: '/estatements/statement/7348856',
+            date: '2011-04-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 04/15/2011                            ',
+            DocPath: '\\V56\\7442\\5824918.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '7643331',
+            url: '/estatements/statement/7643331',
+            date: '2011-04-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 04/30/2011                      ',
+            DocPath: '\\V56\\7498\\6121844.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '8259655',
+            url: '/estatements/statement/8259655',
+            date: '2011-05-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 05/15/2011                            ',
+            DocPath: '\\V56\\7552\\6778184.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '9354725',
+            url: '/estatements/statement/9354725',
+            date: '2011-05-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 05/31/2011                      ',
+            DocPath: '\\V56\\7613\\7882799.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '9460432',
+            url: '/estatements/statement/9460432',
+            date: '2011-06-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 06/15/2011                            ',
+            DocPath: '\\V57\\7677\\7993726.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '9791106',
+            url: '/estatements/statement/9791106',
+            date: '2011-06-30T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 06/30/2011                      ',
+            DocPath: '\\V57\\7755\\8386912.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '10064535',
+            url: '/estatements/statement/10064535',
+            date: '2011-07-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 07/15/2011                            ',
+            DocPath: '\\V57\\7818\\8662164.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '10167180',
+            url: '/estatements/statement/10167180',
+            date: '2011-07-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 07/31/2011                      ',
+            DocPath: '\\V58\\7880\\8769742.pdf     ',
+            Category: 'Monthly'
+        },
+        {
+            id: '10272275',
+            url: '/estatements/statement/10272275',
+            date: '2011-08-15T04:00:00.000Z',
+            Description: 'VISA Statement for JOSEPH AMMENDOLIA - 114885 Statement Ending 08/15/2011                            ',
+            DocPath: '\\V58\\7959\\8887822.pdf     ',
+            Category: 'VISA'
+        },
+        {
+            id: '10377424',
+            url: '/estatements/statement/10377424',
+            date: '2011-08-31T04:00:00.000Z',
+            Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 08/31/2011                      ',
+            DocPath: '\\V58\\8029\\9001210.pdf     ',
+            Category: 'Monthly'
+        }
+    ]
+}[22m to be an Array[39m[90m // vows.js:93[39m
+  (While logged in) eStatement list with a sample eStatement
+    ✓ [32mit should have a "url" field[39m
+    ✓ [32mit should have a valid "date" field[39m
+    ✗ [33mit should have a "description" field[39m
+      » [33mexpected [1m{
+    id: '4457902',
+    url: '/estatements/statement/4457902',
+    date: '2008-01-31T05:00:00.000Z',
+    Description: 'Monthly Statement (PDF) for JOSEPH AMMENDOLIA - 114885 period ending 01/31/2008                      ',
+    DocPath: '\\V42\\3358\\3002133.pdf     ',
+    Category: 'Monthly'
+}[22m to include [1m'description'[22m[39m[90m // vows.js:93[39m
  
-✓ [32m[1mOK[22m[39m » [1m4[22m honored[90m (1.994s)[39m
+✗ [33m[1mBroken[22m[39m » [1m4[22m honored ∙ [1m2[22m broken[90m (5.709s)[39m
 

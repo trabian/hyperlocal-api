@@ -16,6 +16,8 @@ module.exports =
       create: '/transfers'
     transactions:
       list: '/accounts/{{account_id}}/transactions'
+    estatements:
+      list: '/documents/estatements'
 
   actual:
     accounts:
@@ -33,4 +35,5 @@ module.exports =
       create: '/transfers/transfer'
     transactions:
       list: '/TransactionHistory/{{account_id}}'
-
+    estatements:
+      list: '/estatements/statement/list'
