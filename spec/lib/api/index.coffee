@@ -1,3 +1,8 @@
+_ = require 'underscore'
+
+_.templateSettings =
+  interpolate : /\{\{(.+?)\}\}/g
+
 assert = require 'assert'
 
 apiUrl = process.env.API_URL
@@ -16,5 +21,9 @@ module.exports =
 
   assertStatus: (code) ->
     (err, req, res) -> assert.equal res?.statusCode, code, "Expected a 200 response, but got #{res.statusCode} with body: #{res.body}"
+
+  template: (string, locals) ->
+
+    _.template string, locals
 
 module.exports.structure = (require './structure').load module.exports

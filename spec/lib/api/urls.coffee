@@ -14,6 +14,8 @@ module.exports =
       all: '/transfers'
       forAccount: '/accounts/{{account_id}}/transfers'
       create: '/transfers'
+    transactions:
+      list: '/accounts/{{account_id}}/transactions'
 
   actual:
     accounts:
@@ -29,3 +31,6 @@ module.exports =
       all: '/transfers/list'
       forAccount: '/transfers/list?account_id={{account_id}}'
       create: '/transfers/transfer'
+    transactions:
+      list: '/TransactionHistory/{{account_id}}'
+

@@ -1,0 +1,94 @@
+#!/usr/bin/env coffee
+
+program = require 'commander'
+fs = require 'fs'
+exec = require('child_process').exec
+_ = require 'underscore'
+
+fs.readdir './spec', (err, files) ->
+
+  availableSpecs = for fileName in files when fileName.match /_spec.coffee$/
+    fileName.match(/(.*)_spec.coffee$/)[1]
+
+  program
+    .version('0.0.1')
+    .option('-a, --all', 'Run all specs')
+    .option('-s, --spec', "Run a specific spec [available: #{availableSpecs.join ', '}]")
+    .option('-u, --url [url]', "Customize API url (will use the API_URL environment variable by default if available)", process.env.API_URL)
+    .option('-m, --member [member_number]', "Customize member number (will use the MEMBER_NUMBER environment variable by default if available)", process.env.MEMBER_NUMBER)
+    .parse process.argv
+
+  url = program.url
+  member_number = program.member
+
+  runTests = (files) ->
+
+    process.env.API_URL = url
+    process.env.MEMBER_NUMBER = member_number
+
+    command = "vows spec/#{files} --spec"
+
+    console.log 'Running tests. This may take a few minutes.'
+
+    options = {}
+
+    exec command, options, (error, stdout, stderr) ->
+
+      console.warn error.message if error?
+      console.warn stderr if stderr?
+
+      if stdout?
+
+        console.warn stdout
+
+        outputFile = 'test_output.text'
+
+        fs.writeFile outputFile, stdout, (err) ->
+          throw err if err?
+          console.warn "The results were also stored in #{outputFile}"
+          process.exit()
+
+      else
+        process.exit()
+
+  chooseTests = (callback) ->
+
+    fileString = null
+
+    if program.all
+      callback '*'
+    else
+
+      console.log 'Please choose one of the following specs:'
+
+      availableAndAll = _.flatten ['all', availableSpecs]
+
+      program.choose availableAndAll, (index) ->
+        if spec = availableAndAll[index]
+          callback if spec is 'all' then '*' else spec
+        else
+          console.log 'Please choose a valid spec'
+          do chooseTests callback
+
+  checkUrl = (callback) ->
+
+    if url?
+      do callback
+    else
+      program.promptSingleLine 'Please provide an API url: ', (value) ->
+        url = value.replace /\n$/, ''
+        do callback
+
+  checkMemberNumber = (callback) ->
+
+    if member_number?
+      do callback
+    else
+      program.promptSingleLine 'Please provide a member number: ', (value) ->
+        member_number = value.replace /\n$/, ''
+        do callback
+
+  checkUrl ->
+    checkMemberNumber ->
+      chooseTests (spec) ->
+        runTests "#{spec}_spec.coffee"

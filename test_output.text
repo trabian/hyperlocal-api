@@ -1,0 +1,19 @@
+
+♢ [1mTransactions[22m
+
+###
+Authenticated
+  sessionId: 15b804d0-614d-4b4a-ae01-bf86129db43b
+  clientKey: dfb9a2b5-87d3-438c-a3f3-56790c696589
+###
+
+!!! The account list returned ids in the long format (with member number) but we'll test for that elsewhere and shorten it for the sake of these tests.
+  (While logged in) Transfer list (with a sample account) the list of transactions
+    ✓ [32mshould return a 200 response[39m
+    ✓ [32mshould include pagination[39m
+  (While logged in) Transfer list (with a sample account) the list of transactions (the data)
+    ✓ [32mshould be present[39m
+    ✓ [32mshould be an array of objects[39m
+ 
+✓ [32m[1mOK[22m[39m » [1m4[22m honored[90m (1.994s)[39m
+
