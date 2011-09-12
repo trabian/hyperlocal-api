@@ -20,6 +20,34 @@ vows.describe('External Accounts').addBatch
     topic: ->
       api.authenticate @callback
 
+    'External account details should be available at the URL referenced in the list':
+
+      topic: ->
+
+        api.request.getWithCallback urls.externalAccounts.list, null, (err, req, res) =>
+
+          externalAccounts = res.body.data
+
+          unless _.isArray externalAccounts
+            console.log "FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide."
+            externalAccounts = externalAccounts[_.keys(externalAccounts)[0]]
+
+          if externalAccount = externalAccounts[0]
+            api.request.getWithCallback externalAccount.url, null, (err, req, res) =>
+              fetchedAccount = res.body.data
+              if fetchedAccount.external_account?
+                @callback "The data hash returned contained an 'external_account' element. The 'data' hash should contain the external account data without an intermediate object."
+              else
+                @callback err, fetchedAccount, externalAccount
+          else
+            @callback "External account list was empty"
+
+        return
+
+      'should be the same account requested': (err, externalAccount, requestedAccount) ->
+        throw err if err?
+        assert.equal externalAccount.id, requestedAccount.id
+
     'Creating a new external account':
 
       topic: ->
@@ -30,7 +58,11 @@ vows.describe('External Accounts').addBatch
       '(the new account)':
 
         topic: (req, res) ->
-          @callback null, res.body.data
+          if res.body.data
+            @callback null, res.body.data
+          else
+            @callback "External account wasn't created."
+          return
 
         'should be returned': (externalAccount) ->
           assert.ok externalAccount
@@ -49,6 +81,7 @@ vows.describe('External Accounts').addBatch
 
           topic: (externalAccount) ->
             api.request.getWithCallback externalAccount.url, null, @callback
+            return
 
           'should return a 200': api.assertStatus 200
 
