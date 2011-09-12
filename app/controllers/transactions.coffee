@@ -13,7 +13,7 @@ module.exports =
 
     fields = module.exports.fields
 
-    app.get '/accounts/:account_id/transactions.json', (req, res) ->
+    app.get '/accounts/:account_id/transactions', (req, res) ->
 
       count = req.param('count') ? 10
       before = req.param 'before'
@@ -28,7 +28,7 @@ module.exports =
       query.execFind (err, transactions) ->
         ResponseHelper.sendCollection res, transactions, { fields, err }
 
-    app.get '/transactions/:id.json', (req, res) ->
+    app.get '/transactions/:id', (req, res) ->
 
       Transaction.findById req.params.id, (err, transaction) ->
         ResponseHelper.send res, transaction, { fields, err }
@@ -42,7 +42,7 @@ module.exports =
         res.write file, "binary"
         res.end()
 
-    app.put '/transactions/:id.json', (req, res) ->
+    app.put '/transactions/:id', (req, res) ->
 
       Transaction.findById req.params.id, (err, transaction) ->
 

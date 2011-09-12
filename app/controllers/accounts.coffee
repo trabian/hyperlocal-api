@@ -16,7 +16,14 @@ module.exports =
 
     fields = module.exports.fields
 
-    app.get '/members/:member_id/accounts.json', auth, (req, res) ->
+    stripIds = (accounts) ->
+
+      for account in accounts
+        account._id = account._id.split('-')[1]
+
+      accounts
+
+    app.get '/members/:member_id/accounts', auth, (req, res) ->
 
       Account.find(member_id: req.params.member_id)
              .sort('priority', 1)
@@ -37,10 +44,10 @@ module.exports =
                 callback()
 
           async.forEach accounts, loadTransactions, ->
-            ResponseHelper.sendCollection res, accounts, { fields, err }
+            ResponseHelper.sendCollection res, (stripIds accounts), { fields, err }
 
         else
-          ResponseHelper.sendCollection res, accounts, { fields, err }
+          ResponseHelper.sendCollection res, (stripIds accounts), { fields, err }
 
     app.get '/accounts/:id.json', auth, (req, res) ->
 

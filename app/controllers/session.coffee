@@ -25,6 +25,15 @@ module.exports =
       res.send
         data: req.session.login
 
+    app.get '/auth/createdevsession/:member_number', (req, res) ->
+
+      app.member_number = req.params.member_number
+
+      res.send
+        data:
+          SessionId: '1234'
+          ClientKey: '4321'
+
     app.get '/session/security_phrase.png', (req, res) ->
 
       checkFile = path.join process.cwd(), "fixtures/security_phrase.png"
