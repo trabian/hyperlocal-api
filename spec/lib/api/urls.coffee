@@ -27,6 +27,7 @@ module.exports =
       single: '/AccountDetails/accounts/{{id}}'
     externalAccounts:
       list: '/transfers/externalaccounts'
+      create: '/transfers/externalaccount'
     payees:
       list: '/billpay/payee/list'
     otherMemberAccounts:
