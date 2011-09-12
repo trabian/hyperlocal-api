@@ -13,9 +13,9 @@ fs.readdir './spec', (err, files) ->
   program
     .version('0.0.1')
     .option('-a, --all', 'Run all specs')
+    .option('-m, --member [member_number]', "Customize member number (will use the MEMBER_NUMBER environment variable by default if available)", process.env.MEMBER_NUMBER)
     .option('-s, --spec <spec>', "Run a specific spec [available: #{availableSpecs.join ', '}]")
     .option('-u, --url <url>]', "Customize API url (will use the API_URL environment variable by default if available)", process.env.API_URL)
-    .option('-m, --member [member_number]', "Customize member number (will use the MEMBER_NUMBER environment variable by default if available)", process.env.MEMBER_NUMBER)
     .parse process.argv
 
   url = program.url
