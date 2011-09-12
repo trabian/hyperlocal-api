@@ -1,6 +1,6 @@
 Schema = require('mongoose').Schema
 
-module.exports = new Schema
+Account = new Schema
   _id: String
   member_id: Number
   name: String
@@ -16,3 +16,8 @@ module.exports = new Schema
   original_date: Date
   payment_amount: Number
   next_payment_date: Date
+
+Account.virtual('urls').get ->
+  transactions: "/accounts/#{@id}/transactions"
+
+module.exports = Account

@@ -8,7 +8,7 @@ TransactionController = require 'app/controllers/transactions'
 
 module.exports =
 
-  fields: ["name", "nickname", "balance", "available_balance", "type", "transactions", "priority", "checking", "rate", "original_amount", "original_date", "next_payment_date", "payment_amount", "term"]
+  fields: ["name", "nickname", "balance", "available_balance", "type", "transactions", "priority", "checking", "rate", "original_amount", "original_date", "next_payment_date", "payment_amount", "term", "urls"]
 
   load: (app) ->
 
