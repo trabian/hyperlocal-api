@@ -7,12 +7,12 @@ AccountSeed = require 'app/seeds/accounts/base'
 
 LoanTransactionSeed = require 'app/seeds/transactions/loan_payment'
 
-module.exports = class LoanAccountSeed extends AccountSeed
+module.exports = class MortgageAccountSeed extends AccountSeed
 
   constructor: (@options = {}) ->
 
-    balance = - RandomHelper.inRange 200, 15000
-    originalAmount = balance - RandomHelper.inRange 500, 1000
+    balance = - RandomHelper.inRange 100000, 500000
+    originalAmount = balance - RandomHelper.inRange 3000, (balance - 2000)
 
     dueDate = new Date()
     dueDate.setDate dueDate.getDate() + RandomHelper.amountInRange 3, 10
@@ -21,19 +21,19 @@ module.exports = class LoanAccountSeed extends AccountSeed
     originalDate.setDate originalDate.getDate() - RandomHelper.amountInRange 500, 1200
 
     @options = _.defaults _.clone(@options),
-      name: "Auto Loan"
-      suffix: "L10"
-      type: "loan"
+      name: "555 Test Street"
+      suffix: "S60"
+      type: "mortgage"
       balance: balance.toFixed 2
       daysToCreate: 120
       priority: 2
       checking: false
-      rate: RandomHelper.amountInRange 2, 5
-      amount_due: RandomHelper.amountInRange 200, 500
+      rate: RandomHelper.amountInRange 4, 7
+      amount_due: RandomHelper.amountInRange 600, 3500
       original_amount: originalAmount.toFixed 2
       original_date: originalDate
       due_date: dueDate
-      term: (RandomHelper.inRange 2, 5).toFixed 0
+      term: 30
 
   createTransactionsForDay: (account, date, callback) =>
 

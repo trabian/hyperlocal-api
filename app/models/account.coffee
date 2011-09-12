@@ -14,8 +14,8 @@ Account = new Schema
   term: Number
   original_amount: Number
   original_date: Date
-  payment_amount: Number
-  next_payment_date: Date
+  amount_due: Number
+  due_date: Date
 
 Account.virtual('urls').get ->
   transactions: "/accounts/#{@id}/transactions"

@@ -11,10 +11,10 @@ module.exports =
 
     fields = ["name", "routing_number", "states"]
 
-    app.get '/institutions.json', (req, res) ->
+    app.get '/institutions', (req, res) ->
 
       query = req.param('q')
-      page = req.param('page') or 1
+      page = req.param('page') or 0
       pageSize = 20
 
       Institution
@@ -41,8 +41,12 @@ module.exports =
                 routing_number: institution.routing_number
                 states: _.compact [state]
 
-          start = (page - 1) * pageSize
+          start = page * pageSize
           end = start + pageSize
+
+          pageData =
+            next: "/institutions?page=#{page + 1}"
 
           res.send
             data: combined[start...end]
+            page: pageData

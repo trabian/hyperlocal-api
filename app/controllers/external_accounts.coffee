@@ -9,11 +9,11 @@ module.exports =
 
   load: (app) ->
 
-    { ExternalAccount } = app.settings.models
+    { ExternalAccount, PayeeAccount } = app.settings.models
 
     fields = module.exports.fields
 
-    app.post '/members/:member_id/accounts/external.json', (req, res) ->
+    app.post '/members/:member_id/accounts/external', (req, res) ->
 
       data = req.body.account
 
@@ -33,7 +33,7 @@ module.exports =
       account.save (err, doc) =>
         ResponseHelper.send res, doc, { fields, err }
 
-    app.get '/members/:member_id/accounts/external.json', (req, res) ->
+    app.get '/members/:member_id/accounts/external', (req, res) ->
 
       ExternalAccount.find(member_id: req.params.member_id)
              .sort('priority', 1)
@@ -41,12 +41,20 @@ module.exports =
 
           ResponseHelper.sendCollection res, accounts, { fields, err }
 
-    app.get '/accounts/external/:id.json', (req, res) ->
+    app.get '/members/:member_id/accounts/payee', (req, res) ->
+
+      PayeeAccount.find(member_id: req.params.member_id)
+             .sort('priority', 1)
+             .execFind (err, accounts) ->
+
+          ResponseHelper.sendCollection res, accounts, { fields, err }
+
+    app.get '/accounts/external/:id', (req, res) ->
 
       ExternalAccount.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
 
-    app.put '/accounts/external/:id.json', (req, res) ->
+    app.put '/accounts/external/:id', (req, res) ->
 
       data = req.body.account
 

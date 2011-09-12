@@ -44,14 +44,6 @@ vows.describe('Transactions').addBatch
 
           'should return a 200 response': api.assertStatus 200
 
-          'should include pagination': (err, req, res) ->
-
-            page = res.body.page
-
-            assert.ok page, "No 'page' object was found at the top level"
-
-            assert.include page, 'next'
-
           '(the data)':
 
             topic: (req, res) ->

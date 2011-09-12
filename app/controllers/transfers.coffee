@@ -84,7 +84,7 @@ module.exports =
 
           callback transfers, err
 
-    app.get '/members/:member_id/transfers.json', (req, res) ->
+    app.get '/members/:member_id/transfers', (req, res) ->
 
       count = req.param('count') ? 10
       member_id = req.params.member_id
@@ -96,7 +96,7 @@ module.exports =
       loadTransfers query, (transfers, err) ->
         ResponseHelper.sendCollection res, transfers, { fields, err }
 
-    app.get '/accounts/:account_id/transfers.json', (req, res) ->
+    app.get '/accounts/:account_id/transfers', (req, res) ->
 
       count = req.param('count') ? 10
 
@@ -107,7 +107,7 @@ module.exports =
       loadTransfers query, (transfers, err) ->
         ResponseHelper.sendCollection res, transfers, { fields, err }
 
-    app.get '/transfers/:id.json', (req, res) ->
+    app.get '/transfers/:id', (req, res) ->
 
       Transfer.findById req.params.id, (err, transfer) ->
         TransferInstance
@@ -120,7 +120,7 @@ module.exports =
 
             ResponseHelper.send res, transfer, { fields, err }
 
-    app.get '/transfers/instances/:id.json', (req, res) ->
+    app.get '/transfers/instances/:id', (req, res) ->
 
       TransferInstance.findById req.params.id, (err, instance) ->
 
@@ -149,7 +149,7 @@ module.exports =
         async.forEach ['source', 'destination'], loadTransaction, ->
           ResponseHelper.send res, instance, { fields: transferInstanceFields, err: err }
 
-    app.put '/transfers/:id.json', (req, res) ->
+    app.put '/transfers/:id', (req, res) ->
 
       Transfer.update { _id: req.params.id }, req.body.transfer, =>
 
@@ -159,12 +159,12 @@ module.exports =
             transfer.schedule = ResponseHelper.format transfer.schedule, scheduleFields, false
             ResponseHelper.send res, transfer, { fields, err }
 
-    app.del '/transfers/:id.json', (req, res) ->
+    app.del '/transfers/:id', (req, res) ->
 
       Transfer.remove { _id: req.params.id }, =>
         res.send {}
 
-    app.post '/transfers/:id.json', (req, res) ->
+    app.post '/transfers/:id', (req, res) ->
 
       if req.body.action is 'delete'
 
@@ -174,7 +174,7 @@ module.exports =
       else
         res.send {}
 
-    app.post '/members/:member_id/transfers.json', (req, res) ->
+    app.post '/members/:member_id/transfers', (req, res) ->
 
       data = req.body.transfer
 

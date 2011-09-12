@@ -13,7 +13,7 @@ module.exports =
 
     fields = module.exports.fields
 
-    app.post '/members/:member_id/accounts/member.json', (req, res) ->
+    app.post '/members/:member_id/accounts/member', (req, res) ->
 
       data = req.body.account
 
@@ -27,7 +27,7 @@ module.exports =
       account.save (err, doc) =>
         ResponseHelper.send res, doc, { fields, err }
 
-    app.get '/members/:member_id/accounts/member.json', (req, res) ->
+    app.get '/members/:member_id/accounts/member', (req, res) ->
 
       MemberAccount.find(member_id: req.params.member_id)
                    .sort('priority', 1)
@@ -35,12 +35,12 @@ module.exports =
 
           ResponseHelper.sendCollection res, accounts, { fields, err }
 
-    app.get '/accounts/member/:id.json', (req, res) ->
+    app.get '/accounts/member/:id', (req, res) ->
 
       MemberAccount.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
 
-    app.put '/accounts/member/:id.json', (req, res) ->
+    app.put '/accounts/member/:id', (req, res) ->
 
       data = req.body.account
 

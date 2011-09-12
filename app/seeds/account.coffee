@@ -4,7 +4,7 @@ _ = require 'underscore'
 
 { RandomHelper } = require 'app/helpers'
 
-SeedClasses = (require "app/seeds/accounts/#{seed}" for seed in ['checking', 'savings', 'loan'])
+SeedClasses = (require "app/seeds/accounts/#{seed}" for seed in ['checking', 'savings', 'loan', 'mortgage'])
 
 module.exports =
 

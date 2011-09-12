@@ -1,5 +1,6 @@
 path = require 'path'
 fs = require 'fs'
+_ = require 'underscore'
 
 { ResponseHelper } = require 'app/helpers'
 
@@ -26,7 +27,11 @@ module.exports =
       query = query.lt 'posted_at', before if before?
 
       query.execFind (err, transactions) ->
-        ResponseHelper.sendCollection res, transactions, { fields, err }
+
+        pageData =
+          next: "/accounts/:account_id/transactions?before=#{(_.last transactions)}"
+
+        ResponseHelper.sendCollection res, transactions, { fields, err, pageData }
 
     app.get '/transactions/:id', (req, res) ->
 

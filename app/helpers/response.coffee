@@ -33,8 +33,11 @@ module.exports =
       res.send err
 
     else
-      # response =
-      #   data: collection.map formatter
 
-      res.send
+      out =
         data: collection.map formatter
+
+      if options.pageData?
+        out.page = options.pageData
+
+      res.send out

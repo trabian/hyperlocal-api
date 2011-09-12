@@ -81,15 +81,17 @@ vows.describe('Transfers').addBatch
                 externalAccounts = externalAccounts.external_accounts
 
               if _.isEmpty externalAccounts
+                console.log 'here.'
                 @callback 'External accounts are empty for this member'
               else
+                console.log 'there'
                 @callback null, accounts, externalAccounts
 
               return
 
           'and an external destination':
 
-            topic: (accounts, externalAccounts) ->
+            topic: (err, accounts, externalAccounts) ->
 
               source = accounts[0]
               destination = externalAccounts[0]

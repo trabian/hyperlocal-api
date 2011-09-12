@@ -35,6 +35,9 @@ vows.describe('Documents').addBatch
 
           @callback null, estatements[0]
 
+        'it should contain at least one document': (estimate) ->
+          assert.ok estimate
+
         'it should have a "url" field': (estatement) ->
           assert.include estatement, 'url'
 
