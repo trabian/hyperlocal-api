@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 .rvmrc
 node_modules
+test_output.txt

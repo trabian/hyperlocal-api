@@ -41,7 +41,7 @@ fs.readdir './spec', (err, files) ->
 
         console.warn stdout
 
-        outputFile = 'test_output.text'
+        outputFile = 'test_output.txt'
 
         fs.writeFile outputFile, stdout, (err) ->
           throw err if err?
