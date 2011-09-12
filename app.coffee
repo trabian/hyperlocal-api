@@ -4,6 +4,8 @@ require.paths.unshift './node_modules'
 express = require 'express'
 form = require 'connect-form'
 
+integrationClient = require './integration/sf_fire'
+
 exports.boot = (next) ->
 
   # RedisStore = require('connect-redis') express
@@ -12,6 +14,7 @@ exports.boot = (next) ->
     express.bodyParser(),
     express.methodOverride(),
     express.cookieParser(),
+    integrationClient.middleware,
     form( keepExtensions: true ),
     express.session
       secret: 'hyperlocal'
