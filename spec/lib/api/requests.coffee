@@ -59,7 +59,7 @@ module.exports =
         auth.sessionId = res.body.data.SessionID
         auth.clientKey = res.body.data.ClientKey
 
-        console.log "###\nAuthenticated\n  sessionId: #{auth.sessionId}\n  clientKey: #{auth.clientKey}\n###\n"
+        # console.log "###\nAuthenticated\n  sessionId: #{auth.sessionId}\n  clientKey: #{auth.clientKey}\n###\n"
 
         callback null
 
