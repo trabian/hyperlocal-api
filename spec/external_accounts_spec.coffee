@@ -78,6 +78,9 @@ vows.describe('External Accounts').addBatch
         'should include a "verified" field': (externalAccount) ->
           assert.include externalAccount, 'verified'
 
+        'should include a "status" field': (externalAccount) ->
+          assert.include externalAccount, 'status'
+
         'should match the posted account': (externalAccount) ->
           for key, value of sampleExternalAccount
             assert.equal externalAccount[key], value
@@ -111,7 +114,7 @@ vows.describe('External Accounts').addBatch
             'should return a 200': api.assertStatus 200
 
             'should be marked deleted': (err, req, res) ->
-              assert.isTrue res.body.data.deleted
+              assert.match res.body.data.status, /^deleted_/
 
           'and when the account list is fetched':
 
@@ -134,7 +137,7 @@ vows.describe('External Accounts').addBatch
               markedDeleted = false
 
               for account in externalAccounts when account.id is externalAccount.id
-                markedDeleted = account.deleted
+                markedDeleted = !! (account.status.match /^deleted_/)
 
               assert.isTrue markedDeleted
 

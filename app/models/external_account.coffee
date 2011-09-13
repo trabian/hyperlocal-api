@@ -12,7 +12,9 @@ ExternalAccount = new Schema
   priority: Number
   withdrawable: String
   withdrawable_verification: Array
-  deleted: Boolean
+  status:
+    type: String
+    default: 'active'
   verified:
     type: Boolean
     default: false

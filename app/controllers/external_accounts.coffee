@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 module.exports =
 
-  fields: ["nickname", "name", "routing_number", "account_owner_name", "account_number", "account_class", "account_permission", "type", "priority", "withdrawable", "url", "verified", "deleted"]
+  fields: ["nickname", "name", "routing_number", "account_owner_name", "account_number", "account_class", "account_permission", "type", "priority", "withdrawable", "url", "verified", "status"]
 
   load: (app) ->
 
@@ -59,7 +59,7 @@ module.exports =
 
     app.del '/accounts/external/:id', (req, res) ->
 
-      ExternalAccount.update { _id: req.params.id }, { deleted: true }, =>
+      ExternalAccount.update { _id: req.params.id }, { status: 'deleted_by_user' }, =>
         res.writeHead 200
         res.end()
 
