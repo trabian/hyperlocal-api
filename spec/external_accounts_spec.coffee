@@ -12,6 +12,8 @@ sampleExternalAccount =
   account_owner_name: "Me"
   account_number: "43214321"
   routing_number: "12341234"
+  account_class: 'Savings'
+  account_permission: 'transfer_to'
 
 vows.describe('External Accounts').addBatch
 
@@ -73,6 +75,9 @@ vows.describe('External Accounts').addBatch
         'should include a "url" field': (externalAccount) ->
           assert.include externalAccount, 'url'
 
+        'should include a "verified" field': (externalAccount) ->
+          assert.include externalAccount, 'verified'
+
         'should match the posted account': (externalAccount) ->
           for key, value of sampleExternalAccount
             assert.equal externalAccount[key], value
@@ -87,5 +92,50 @@ vows.describe('External Accounts').addBatch
 
           'should be present': (err, req, res) ->
             assert.ok res.body.data
+
+        'when deleting':
+
+          topic: (externalAccount) ->
+            api.request.deleteWithCallback externalAccount.url, null, (err, req, res) =>
+              @callback err, req, res, externalAccount
+            return
+
+          'should return a 200': api.assertStatus 200
+
+          'and fetched again':
+
+            topic: (req, res, externalAccount) ->
+              api.request.getWithCallback externalAccount.url, null, @callback
+              return
+
+            'should return a 200': api.assertStatus 200
+
+            'should be marked deleted': (err, req, res) ->
+              assert.isTrue res.body.data.deleted
+
+          'and when the account list is fetched':
+
+            topic: (req, res, externalAccount) ->
+
+              api.request.getWithCallback urls.externalAccounts.list, null, (err, req, res) =>
+
+                externalAccounts = res.body.data
+
+                unless _.isArray externalAccounts
+                  console.log "FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide."
+                  externalAccounts = externalAccounts[_.keys(externalAccounts)[0]]
+
+                @callback err, externalAccounts, externalAccount
+
+              return
+
+            'the account should be returned but marked as deleted': (err, externalAccounts, externalAccount) ->
+
+              markedDeleted = false
+
+              for account in externalAccounts when account.id is externalAccount.id
+                markedDeleted = account.deleted
+
+              assert.isTrue markedDeleted
 
 .export module

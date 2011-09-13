@@ -41,11 +41,17 @@ module.exports =
       post: (url, data) ->
         -> fetch  'POST', url, data, @callback
 
+      delete: (url, data) ->
+        -> fetch  'POST', url, data, @callback
+
       getWithCallback: (url, data, callback) ->
         fetch  'GET', url, data, callback
 
       postWithCallback: (url, data, callback) ->
         fetch  'POST', url, data, callback
+
+      deleteWithCallback: (url, data, callback) ->
+        fetch  'DELETE', url, data, callback
 
     authenticate: (callback) ->
 

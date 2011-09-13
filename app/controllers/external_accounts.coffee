@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 module.exports =
 
-  fields: ["nickname", "name", "routing_number", "account_owner_name", "account_number", "type", "priority", "withdrawable", "url"]
+  fields: ["nickname", "name", "routing_number", "account_owner_name", "account_number", "account_class", "account_permission", "type", "priority", "withdrawable", "url", "verified", "deleted"]
 
   load: (app) ->
 
@@ -23,6 +23,8 @@ module.exports =
         nickname: data.nickname
         name: data.name
         account_number: data.account_number
+        account_class: data.account_class
+        account_permission: data.account_permission
         account_owner_name: data.account_owner_name
         routing_number: data.routing_number
         withdrawable: data.withdrawable
@@ -54,6 +56,12 @@ module.exports =
 
       ExternalAccount.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
+
+    app.del '/accounts/external/:id', (req, res) ->
+
+      ExternalAccount.update { _id: req.params.id }, { deleted: true }, =>
+        res.writeHead 200
+        res.end()
 
     app.put '/accounts/external/:id', (req, res) ->
 
