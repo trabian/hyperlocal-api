@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 module.exports =
 
-  fields: ["nickname", "institution", "routing_number", "account_number", "type", "priority", "withdrawable"]
+  fields: ["nickname", "name", "routing_number", "account_owner_name", "account_number", "type", "priority", "withdrawable", "url"]
 
   load: (app) ->
 
@@ -15,14 +15,15 @@ module.exports =
 
     app.post '/members/:member_id/accounts/external', (req, res) ->
 
-      data = req.body.account
+      data = req.body
 
       account = new ExternalAccount
         member_id: req.params.member_id
         type: 'external'
         nickname: data.nickname
-        institution: data.institution
+        name: data.name
         account_number: data.account_number
+        account_owner_name: data.account_owner_name
         routing_number: data.routing_number
         withdrawable: data.withdrawable
 
