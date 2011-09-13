@@ -56,6 +56,18 @@ vows.describe('Transactions').addBatch
             "should be an array of objects": (data) ->
               assert.isArray data
 
+          'A transaction':
+
+            topic: (req, res) ->
+              @callback null, res.body.data[0]
+              return
+
+            'should be present': (transaction) ->
+              assert.ok transaction
+
+            'should include a "pending" field': (transaction) ->
+              assert.include transaction, 'pending'
+
           'pagination': api.structure.assertPagination
 
 .export module
