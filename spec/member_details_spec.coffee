@@ -33,6 +33,10 @@ vows.describe('Member details').addBatch
 
       'should include fields:': api.structure.assertFields 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'alt_address'
 
+      'should have a res_address': api.structure.assertAddress 'res_address'
+
+      'should have a alt_address': api.structure.assertAddress 'alt_address'
+
 #     'Creating a new external account':
 
 #       topic: ->

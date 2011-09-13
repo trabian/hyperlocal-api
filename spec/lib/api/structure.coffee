@@ -24,6 +24,17 @@ assertField = (fieldName) ->
     assert.ok object, "Expected object to include #{fieldName}, but it was empty instead"
     assert.include object, fieldName
 
+assertFields = (fieldNames...) ->
+
+  macro =
+    topic: (object) ->
+      @callback null, object
+      return
+
+  macro[fieldName] = assertField fieldName for fieldName in fieldNames
+
+  macro
+
 module.exports =
 
   load: (api) ->
@@ -40,16 +51,15 @@ module.exports =
 
     assertField: assertField
 
-    assertFields: (fieldNames...) ->
+    assertFields: assertFields
 
-      macro =
-        topic: (object) ->
-          @callback null, object
-          return
+    assertAddress: (field) ->
 
-      macro[fieldName] = assertField fieldName for fieldName in fieldNames
+      topic: (object) ->
+        @callback null, object[field]
+        return
 
-      macro
+      'with fields:': assertFields 'street1', 'street2', 'city', 'state', 'zip'
 
     assertPagination:
 
