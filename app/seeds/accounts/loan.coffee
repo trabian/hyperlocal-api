@@ -30,10 +30,10 @@ module.exports = class LoanAccountSeed extends AccountSeed
       checking: false
       rate: RandomHelper.amountInRange 2, 5
       amount_due: RandomHelper.amountInRange 200, 500
-      original_amount: originalAmount.toFixed 2
-      original_date: originalDate
+      orig_loan_amt: originalAmount.toFixed 2
+      account_opened: originalDate
       due_date: dueDate
-      term: (RandomHelper.inRange 2, 5).toFixed 0
+      term: "5 years"
 
   createTransactionsForDay: (account, date, callback) =>
 

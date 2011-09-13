@@ -30,10 +30,10 @@ module.exports = class MortgageAccountSeed extends AccountSeed
       checking: false
       rate: RandomHelper.amountInRange 4, 7
       amount_due: RandomHelper.amountInRange 600, 3500
-      original_amount: originalAmount.toFixed 2
-      original_date: originalDate
+      orig_loan_amt: originalAmount.toFixed 2
+      account_opened: originalDate
       due_date: dueDate
-      term: 30
+      term: "30 years"
 
   createTransactionsForDay: (account, date, callback) =>
 

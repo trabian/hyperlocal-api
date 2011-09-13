@@ -11,9 +11,10 @@ Account = new Schema
   priority: Number
   checking: Boolean
   rate: Number
-  term: Number
-  original_amount: Number
-  original_date: Date
+  term: String
+  orig_loan_amt: Number
+  account_opened: Date
+  maturity_date: Date
   amount_due: Number
   due_date: Date
   limit: Number

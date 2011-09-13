@@ -17,8 +17,9 @@ module.exports = class AccountSeed
       priority: @options.priority
       checking: @options.checking
       rate: @options.rate
-      original_amount: @options.original_amount
-      original_date: @options.original_date
+      orig_loan_amt: @options.orig_loan_amt
+      account_opened: @options.account_opened
+      maturity_date: @options.maturity_date
       amount_due: @options.amount_due
       due_date: @options.due_date
       term: @options.term

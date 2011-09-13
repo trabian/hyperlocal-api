@@ -22,11 +22,11 @@ assertLoanDetails =
   topic: (account) ->
     @callback null, account
 
-  'should include an "original_amount" field': (account) ->
-    assert.include account, 'original_amount'
+  'should include an "orig_loan_amt" field': (account) ->
+    assert.include account, 'orig_loan_amt'
 
-  'should include an "original_date" field': (account) ->
-    assert.include account, 'original_date'
+  'should include an "account_opened" field': (account) ->
+    assert.include account, 'account_opened'
 
   'should include a "rate" field': (account) ->
     assert.include account, 'rate'
