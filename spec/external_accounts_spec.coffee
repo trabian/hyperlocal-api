@@ -12,7 +12,7 @@ sampleExternalAccount =
   account_owner_name: "Me"
   account_number: "43214321"
   routing_number: "12341234"
-  account_class: 'Savings'
+  account_class: 'savings'
   account_permission: 'transfer_to'
 
 vows.describe('External Accounts').addBatch
