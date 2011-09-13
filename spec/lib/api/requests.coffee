@@ -62,11 +62,13 @@ module.exports =
         unless res.body.data?
           console.log 'Response body', res.body
 
-        auth.sessionId = res.body.data.SessionID
-        auth.clientKey = res.body.data.ClientKey
+        if data = res.body.data
+          auth.sessionId = data.session_id or data.SessionID
+          auth.clientKey = data.client_key or data.ClientKey
 
-        # console.log "###\nAuthenticated\n  sessionId: #{auth.sessionId}\n  clientKey: #{auth.clientKey}\n###\n"
+          callback null, data
 
-        callback null
+        else
+          callback 'Login unsuccessful'
 
       return

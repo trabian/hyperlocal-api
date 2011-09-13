@@ -19,6 +19,11 @@ assertDataFormat =
 
     assert.isArray data, "The top level 'data' element should return an array. #{do message}"
 
+assertField = (fieldName) ->
+  (object) ->
+    assert.ok object, "Expected object to include #{fieldName}, but it was empty instead"
+    assert.include object, fieldName
+
 module.exports =
 
   load: (api) ->
@@ -32,6 +37,19 @@ module.exports =
       '(the data)': assertDataFormat
 
     assertDataFormat: assertDataFormat
+
+    assertField: assertField
+
+    assertFields: (fieldNames...) ->
+
+      macro =
+        topic: (object) ->
+          @callback null, object
+          return
+
+      macro[fieldName] = assertField fieldName for fieldName in fieldNames
+
+      macro
 
     assertPagination:
 

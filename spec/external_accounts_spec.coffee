@@ -69,17 +69,7 @@ vows.describe('External Accounts').addBatch
         'should be returned': (externalAccount) ->
           assert.ok externalAccount
 
-        'should include an "id" field': (externalAccount) ->
-          assert.include externalAccount, 'id'
-
-        'should include a "url" field': (externalAccount) ->
-          assert.include externalAccount, 'url'
-
-        'should include a "verified" field': (externalAccount) ->
-          assert.include externalAccount, 'verified'
-
-        'should include a "status" field': (externalAccount) ->
-          assert.include externalAccount, 'status'
+        'should include fields:': api.structure.assertFields 'id', 'url', 'verified', 'status'
 
         'should match the posted account': (externalAccount) ->
           for key, value of sampleExternalAccount

@@ -4,11 +4,13 @@ async = require 'async'
 
 module.exports =
 
+  fields: ["first_name", "middle_name", "last_name", "phone_list", "res_address", "alt_address"]
+
   load: (app) ->
 
-    { Account, Member } = app.settings.models
+    fields = module.exports.fields
 
-    fields = ["first_name", "middle_name", "last_name", "phone", "address"]
+    { Account, Member } = app.settings.models
 
     app.get '/members.json', (req, res) ->
 

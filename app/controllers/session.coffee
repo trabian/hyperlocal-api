@@ -2,9 +2,11 @@ path = require 'path'
 fs = require 'fs'
 _ = require 'underscore'
 
-{ Authentication } = require 'app/helpers'
+{ Authentication, ResponseHelper } = require 'app/helpers'
 
 auth = Authentication.middleware
+
+MemberController = require 'app/controllers/members'
 
 module.exports =
 
@@ -29,11 +31,14 @@ module.exports =
 
       app.member_number = req.params.member_number
 
-      res.send
-        data:
-          SessionId: '1234'
-          ClientKey: '4321'
-          MemberNumber: app.member_number
+      Member.findById app.member_number, (err, member) ->
+
+        res.send
+          data:
+            session_id: '1234'
+            client_key: '4321'
+            member_number: app.member_number
+            member_details: ResponseHelper.format member, MemberController.fields
 
     app.get '/session/security_phrase.png', (req, res) ->
 
