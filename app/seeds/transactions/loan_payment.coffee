@@ -18,7 +18,7 @@ module.exports = class LoanPaymentTransactionSeed extends TransactionSeed
       principal= amount * 0.75 # Approximation
       interest = @options.payment_amount - principal
 
-    balance = (account.balance - (principal || amount)).toFixed 2
+    balance = (parseFloat(account.balance) + parseFloat(principal || amount)).toFixed 2
 
     transaction = new @options.models.Transaction
       account_id: account._id

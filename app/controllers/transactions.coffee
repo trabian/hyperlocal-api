@@ -16,22 +16,37 @@ module.exports =
 
     app.get '/accounts/:account_id/transactions', (req, res) ->
 
-      count = req.param('count') ? 10
-      before = req.param 'before'
+      account_id = req.params.account_id
 
-      query = Transaction
-        .find(account_id: req.params.account_id)
-        .limit(count)
-        .sort('posted_at', -1)
+      unless account_id.match /(.*)-(.*)/
+        account_id = [app.member_number, account_id].join '-'
 
-      query = query.lt 'posted_at', before if before?
+      Account.findById account_id, (err, account) ->
 
-      query.execFind (err, transactions) ->
+        unless account
+          res.writeHead 404
+          res.end()
+          return
 
-        pageData =
-          next: "/accounts/:account_id/transactions?before=#{(_.last transactions)}"
+        count = req.param('count') ? 10
+        before = req.param 'before'
 
-        ResponseHelper.sendCollection res, transactions, { fields, err, pageData }
+        query = Transaction
+          .find(account_id: account_id)
+          .limit(count)
+          .sort('posted_at', -1)
+
+        query = query.lt 'posted_at', before if before?
+
+        query.execFind (err, transactions) ->
+
+          pageData = {}
+
+          unless _.isEmpty transactions
+            lastPostedDate = (_.last transactions).posted_at.toJSON()
+            pageData.next = "/accounts/#{req.params.account_id}/transactions?before=#{lastPostedDate}"
+
+          ResponseHelper.sendCollection res, transactions, { fields, err, pageData }
 
     app.get '/transactions/:id', (req, res) ->
 

@@ -33,6 +33,7 @@ module.exports =
         data:
           SessionId: '1234'
           ClientKey: '4321'
+          MemberNumber: app.member_number
 
     app.get '/session/security_phrase.png', (req, res) ->
 

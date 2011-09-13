@@ -18,8 +18,8 @@ module.exports = class LineAccountSeed extends AccountSeed
     dueDate.setDate dueDate.getDate() + RandomHelper.amountInRange 3, 10
 
     @options = _.defaults _.clone(@options),
-      name: "Auto Loan"
-      suffix: "L10"
+      name: "Line of Credit"
+      suffix: "L20"
       type: "line"
       balance: balance.toFixed 2
       daysToCreate: 120
@@ -28,6 +28,7 @@ module.exports = class LineAccountSeed extends AccountSeed
       rate: RandomHelper.amountInRange 4, 8
       amount_due: RandomHelper.amountInRange 200, 500
       limit: limit
+      availableBalance: (limit - balance).toFixed 2
       due_date: dueDate
 
   createTransactionsForDay: (account, date, callback) =>

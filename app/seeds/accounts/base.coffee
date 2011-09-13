@@ -22,6 +22,7 @@ module.exports = class AccountSeed
       amount_due: @options.amount_due
       due_date: @options.due_date
       term: @options.term
+      limit: @options.limit
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 

@@ -12,7 +12,7 @@ module.exports = class MortgageAccountSeed extends AccountSeed
   constructor: (@options = {}) ->
 
     balance = - RandomHelper.inRange 100000, 500000
-    originalAmount = balance - RandomHelper.inRange 3000, (balance - 2000)
+    originalAmount = balance - RandomHelper.inRange 3000, (100000 - balance)
 
     dueDate = new Date()
     dueDate.setDate dueDate.getDate() + RandomHelper.amountInRange 3, 10

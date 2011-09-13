@@ -16,6 +16,7 @@ Account = new Schema
   original_date: Date
   amount_due: Number
   due_date: Date
+  limit: Number
 
 Account.virtual('urls').get ->
   transactions: "/accounts/#{@id}/transactions"

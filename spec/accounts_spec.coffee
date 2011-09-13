@@ -6,6 +6,34 @@ api = require './lib/api'
 
 urls = api.urls.actual
 
+assertLoanPayment =
+
+  topic: (account) ->
+    @callback null, account
+
+  'should include a "due_date" field': (account) ->
+    assert.include account, 'due_date'
+
+  'should include an "amount_due" field': (account) ->
+    assert.include account, 'amount_due'
+
+assertLoanDetails =
+
+  topic: (account) ->
+    @callback null, account
+
+  'should include an "original_amount" field': (account) ->
+    assert.include account, 'original_amount'
+
+  'should include an "original_date" field': (account) ->
+    assert.include account, 'original_date'
+
+  'should include a "rate" field': (account) ->
+    assert.include account, 'rate'
+
+  'should include a "term" field': (account) ->
+    assert.include account, 'term'
+
 vows.describe('Accounts').addBatch
 
   '(While logged in)':
@@ -13,11 +41,11 @@ vows.describe('Accounts').addBatch
     topic: ->
       api.authenticate @callback
 
-    'Account list':
+    '':
 
       topic: api.request.get urls.accounts.list
 
-      '(with a sample account)':
+      'An account':
 
         topic: (req, res) ->
           accounts = res.body.data
@@ -33,7 +61,34 @@ vows.describe('Accounts').addBatch
         'should have a "urls" hash': (err, account) ->
           assert.include account, 'urls'
 
-      '(with a sample real estate account)':
+        'fetching transactions':
+
+          topic: (account) ->
+            api.request.getWithCallback account.urls.transactions, null, @callback
+            return
+
+          'should return a 200': api.assertStatus 200
+
+          '(the data)': api.structure.assertDataFormat
+
+      'A loan account':
+
+        topic: (req, res) ->
+
+          accounts = res.body.data
+
+          for account in accounts
+            if account.type is 'loan'
+              @callback null, account
+              return
+
+          @callback "Couldn't find a loan account for this member"
+          return
+
+        'loan payment details': assertLoanPayment
+        'loan details': assertLoanDetails
+
+      'A mortgage account':
 
         topic: (req, res) ->
 
@@ -47,10 +102,28 @@ vows.describe('Accounts').addBatch
           @callback "Couldn't find a mortgage account for this member"
           return
 
-        'should include a "due_date" field': (account) ->
-          assert.include account, 'due_date'
+        'loan payment details': assertLoanPayment
+        'loan details': assertLoanDetails
 
-        'should include an "amount_due" field': (account) ->
-          assert.include account, 'amount_due'
+      'A line account':
+
+        topic: (req, res) ->
+
+          accounts = res.body.data
+
+          for account in accounts
+            if account.type is 'line'
+              @callback null, account
+              return
+
+          @callback "Couldn't find a line account for this member"
+
+          return
+
+        'should include a "limit" field': (account) ->
+          assert.include account, 'limit'
+
+        'should include an "available_balance" field': (account) ->
+          assert.include account, 'available_balance'
 
 .export module
