@@ -37,6 +37,9 @@ vows.describe('Member details').addBatch
 
       'should have a alt_address': api.structure.assertAddress 'alt_address'
 
+      'should include phone_list as an array': (member) ->
+        assert.isArray member.phone_list
+
 #     'Creating a new external account':
 
 #       topic: ->
