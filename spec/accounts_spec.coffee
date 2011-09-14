@@ -111,4 +111,26 @@ vows.describe('Accounts').addBatch
 
         'should include fields': api.structure.assertFields 'orig_loan_amt', 'available_balance'
 
+      'A credit card account':
+
+        topic: (req, res) ->
+
+          accounts = res.body.data
+
+          for account in accounts
+            if account.type is 'credit_card'
+              @callback null, account
+              return
+
+          @callback null, null
+
+          return
+
+        'should be present': (account) ->
+          assert.ok account, "Couldn't find an account with type of credit_card. Perhaps try a different member account?"
+
+        'should include fields': api.structure.assertFields 'available_balance'
+
+        'loan payment details': assertLoanPayment
+
 .export module

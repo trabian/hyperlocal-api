@@ -59,7 +59,7 @@ module.exports =
         @callback null, object[field]
         return
 
-      'with fields:': assertFields 'street1', 'street2', 'city', 'state', 'zip'
+      'with fields:': assertFields 'street1', 'city', 'state', 'zip'
 
     assertPagination:
 
