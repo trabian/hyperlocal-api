@@ -20,7 +20,7 @@ module.exports = class LineAccountSeed extends AccountSeed
     @options = _.defaults _.clone(@options),
       name: "Line of Credit"
       suffix: "L20"
-      type: "line"
+      type: "line_of_credit"
       balance: balance.toFixed 2
       daysToCreate: 120
       priority: 2

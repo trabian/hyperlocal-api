@@ -11,28 +11,14 @@ assertLoanPayment =
   topic: (account) ->
     @callback null, account
 
-  'should include a "due_date" field': (account) ->
-    assert.include account, 'due_date'
-
-  'should include an "amount_due" field': (account) ->
-    assert.include account, 'amount_due'
+  'should include fields': api.structure.assertFields 'due_date', 'amount_due'
 
 assertLoanDetails =
 
   topic: (account) ->
     @callback null, account
 
-  'should include an "orig_loan_amt" field': (account) ->
-    assert.include account, 'orig_loan_amt'
-
-  'should include an "account_opened" field': (account) ->
-    assert.include account, 'account_opened'
-
-  'should include a "rate" field': (account) ->
-    assert.include account, 'rate'
-
-  'should include a "term" field': (account) ->
-    assert.include account, 'term'
+  'should include fields': api.structure.assertFields 'orig_loan_amt', 'account_opened', 'rate', 'term'
 
 vows.describe('Accounts').addBatch
 
@@ -112,13 +98,16 @@ vows.describe('Accounts').addBatch
           accounts = res.body.data
 
           for account in accounts
-            if account.type is 'line'
+            if account.type is 'line_of_credit'
               @callback null, account
               return
 
-          @callback "Couldn't find a line account for this member"
+          @callback null, null
 
           return
+
+        'should be present': (account) ->
+          assert.ok account, "Couldn't find an account with type of line_of_credit. Perhaps try a different member account?"
 
         'should include fields': api.structure.assertFields 'orig_loan_amt', 'available_balance'
 
