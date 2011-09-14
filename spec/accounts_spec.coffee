@@ -120,10 +120,6 @@ vows.describe('Accounts').addBatch
 
           return
 
-        'should include a "limit" field': (account) ->
-          assert.include account, 'limit'
-
-        'should include an "available_balance" field': (account) ->
-          assert.include account, 'available_balance'
+        'should include fields': api.structure.assertFields 'orig_loan_amt', 'available_balance'
 
 .export module

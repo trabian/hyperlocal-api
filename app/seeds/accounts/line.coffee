@@ -27,7 +27,7 @@ module.exports = class LineAccountSeed extends AccountSeed
       checking: false
       rate: RandomHelper.amountInRange 4, 8
       amount_due: RandomHelper.amountInRange 200, 500
-      limit: limit
+      orig_loan_amt: limit
       availableBalance: (limit - balance).toFixed 2
       due_date: dueDate
 
