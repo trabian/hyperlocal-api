@@ -18,7 +18,7 @@ assertLoanDetails =
   topic: (account) ->
     @callback null, account
 
-  'should include fields': api.structure.assertFields 'orig_loan_amt', 'account_opened', 'rate', 'term'
+  'should include fields': api.structure.assertFields 'orig_loan_amt', 'account_opened', 'current_rate', 'term'
 
 vows.describe('Accounts').addBatch
 
@@ -109,7 +109,7 @@ vows.describe('Accounts').addBatch
         'should be present': (account) ->
           assert.ok account, "Couldn't find an account with type of line_of_credit. Perhaps try a different member account?"
 
-        'should include fields': api.structure.assertFields 'orig_loan_amt', 'available_balance'
+        'should include fields': api.structure.assertFields 'credit_limit', 'available_balance'
 
       'A credit card account':
 
@@ -129,7 +129,7 @@ vows.describe('Accounts').addBatch
         'should be present': (account) ->
           assert.ok account, "Couldn't find an account with type of credit_card. Perhaps try a different member account?"
 
-        'should include fields': api.structure.assertFields 'available_balance'
+        'should include fields': api.structure.assertFields 'available_balance', 'credit_limit'
 
         'loan payment details': assertLoanPayment
 

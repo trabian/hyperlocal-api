@@ -16,13 +16,14 @@ module.exports = class AccountSeed
       type: @options.type
       priority: @options.priority
       checking: @options.checking
-      rate: @options.rate
+      current_rate: @options.current_rate
       orig_loan_amt: @options.orig_loan_amt
       account_opened: @options.account_opened
       maturity_date: @options.maturity_date
       amount_due: @options.amount_due
       due_date: @options.due_date
       term: @options.term
+      credit_limit: @options.credit_limit
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 

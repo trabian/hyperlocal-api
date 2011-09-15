@@ -7,14 +7,14 @@ AccountSeed = require 'app/seeds/accounts/base'
 
 DividendTransactionSeed = require 'app/seeds/transactions/dividend'
 
-module.exports = class SavingsAccountSeed extends AccountSeed
+module.exports = class InvestmentAccountSeed extends AccountSeed
 
   constructor: (@options = {}) ->
 
     @options = _.defaults _.clone(@options),
-      name: "Share Savings"
-      suffix: "S11"
-      type: "share"
+      name: "Investment"
+      suffix: "I10"
+      type: "investment"
       balance: RandomHelper.amountInRange 5, 20000
       daysToCreate: 120
       checking: false

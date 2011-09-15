@@ -25,9 +25,9 @@ module.exports = class LineAccountSeed extends AccountSeed
       daysToCreate: 120
       priority: 2
       checking: false
-      rate: RandomHelper.amountInRange 4, 8
+      current_rate: RandomHelper.amountInRange 4, 8
       amount_due: RandomHelper.amountInRange 200, 500
-      orig_loan_amt: limit
+      credit_limit: limit
       availableBalance: (limit - balance).toFixed 2
       due_date: dueDate
 
@@ -42,7 +42,7 @@ module.exports = class LineAccountSeed extends AccountSeed
         loanSeed = new LoanTransactionSeed
           account: account
           models: @options.models
-          rate: @options.rate
+          rate: @options.current_rate
           payment_amount: @options.amount_due
 
         loanSeed.create date, 0, seedCallback

@@ -10,13 +10,14 @@ Account = new Schema
   available_balance: Number
   priority: Number
   checking: Boolean
-  rate: Number
+  current_rate: Number
   term: String
   orig_loan_amt: Number
   account_opened: Date
   maturity_date: Date
   amount_due: Number
   due_date: Date
+  credit_limit: Number
 
 Account.virtual('urls').get ->
   transactions: "/accounts/#{@id}/transactions"
