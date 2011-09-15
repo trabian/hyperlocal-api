@@ -40,95 +40,27 @@ vows.describe('Member details').addBatch
       'should include phone_list as an array': (member) ->
         assert.isArray member.phone_list
 
-#     'Creating a new external account':
+      'Adding an account sort order':
 
-#       topic: ->
-#         api.request.postWithCallback urls.externalAccounts.create, sampleExternalAccount, @callback
+        topic: (member) ->
 
-#       'it should return a 200 response': api.assertStatus 200
+          sortArray = ['test1', 'test2']
 
-#       '(the new account)':
+          api.request.postWithCallback urls.memberDetails.updateAccountSort, data: sortArray, (err, req, res) =>
+            @callback err, req, res, sortArray, member
 
-#         topic: (req, res) ->
-#           if res.body.data
-#             @callback null, res.body.data
-#           else
-#             @callback "External account wasn't created."
-#           return
+        'should return a 200': api.assertStatus 200
 
-#         'should be returned': (externalAccount) ->
-#           assert.ok externalAccount
+        '(the member details)':
 
-#         'should include an "id" field': (externalAccount) ->
-#           assert.include externalAccount, 'id'
+          topic: (req, res, sortArray, member) ->
 
-#         'should include a "url" field': (externalAccount) ->
-#           assert.include externalAccount, 'url'
+            api.request.getWithCallback urls.memberDetails.detail, null, (err, req, res) =>
+              @callback null, res.body.data, sortArray
 
-#         'should include a "verified" field': (externalAccount) ->
-#           assert.include externalAccount, 'verified'
+            return
 
-#         'should include a "status" field': (externalAccount) ->
-#           assert.include externalAccount, 'status'
-
-#         'should match the posted account': (externalAccount) ->
-#           for key, value of sampleExternalAccount
-#             assert.equal externalAccount[key], value
-
-#         'accessed at the provided url':
-
-#           topic: (externalAccount) ->
-#             api.request.getWithCallback externalAccount.url, null, @callback
-#             return
-
-#           'should return a 200': api.assertStatus 200
-
-#           'should be present': (err, req, res) ->
-#             assert.ok res.body.data
-
-#         'when deleting':
-
-#           topic: (externalAccount) ->
-#             api.request.deleteWithCallback externalAccount.url, null, (err, req, res) =>
-#               @callback err, req, res, externalAccount
-#             return
-
-#           'should return a 200': api.assertStatus 200
-
-#           'and fetched again':
-
-#             topic: (req, res, externalAccount) ->
-#               api.request.getWithCallback externalAccount.url, null, @callback
-#               return
-
-#             'should return a 200': api.assertStatus 200
-
-#             'should be marked deleted': (err, req, res) ->
-#               assert.match res.body.data.status, /^deleted_/
-
-#           'and when the account list is fetched':
-
-#             topic: (req, res, externalAccount) ->
-
-#               api.request.getWithCallback urls.externalAccounts.list, null, (err, req, res) =>
-
-#                 externalAccounts = res.body.data
-
-#                 unless _.isArray externalAccounts
-#                   console.log "FYI: external accounts array was not at root of 'data' object, but we're checking for that in another test so we'll let this one slide."
-#                   externalAccounts = externalAccounts[_.keys(externalAccounts)[0]]
-
-#                 @callback err, externalAccounts, externalAccount
-
-#               return
-
-#             'the account should be returned but marked as deleted': (err, externalAccounts, externalAccount) ->
-
-#               markedDeleted = false
-
-#               for account in externalAccounts when account.id is externalAccount.id
-#                 markedDeleted = !! (account.status.match /^deleted_/)
-
-#               assert.isTrue markedDeleted
+          'should include the new sort array': (err, details, sortArray) ->
+            assert.deepEqual details.custom_account_sort, sortArray
 
 .export module

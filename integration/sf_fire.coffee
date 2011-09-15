@@ -45,6 +45,16 @@ routes =
     rewrite: (req, res) ->
       "/members/#{req.app.member_number}/transfers"
 
+  memberDetails:
+    pattern: /^\/MemberDetail/
+    rewrite: (req, res, match) ->
+      "/members/#{req.app.member_number}"
+
+  updateAccountSort:
+    pattern: /^\/AccountDetails\/customsort/
+    rewrite: (req, res) ->
+      "/members/#{req.app.member_number}/accounts/sort"
+
 module.exports =
 
   middleware: (req, res, next) ->

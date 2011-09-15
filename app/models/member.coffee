@@ -16,6 +16,7 @@ module.exports = new Schema
   password: String
   res_address: address
   alt_address: address
+  custom_account_sort: Array
   mfaQuestion:
     question: String
     answer: String

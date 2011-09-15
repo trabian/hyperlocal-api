@@ -12,7 +12,7 @@ module.exports =
 
   load: (app) ->
 
-    { Account, Transaction } = app.settings.models
+    { Account, Member, Transaction } = app.settings.models
 
     fields = module.exports.fields
 
@@ -49,14 +49,19 @@ module.exports =
         else
           ResponseHelper.sendCollection res, (stripIds accounts), { fields, err }
 
-    app.get '/accounts/:id.json', auth, (req, res) ->
+    app.get '/accounts/:id', auth, (req, res) ->
 
       Account.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
 
-    app.put '/accounts/:id.json', auth, (req, res) ->
+    app.put '/accounts/:id', auth, (req, res) ->
 
       account = req.body.account
 
       Account.update { _id: req.params.id }, { nickname: account.nickname }, =>
+        res.send {}
+
+    app.post '/members/:member_id/accounts/sort', auth, (req, res) ->
+
+      Member.update { _id: req.params.member_id }, { custom_account_sort: req.body.data }, =>
         res.send {}

@@ -42,3 +42,6 @@ module.exports =
       list: '/estatements/statement/list'
     institutions:
       list: '/transfers/institutions?q={{query}}'
+    memberDetails:
+      detail: '/MemberDetail'
+      updateAccountSort: '/AccountDetails/customsort'
