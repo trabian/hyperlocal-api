@@ -15,8 +15,8 @@ module.exports =
   create: (options, callback) =>
 
     buildAddress = ->
-      street1: Faker.Address.streetAddress()
-      street2: if (Math.random() < 0.3) then Faker.Address.secondaryAddress()
+      street_1: Faker.Address.streetAddress()
+      street_2: if (Math.random() < 0.3) then Faker.Address.secondaryAddress()
       city: Faker.Address.city()
       state: Faker.Address.usState(true)
       zip: Faker.Address.zipCode()
