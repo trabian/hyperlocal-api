@@ -21,7 +21,3 @@ module.exports =
 
       Member.findById req.params.id, (err, member) ->
         ResponseHelper.send res, member, { fields, err }
-
-    app.put '/members/:id', (req, res) ->
-      member = req.body.member
-      res.send {}

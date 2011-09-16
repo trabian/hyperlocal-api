@@ -68,8 +68,12 @@ vows.describe('Accounts').addBatch
               @callback null, account
               return
 
-          @callback "Couldn't find a loan account for this member"
+          @callback null, null
+
           return
+
+        'should be present': (account) ->
+          assert.ok account, "Couldn't find an account with type of loan. Perhaps try a different member account?"
 
         'loan payment details': assertLoanPayment
         'loan details': assertLoanDetails
@@ -85,8 +89,11 @@ vows.describe('Accounts').addBatch
               @callback null, account
               return
 
-          @callback "Couldn't find a mortgage account for this member"
+          @callback null, null
           return
+
+        'should be present': (account) ->
+          assert.ok account, "Couldn't find an account with type of mortgage. Perhaps try a different member account?"
 
         'loan payment details': assertLoanPayment
         'loan details': assertLoanDetails
