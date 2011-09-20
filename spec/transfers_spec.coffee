@@ -133,4 +133,51 @@ vows.describe('Transfers').addBatch
 
             'should return a 200 response': api.assertStatus 200
 
+        'with payee accounts':
+
+          topic: (accounts) ->
+
+            api.request.getWithCallback urls.payees.list, null, (err, req, res) =>
+
+              payees = res.body.data
+
+              if _.isEmpty payees
+                @callback "This member doesn't have any payee accounts. Perhaps try a different member?"
+              else
+                @callback null, accounts, payees
+
+              return
+
+          'and a payee destination':
+
+            topic: (accounts, payeeAccounts) ->
+
+              source = _.detect accounts, (account) ->
+                account.billpay_source
+
+              unless source?
+                console.log message = "Couldn't find a billpay source"
+                @callback message
+                return
+
+              destination = payeeAccounts[0]
+
+              transfer =
+                amount: 100
+                source_id: source.id
+                source_type: 'internal'
+                destination_id: destination.id
+                destination_type: 'payee'
+                schedule:
+                  type: 'later'
+                  start_at: destination.minimum_next_payment_date
+
+                transfer_type: 'billpay'
+
+              api.request.postWithCallback urls.transfers.create, transfer, @callback
+
+              return
+
+            'should return a 200 response': api.assertStatus 200
+
 .export module

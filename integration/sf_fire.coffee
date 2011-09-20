@@ -25,6 +25,11 @@ routes =
     rewrite: (req, res) ->
       "/members/#{req.app.member_number}/accounts/payee"
 
+  createPayeeAccounts:
+    pattern: /^\/billpay\/payee/
+    rewrite: (req, res) ->
+      "/members/#{req.app.member_number}/accounts/payee"
+
   estatements:
     pattern: /^\/estatements\/statement\/list/
     rewrite: (req, res) ->

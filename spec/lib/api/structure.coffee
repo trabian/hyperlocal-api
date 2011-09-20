@@ -35,6 +35,23 @@ assertFields = (fieldNames...) ->
 
   macro
 
+assertDate = (fieldName) ->
+  (object) ->
+    assert.ok object, "Expected object to include #{fieldName}, but it was empty instead"
+    assert.include object, fieldName
+    assert.isNumber (Date.parse object[fieldName]), 'The date should be in ISO 8601 format'
+
+assertDates = (fieldNames...) ->
+
+  macro =
+    topic: (object) ->
+      @callback null, object
+      return
+
+  macro[fieldName] = assertDate fieldName for fieldName in fieldNames
+
+  macro
+
 module.exports =
 
   load: (api) ->
@@ -52,6 +69,10 @@ module.exports =
     assertField: assertField
 
     assertFields: assertFields
+
+    assertDate: assertDate
+
+    assertDates: assertDates
 
     assertAddress: (field) ->
 

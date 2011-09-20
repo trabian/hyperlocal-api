@@ -9,7 +9,7 @@ module.exports =
 
   load: (app) ->
 
-    { ExternalAccount, PayeeAccount } = app.settings.models
+    { ExternalAccount } = app.settings.models
 
     fields = module.exports.fields
 
@@ -39,14 +39,6 @@ module.exports =
     app.get '/members/:member_id/accounts/external', (req, res) ->
 
       ExternalAccount.find(member_id: req.params.member_id)
-             .sort('priority', 1)
-             .execFind (err, accounts) ->
-
-          ResponseHelper.sendCollection res, accounts, { fields, err }
-
-    app.get '/members/:member_id/accounts/payee', (req, res) ->
-
-      PayeeAccount.find(member_id: req.params.member_id)
              .sort('priority', 1)
              .execFind (err, accounts) ->
 

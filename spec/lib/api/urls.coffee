@@ -30,6 +30,7 @@ module.exports =
       create: '/transfers/externalaccount'
     payees:
       list: '/billpay/payee/list'
+      create: '/billpay/payee'
     otherMemberAccounts:
       list: '/transfers/bookmark/list'
     transfers:

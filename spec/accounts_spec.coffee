@@ -44,8 +44,7 @@ vows.describe('Accounts').addBatch
 
           assert.match id, /^([S,L].*)/, "The short id format without the member number should be returned in the account list. A sample id returned from the API was: #{id}"
 
-        'should have a "urls" hash': (err, account) ->
-          assert.include account, 'urls'
+        'should include fields': api.structure.assertFields 'urls', 'name', 'nickname', 'billpay_source'
 
         'fetching transactions':
 

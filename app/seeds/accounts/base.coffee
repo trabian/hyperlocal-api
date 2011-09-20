@@ -24,6 +24,7 @@ module.exports = class AccountSeed
       due_date: @options.due_date
       term: @options.term
       credit_limit: @options.credit_limit
+      billpay_source: @options.billpay_source
 
     account.nickname = "My #{@options.name} Account" if Math.random() < 0.5
 

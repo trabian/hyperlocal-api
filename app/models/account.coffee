@@ -18,6 +18,7 @@ Account = new Schema
   amount_due: Number
   due_date: Date
   credit_limit: Number
+  billpay_source: Boolean
 
 Account.virtual('urls').get ->
   transactions: "/accounts/#{@id}/transactions"
