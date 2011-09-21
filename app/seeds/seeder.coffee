@@ -12,12 +12,12 @@ module.exports = class Seeder
 
   seed: (callback) ->
 
-    { Member, Account, Document, ExternalAccount, MemberAccount, Transaction, Transfer, TransferInstance } = @options.models
+    { Member, Account, Document, ExternalAccount, MemberAccount, PayeeAccount, Transaction, Transfer, TransferInstance } = @options.models
 
     dropCollection = (collection, callback) ->
       collection.remove {}, callback
 
-    async.forEach [Member, Account, ExternalAccount, MemberAccount, Transaction, Transfer, TransferInstance, Document], dropCollection, (err) =>
+    async.forEach [Member, Account, ExternalAccount, MemberAccount, PayeeAccount, Transaction, Transfer, TransferInstance, Document], dropCollection, (err) =>
       if err 
         console.log 
       else

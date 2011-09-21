@@ -6,6 +6,17 @@ api = require './lib/api'
 
 urls = api.urls.actual
 
+assertCheckImage = (side) ->
+
+  topic: (checkUrls) ->
+    api.request.getWithCallback checkUrls[side], null, @callback
+    return
+
+  'should return a 200 response': api.assertStatus 200
+
+  'should be an image': (err, req, res) ->
+    assert.match res.headers['content-type'], /^image\//
+
 vows.describe('Transfers').addBatch
 
   '(While logged in)':
@@ -24,7 +35,7 @@ vows.describe('Transfers').addBatch
       '(individual transfers)':
 
         topic: (req, res) ->
-          @callback null, if (_.isArray res.body.data) then res.body.data else res.body.data.transfers
+          @callback null, res.body.data
           return
 
         "each transfer should have a 'schedule' object": (transfers) ->
@@ -34,6 +45,31 @@ vows.describe('Transfers').addBatch
           else
             for transfer in transfers
               assert.include transfer, 'schedule'
+
+        '(a transfer with associated checks)':
+
+          topic: (transfers) ->
+
+            transfer = _.detect transfers, (transfer) -> transfer.urls?.checks?
+
+            if transfer?
+              @callback null, transfer.urls.checks
+            else
+              console.log message = "Couldn't find a transfer with associated checks. Skipping this test."
+              @callback message
+
+            return
+
+          'fetching check front': assertCheckImage 'front'
+          'fetching check back': assertCheckImage 'back'
+
+      '(a sample transfer)':
+
+        topic: (req, res) ->
+          @callback null, res.body.data[0]
+          return
+
+        'should have fields:': api.structure.assertFields 'destination_id', 'destination_type', 'urls'
 
     'Posting a transfer':
 
@@ -179,5 +215,13 @@ vows.describe('Transfers').addBatch
               return
 
             'should return a 200 response': api.assertStatus 200
+
+            '(the new transfer)':
+
+              topic: (req, res) ->
+                @callback null, res.body.data
+                return
+
+              'should include fields:': api.structure.assertFields 'urls'
 
 .export module

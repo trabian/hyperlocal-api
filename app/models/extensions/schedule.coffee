@@ -14,7 +14,7 @@ module.exports =
   nextOccurrence:
     type: Date
     get: (date) ->
-      
+
       return date if date?
 
       if @state is 'scheduled'

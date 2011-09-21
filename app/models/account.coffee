@@ -21,6 +21,6 @@ Account = new Schema
   billpay_source: Boolean
 
 Account.virtual('urls').get ->
-  transactions: "/accounts/#{@id}/transactions"
+  transactions: "/accounts/#{@_id}/transactions"
 
 module.exports = Account

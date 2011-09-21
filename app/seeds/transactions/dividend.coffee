@@ -10,7 +10,7 @@ module.exports = class DividendTransactionSeed extends TransactionSeed
 
     account = @options.account
 
-    amount = account.balance * @options.rate
+    amount = account.balance * (@options.rate / 1200)
     balance = (account.balance + amount).toFixed 2
 
     transaction = new @options.models.Transaction

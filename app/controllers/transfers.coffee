@@ -8,6 +8,7 @@ _ = require 'underscore'
 AccountController = require 'app/controllers/accounts'
 ExternalAccountController = require 'app/controllers/external_accounts'
 MemberAccountController = require 'app/controllers/member_accounts'
+PayeeAccountController = require 'app/controllers/payee_accounts'
 TransactionController = require 'app/controllers/transactions'
 
 scheduleFields = ['type', 'start_at', 'end_at', 'frequency', 'last_occurrence', 'next_occurrence', 'state']
@@ -16,11 +17,11 @@ transferInstanceFields = ['created_at', 'source_transaction', 'destination_trans
 
 module.exports =
 
-  fields: ["source", "destination", "source_id", "source_type", "destination_id", "destination_type", "amount", "created_at", "schedule", "note", "instances"]
+  fields: ["source", "destination", "source_id", "source_type", "destination_id", "destination_type", "amount", "created_at", "schedule", "note", "instances", "urls"]
 
   load: (app) ->
 
-    { Account, ExternalAccount, MemberAccount, Schedule, Transaction, Transfer, TransferInstance } = app.settings.models
+    { Account, ExternalAccount, MemberAccount, PayeeAccount, Schedule, Transaction, Transfer, TransferInstance } = app.settings.models
 
     fields = module.exports.fields
 
@@ -60,9 +61,14 @@ module.exports =
             accounts.member = mapAccounts member
             do callback
 
+        fetchPayee = (callback) =>
+          PayeeAccount.find { member_id }, (err, member) ->
+            accounts.payee = mapAccounts member
+            do callback
+
         accountFields = ['name', 'nickname', 'id', 'type', 'balance', 'available_balance', 'routing_number', 'account_number', 'member_number', 'member_name_verification']
 
-        async.parallel [fetchInternal, fetchExternal, fetchMember], =>
+        async.parallel [fetchInternal, fetchExternal, fetchMember, fetchPayee], =>
 
           for transfer in transfers
 
@@ -75,6 +81,8 @@ module.exports =
                   accounts.external
                 when "member"
                   accounts.member
+                when "payee"
+                  accounts.payee
                 else
                   accounts.internal
 
@@ -107,6 +115,17 @@ module.exports =
       loadTransfers query, (transfers, err) ->
         ResponseHelper.sendCollection res, transfers, { fields, err }
 
+    app.get '/accounts/payee/:account_id/transfers', (req, res) ->
+
+      count = req.param('count') ? 10
+
+      query = Transfer
+        .forPayeeAccount(req.params.account_id)
+        .limit(count)
+
+      loadTransfers query, (transfers, err) ->
+        ResponseHelper.sendCollection res, transfers, { fields, err }
+
     app.get '/transfers/:id', (req, res) ->
 
       Transfer.findById req.params.id, (err, transfer) ->
@@ -119,6 +138,16 @@ module.exports =
               ResponseHelper.format instance, transferInstanceFields
 
             ResponseHelper.send res, transfer, { fields, err }
+
+    app.get '/transfers/:id/checks/:side', (req, res) ->
+
+      checkFile = path.join process.cwd(), "fixtures/checks/#{req.param('side')}.jpg"
+
+      fs.readFile checkFile, "binary", (err, file) ->
+        res.header 'Content-Type', 'image/jpeg'
+        res.writeHead 200
+        res.write file, "binary"
+        res.end()
 
     app.get '/transfers/instances/:id', (req, res) ->
 
@@ -137,6 +166,9 @@ module.exports =
               when "member"
                 class: MemberAccount
                 fields: MemberAccountController.fields
+              when "payee"
+                class: PayeeAccount
+                fields: PayeeAccountController.fields
               else
                 class: Account
                 fields: AccountController.fields
@@ -176,7 +208,7 @@ module.exports =
 
     app.post '/members/:member_id/transfers', (req, res) ->
 
-      data = req.body.transfer
+      data = req.body
 
       transfer = new Transfer
         member_id: req.params.member_id

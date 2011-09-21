@@ -18,8 +18,8 @@ module.exports =
 
     stripIds = (accounts) ->
 
-      for account in accounts
-        account._id = account._id.split('-')[1]
+      # for account in accounts
+      #   account._id = account._id.split('-')[1]
 
       accounts
 

@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 module.exports =
 
-  fields: ["name", "nickname", "account_number", "address_1", "address_2", "city", "state", "zip_code", "phone", "payee_notes", "payee_category", "status", "minimum_next_payment_date", "last_payment_date", "created_date", "url"]
+  fields: ["name", "nickname", "account_number", "address", "phone", "payee_notes", "payee_category", 'payee_type', "status", "minimum_next_payment_date", "last_payment_date", "created_date", "urls"]
 
   load: (app) ->
 
@@ -22,14 +22,11 @@ module.exports =
         name: data.name
         nickname: data.nickname
         account_number: data.account_number
-        address_1: data.address_1
-        address_2: data.address_2
-        city: data.city
-        state: data.state
-        zip_code: data.zip_code
+        address: data.address
         phone: data.phone
         payee_notes: data.payee_notes
         payee_category: data.payee_category
+        payee_type: 'electronic'
         status: "Active"
 
       account.save (err, doc) =>
@@ -43,6 +40,7 @@ module.exports =
                    .execFind (err, payees) ->
 
           ResponseHelper.sendCollection res, payees, { fields, err }
+
 
     app.get '/accounts/payee/:id', (req, res) ->
 

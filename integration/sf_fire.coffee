@@ -50,6 +50,11 @@ routes =
     rewrite: (req, res) ->
       "/members/#{req.app.member_number}/transfers"
 
+  createTransfer:
+    pattern: /^\/transfers\/transfer/
+    rewrite: (req, res) ->
+      "/members/#{req.app.member_number}/transfers"
+
   memberDetails:
     pattern: /^\/MemberDetail/
     rewrite: (req, res, match) ->

@@ -18,9 +18,6 @@ module.exports =
 
       account_id = req.params.account_id
 
-      unless account_id.match /(.*)-(.*)/
-        account_id = [app.member_number, account_id].join '-'
-
       Account.findById account_id, (err, account) ->
 
         unless account

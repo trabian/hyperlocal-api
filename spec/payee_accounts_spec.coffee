@@ -10,13 +10,15 @@ samplePayee =
   name: "Bay Energy"
   nickname: "Utility Bill"
   account_number: "555 Test St"
-  address_1: "555 Test St"
-  city: 'San Francisco'
-  state: 'CA'
-  zip_code: '94118'
   phone: '(555) 123-4567'
   payee_notes: 'Utilities'
   payee_category: 'frequent'
+  address:
+    street_1: "555 Test St"
+    street_2: "Apt 103"
+    city: 'San Francisco'
+    state: 'CA'
+    zip: '94118'
 
 vows.describe('Payee Accounts').addBatch
 
@@ -34,7 +36,7 @@ vows.describe('Payee Accounts').addBatch
           payees = res.body.data
 
           if payee = payees[0]
-            api.request.getWithCallback payee.url, null, (err, req, res) =>
+            api.request.getWithCallback payee.urls.detail, null, (err, req, res) =>
               fetchedAccount = res.body.data
               if fetchedAccount.payee?
                 console.log "The data hash returned contained a 'payee' element. The 'data' hash should contain the payee account data without an intermediate object."
@@ -50,9 +52,28 @@ vows.describe('Payee Accounts').addBatch
         throw err if err?
         assert.equal payeeAccount.id, requestedAccount.id
 
-      'should include fields:': api.structure.assertFields 'name', 'nickname', 'account_number', 'address_1', 'city', 'state', 'zip_code', 'phone', 'payee_category'
+      'should include fields:': api.structure.assertFields 'urls', 'name', 'nickname', 'account_number', 'phone', 'payee_category', 'payee_type'
 
       'should include valid dates:': api.structure.assertDates 'created_date', 'last_payment_date', 'minimum_next_payment_date'
+
+      'should have an address': api.structure.assertAddress 'address'
+
+      'with urls':
+
+        topic: (payee) ->
+          @callback null, payee.urls
+
+        'should include fields:': api.structure.assertFields 'detail', 'history'
+
+        'fetching history':
+
+          topic: (urls) ->
+            api.request.getWithCallback urls.history, null, @callback
+            return
+
+          'should return a 200 response': api.assertStatus 200
+
+          '(the data)': api.structure.assertDataFormat
 
     'Creating a payee account':
 
@@ -73,16 +94,16 @@ vows.describe('Payee Accounts').addBatch
         'should be returned': (payee) ->
           assert.ok payee
 
-        'should include fields:': api.structure.assertFields 'id', 'url', 'status'
+        'should include fields:': api.structure.assertFields 'id', 'urls', 'status'
 
         'should match the posted account': (payee) ->
           for key, value of samplePayee
-            assert.equal payee[key], value
+            assert.deepEqual payee[key], value
 
         'accessed at the provided url':
 
           topic: (payee) ->
-            api.request.getWithCallback payee.url, null, @callback
+            api.request.getWithCallback payee.urls.detail, null, @callback
             return
 
           'should return a 200': api.assertStatus 200
@@ -93,7 +114,7 @@ vows.describe('Payee Accounts').addBatch
         'when deleting':
 
           topic: (payee) ->
-            api.request.deleteWithCallback payee.url, null, (err, req, res) =>
+            api.request.deleteWithCallback payee.urls.detail, null, (err, req, res) =>
               @callback err, req, res, payee
             return
 
@@ -102,7 +123,7 @@ vows.describe('Payee Accounts').addBatch
           'and fetched again':
 
             topic: (req, res, payee) ->
-              api.request.getWithCallback payee.url, null, @callback
+              api.request.getWithCallback payee.urls.detail, null, @callback
               return
 
             'should return a 200': api.assertStatus 200

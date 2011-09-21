@@ -38,11 +38,23 @@ Transfer = new Schema
 Transfer.static 'forAccount', (account_id, callback) ->
 
   orQuery = $or: [
-    { 'source_id': account_id },
-    { 'destination_id': account_id }
+    { source_id: account_id },
+    { destination_id: account_id }
   ]
 
   @find orQuery, callback
+
+Transfer.static 'forPayeeAccount', (account_id, callback) ->
+  @find { destination_id: account_id, destination_type: 'payee' }, callback
+
+Transfer.virtual('urls').get ->
+
+  base = "/transfers/#{@id}"
+
+  detail: base
+  checks:
+    front: "#{base}/checks/front"
+    back: "#{base}/checks/back"
 
 Transfer.pre 'save', (next) ->
 
@@ -55,7 +67,7 @@ Transfer.method 'createTransactions', (callback) ->
 
   transfer = @
 
-  { Account, ExternalAccount, MemberAccount, Transaction, TransferInstance } = Transfer.models
+  { Account, ExternalAccount, MemberAccount, PayeeAccount, Transaction, TransferInstance } = Transfer.models
 
   createTransaction = (account_id, account_type, alternate_account_id, alternate_account_type, amount, interest, principal, transferInstance, direction, callback) ->
 
@@ -73,6 +85,9 @@ Transfer.method 'createTransactions', (callback) ->
       type: 'transfer'
       transfer_instance_id: transferInstance.id
 
+    # if account_type is 'internal'
+    #   account_id = [@member_id, account_id].join '-'
+
     accountClasses = for type in [account_type, alternate_account_type]
       switch type
         when "external"
@@ -81,6 +96,9 @@ Transfer.method 'createTransactions', (callback) ->
         when "member"
           internal: false
           class: MemberAccount
+        when "payee"
+          internal: false
+          class: PayeeAccount
         else
           internal: true
           class: Account
@@ -88,6 +106,9 @@ Transfer.method 'createTransactions', (callback) ->
     account = accountClasses[0].class.findById account_id, (err, account) ->
 
       alternateAccount = accountClasses[1].class.findById alternate_account_id, (err, alternateAccount) ->
+
+        unless alternateAccount
+          console.log 'couldnt find alternate account', alternate_account_id, alternate_account_type 
 
         transaction.name = "Transfer #{direction} #{alternateAccount.nickname or alternateAccount.name}"
 

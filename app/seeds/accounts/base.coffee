@@ -32,7 +32,8 @@ module.exports = class AccountSeed
       @createManyTransactions doc, callback
 
   createId: ->
-    [@options.member._id, @options.suffix].join '-'
+    @options.suffix
+    # [@options.member._id, @options.suffix].join '-'
 
   createManyTransactions: (account, callback) =>
 

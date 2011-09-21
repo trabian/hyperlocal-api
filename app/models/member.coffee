@@ -1,11 +1,6 @@
 Schema = require('mongoose').Schema
 
-address =
-  street_1: String
-  street_2: String
-  city: String
-  state: String
-  zip: String
+address = require 'app/models/extensions/address'
 
 module.exports = new Schema
   _id: Number
