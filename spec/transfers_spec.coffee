@@ -46,22 +46,22 @@ vows.describe('Transfers').addBatch
             for transfer in transfers
               assert.include transfer, 'schedule'
 
-        '(a transfer with associated checks)':
+        # '(a transfer with associated checks)':
 
-          topic: (transfers) ->
+        #   topic: (transfers) ->
 
-            transfer = _.detect transfers, (transfer) -> transfer.urls?.checks?
+        #     transfer = _.detect transfers, (transfer) -> transfer.urls?.checks?
 
-            if transfer?
-              @callback null, transfer.urls.checks
-            else
-              console.log message = "Couldn't find a transfer with associated checks. Skipping this test."
-              @callback null, {}
+        #     if transfer?
+        #       @callback null, transfer.urls.checks
+        #     else
+        #       console.log message = "Couldn't find a transfer with associated checks. Skipping this test."
+        #       @callback null, {}
 
-            return
+        #     return
 
-          'fetching check front': assertCheckImage 'front'
-          'fetching check back': assertCheckImage 'back'
+        #   'fetching check front': assertCheckImage 'front'
+        #   'fetching check back': assertCheckImage 'back'
 
       '(a sample transfer)':
 
