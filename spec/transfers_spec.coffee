@@ -56,7 +56,7 @@ vows.describe('Transfers').addBatch
               @callback null, transfer.urls.checks
             else
               console.log message = "Couldn't find a transfer with associated checks. Skipping this test."
-              @callback message
+              @callback null, {}
 
             return
 
