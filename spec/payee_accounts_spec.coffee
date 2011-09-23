@@ -10,7 +10,7 @@ samplePayee =
   name: "Bay Energy"
   nickname: "Utility Bill"
   account_number: "555 Test St"
-  phone: '(555) 223-4567'
+  phone: '(800) 223-4567'
   payee_notes: 'Utilities'
   payee_category: 'frequent'
   address:
