@@ -209,6 +209,7 @@ vows.describe('Transfers').addBatch
                   start_at: destination.minimum_next_payment_date
 
                 transfer_type: 'billpay'
+                note: 'This is a test note.'
 
               api.request.postWithCallback urls.transfers.create, transfer, @callback
 
@@ -222,6 +223,6 @@ vows.describe('Transfers').addBatch
                 @callback null, res.body.data
                 return
 
-              'should include fields:': api.structure.assertFields 'urls'
+              'should include fields:': api.structure.assertFields 'urls', 'note'
 
 .export module
