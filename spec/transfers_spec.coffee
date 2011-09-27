@@ -1,6 +1,7 @@
 vows = require 'vows'
 assert = require 'assert'
 _ = require 'underscore'
+events = require 'events'
 
 api = require './lib/api'
 
@@ -16,6 +17,15 @@ assertCheckImage = (side) ->
 
   'should be an image': (err, req, res) ->
     assert.match res.headers['content-type'], /^image\//
+
+assertSchedule = (schedule) ->
+  for field in ['type', 'state', 'next_occurrence', 'last_occurrence']
+    assert.include schedule, field
+
+assertAccount = (account) ->
+
+  for field in ['id', 'type']
+    assert.include account, field
 
 vows.describe('Transfers').addBatch
 
@@ -35,33 +45,59 @@ vows.describe('Transfers').addBatch
       '(individual transfers)':
 
         topic: (req, res) ->
-          @callback null, res.body.data
-          return
 
-        "each transfer should have a 'schedule' object": (transfers) ->
+          fetchAllPages = false
+
+          pages = []
+
+          processBody = (body, callback) ->
+
+            if body.data?
+
+              pages.push body.data
+
+              if fetchAllPages and next = body.page?.next
+                api.request.getWithCallback next, null, (err, req, nextPage) ->
+                  processBody nextPage.body, callback unless err?
+              else
+                do callback
+
+            else
+
+              do callback
+
+          processBody res.body, =>
+            @callback null, _.flatten pages
+
+        "each transfer should have valid 'schedule'": (transfers) ->
 
           if _.isEmpty transfers
             console.log 'This member did not have any transfers available'
           else
             for transfer in transfers
+
               assert.include transfer, 'schedule'
+              assertSchedule transfer.schedule
 
-        # '(a transfer with associated checks)':
+        "each transfer should have valid 'source'": (transfers) ->
 
-        #   topic: (transfers) ->
+          if _.isEmpty transfers
+            console.log 'This member did not have any transfers available'
+          else
+            for transfer in transfers
 
-        #     transfer = _.detect transfers, (transfer) -> transfer.urls?.checks?
+              assert.include transfer, 'source'
+              assertAccount transfer.source
 
-        #     if transfer?
-        #       @callback null, transfer.urls.checks
-        #     else
-        #       console.log message = "Couldn't find a transfer with associated checks. Skipping this test."
-        #       @callback null, {}
+        "each transfer should have valid 'destination'": (transfers) ->
 
-        #     return
+          if _.isEmpty transfers
+            console.log 'This member did not have any transfers available'
+          else
+            for transfer in transfers
 
-        #   'fetching check front': assertCheckImage 'front'
-        #   'fetching check back': assertCheckImage 'back'
+              assert.include transfer, 'destination'
+              assertAccount transfer.destination
 
       '(a sample transfer)':
 
