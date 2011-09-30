@@ -7,7 +7,7 @@ api = require './lib/api'
 urls = api.urls.actual
 
 sampleMember =
-  first_name: 'Testing'
+  email: 'contact@sffirecu.org'
   res_address:
     street_1: "555 Test St"
     street_2: "Apt 103"
@@ -31,7 +31,7 @@ vows.describe('Member details').addBatch
       'should be returned in the session': (member) ->
         assert.ok member, '"member_details" object was unavailable'
 
-      'should include fields:': api.structure.assertFields 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'alt_address'
+      'should include fields:': api.structure.assertFields 'email', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'alt_address'
 
       'should have a res_address': api.structure.assertAddress 'res_address'
 
@@ -83,5 +83,8 @@ vows.describe('Member details').addBatch
 
           'should include the updated residential address': (err, sampleMember, updatedMember) ->
             assert.deepEqual updatedMember.res_address, sampleMember.res_address
+
+          'should include the updated email address': (err, sampleMember, updatedMember) ->
+            assert.deepEqual updatedMember.email, sampleMember.email
 
 .export module

@@ -20,6 +20,8 @@ assertLoanDetails =
 
   'should include fields': api.structure.assertFields 'orig_loan_amt', 'account_opened', 'current_rate', 'term'
 
+sampleNickname = "Sample Nickname"
+
 vows.describe('Accounts').addBatch
 
   '(While logged in)':
@@ -55,6 +57,31 @@ vows.describe('Accounts').addBatch
           'should return a 200': api.assertStatus 200
 
           '(the data)': api.structure.assertDataFormat
+
+        'Updating nickname':
+
+          topic: (account) ->
+
+            data =
+              nickname: sampleNickname
+
+            url = api.template urls.accounts.single,
+              id: account.id
+
+            api.request.postWithCallback url, data, (err, req, res) =>
+              @callback err, req, res, account, url
+
+          'should return a 200': api.assertStatus 200
+
+          '(the updated account details)':
+
+            topic: (req, res, account, url) ->
+
+              api.request.getWithCallback url, null, (err, req, res) =>
+                @callback null, account, res.body.data
+
+            'should include the updated nickname': (err, account, newAccount) ->
+              assert.equal newAccount.nickname, sampleNickname
 
       'A loan account':
 

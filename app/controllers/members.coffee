@@ -4,7 +4,7 @@ async = require 'async'
 
 module.exports =
 
-  fields: ["first_name", "middle_name", "last_name", "phone_list", "res_address", "alt_address", "custom_account_sort"]
+  fields: ["first_name", "middle_name", "last_name", "email", "phone_list", "res_address", "alt_address", "custom_account_sort"]
 
   load: (app) ->
 

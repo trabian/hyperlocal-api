@@ -1,9 +1,14 @@
 routes =
 
   accounts:
-    pattern: /^\/AccountDetails\/accounts/
+    pattern: /^\/AccountDetails\/accounts$/
     rewrite: (req, res) ->
       "/members/#{req.app.member_number}/accounts"
+
+  accountDetails:
+    pattern: /^\/AccountDetails\/accounts\/(.*)/
+    rewrite: (req, res, match) ->
+      "/accounts/#{match[1]}"
 
   externalAccounts:
     pattern: /^\/transfers\/externalaccounts/
