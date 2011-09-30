@@ -9,9 +9,9 @@ module.exports = new Schema
   last_name: String
   phone_list: Array
   password: String
-  email: String
+  email_address: String
   res_address: address
-  alt_address: address
+  mailing_address: address
   custom_account_sort: Array
   mfaQuestion:
     question: String

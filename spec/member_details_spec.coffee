@@ -7,7 +7,7 @@ api = require './lib/api'
 urls = api.urls.actual
 
 sampleMember =
-  email: 'contact@sffirecu.org'
+  email_address: 'contact@sffirecu.org'
   res_address:
     street_1: "555 Test St"
     street_2: "Apt 103"
@@ -31,11 +31,9 @@ vows.describe('Member details').addBatch
       'should be returned in the session': (member) ->
         assert.ok member, '"member_details" object was unavailable'
 
-      'should include fields:': api.structure.assertFields 'email', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'alt_address'
+      'should include fields:': api.structure.assertFields 'email_address', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address'
 
       'should have a res_address': api.structure.assertAddress 'res_address'
-
-      'should have a alt_address': api.structure.assertAddress 'alt_address'
 
       'should include phone_list as an array': (member) ->
         assert.isArray member.phone_list

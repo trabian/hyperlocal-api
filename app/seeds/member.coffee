@@ -34,8 +34,9 @@ module.exports =
           type: type
           number: Faker.PhoneNumber.phoneNumber()
 
-      alt_address: buildAddress()
+      mailing_address: buildAddress()
       res_address: buildAddress()
+      email_address: Faker.Internet.email()
       mfaQuestion:
         question: "What was your first pet's name?"
         answer: "Fido"
