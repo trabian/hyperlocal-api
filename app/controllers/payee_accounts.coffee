@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 module.exports =
 
-  fields: ["name", "nickname", "account_number", "address", "phone", "payee_notes", "payee_category", 'payee_type', "status", "minimum_next_payment_date", "last_payment_date", "created_date", "urls"]
+  fields: ["name", "nickname", "account_number", "address", "phone", "payee_notes", "payee_category", 'payee_type', 'type', "status", "minimum_next_payment_date", "last_payment_date", "created_date", "urls"]
 
   load: (app) ->
 

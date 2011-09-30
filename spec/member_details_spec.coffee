@@ -6,14 +6,14 @@ api = require './lib/api'
 
 urls = api.urls.actual
 
-sampleExternalAccount =
-  name: "Test CU"
-  nickname: "My Test Account"
-  account_owner_name: "Me"
-  account_number: "43214321"
-  routing_number: "12341234"
-  account_class: 'savings'
-  account_permission: 'transfer_to'
+sampleMember =
+  first_name: 'Testing'
+  res_address:
+    street_1: "555 Test St"
+    street_2: "Apt 103"
+    city: 'San Francisco'
+    state: 'CA'
+    zip: '94118'
 
 vows.describe('Member details').addBatch
 
@@ -62,5 +62,26 @@ vows.describe('Member details').addBatch
 
           'should include the new sort array': (err, details, sortArray) ->
             assert.deepEqual details.custom_account_sort, sortArray
+
+      'Updating contact information':
+
+        topic: (member) ->
+
+          api.request.postWithCallback urls.memberDetails.update, sampleMember, (err, req, res) =>
+            @callback err, req, res, member, sampleMember
+
+        'should return a 200': api.assertStatus 200
+
+        '(the member details)':
+
+          topic: (req, res, member, sampleMember) ->
+
+            api.request.getWithCallback urls.memberDetails.detail, null, (err, req, res) =>
+              @callback null, sampleMember, res.body.data
+
+            return
+
+          'should include the updated residential address': (err, sampleMember, updatedMember) ->
+            assert.deepEqual updatedMember.res_address, sampleMember.res_address
 
 .export module

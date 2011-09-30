@@ -11,6 +11,9 @@ PayeeAccount = new Schema
   phone: String
   payee_notes: String
   payee_category: String
+  type:
+    type: String
+    default: 'payee'
   payee_type:
     type: String
     default: 'check'

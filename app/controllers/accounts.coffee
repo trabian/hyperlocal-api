@@ -54,9 +54,9 @@ module.exports =
       Account.findById req.params.id, (err, account) ->
         ResponseHelper.send res, account, { fields, err }
 
-    app.put '/accounts/:id', auth, (req, res) ->
+    app.post '/accounts/:id', auth, (req, res) ->
 
-      account = req.body.account
+      account = req.body
 
       Account.update { _id: req.params.id }, { nickname: account.nickname }, =>
         res.send {}

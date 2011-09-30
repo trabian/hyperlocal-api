@@ -45,4 +45,5 @@ module.exports =
       list: '/transfers/institutions?q={{query}}'
     memberDetails:
       detail: '/MemberDetail'
+      update: '/MemberDetail'
       updateAccountSort: '/AccountDetails/customsort'

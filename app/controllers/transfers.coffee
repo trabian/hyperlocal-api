@@ -11,7 +11,7 @@ MemberAccountController = require 'app/controllers/member_accounts'
 PayeeAccountController = require 'app/controllers/payee_accounts'
 TransactionController = require 'app/controllers/transactions'
 
-scheduleFields = ['type', 'start_at', 'end_at', 'frequency', 'last_occurrence', 'next_occurrence', 'state']
+scheduleFields = ['type', 'start_at', 'end_at', 'end_type', 'frequency', 'last_occurrence', 'next_occurrence', 'state']
 
 transferInstanceFields = ['created_at', 'source_transaction', 'destination_transaction']
 
