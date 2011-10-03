@@ -14,6 +14,7 @@ sampleMember =
     city: 'San Francisco'
     state: 'CA'
     zip: '94118'
+    country: ''
 
 vows.describe('Member details').addBatch
 

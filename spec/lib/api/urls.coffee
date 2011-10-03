@@ -47,3 +47,5 @@ module.exports =
       detail: '/MemberDetail'
       update: '/MemberDetail'
       updateAccountSort: '/AccountDetails/customsort'
+    stopPayments:
+      create: '/AccountDetails/accounts/{{account_id}}/stop_payments'
