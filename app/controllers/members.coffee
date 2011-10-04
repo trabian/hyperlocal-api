@@ -5,27 +5,9 @@ fs = require 'fs'
 
 async = require 'async'
 
-creditMatrix =
-  "a+": "800 (+)"
-  "a": "760-799"
-  "a-": "720-759"
-  "b+": "700-719"
-  "b": "680-699"
-  "b-": "660-679"
-  "c+": "650-659"
-  "c": "640-649"
-  "c-": "630-639"
-  "d+": "620-629"
-  "d": "610-619"
-  "d-": "600-609"
-  "e+": "560-599"
-  "e": "520-559"
-  "e-": "480-519"
-  "f": "479"
-
 module.exports =
 
-  fields: ["first_name", "middle_name", "last_name", "email_address", "phone_list", "res_address", "mailing_address", "custom_account_sort", "last_login", "tier_group", "tier_group_last_updated"]
+  fields: ["first_name", "middle_name", "last_name", "email_address", "phone_list", "res_address", "mailing_address", "custom_account_sort", "last_login", "tier_group", "tier_group_last_updated", "tier_group_range"]
 
   load: (app) ->
 
@@ -40,10 +22,11 @@ module.exports =
 
     app.get '/members/:id/creditgrade/detail', (req, res) ->
 
-      res.send
-        data:
-          last_updated: new Date()
-          credit_matrix: creditMatrix
+      Member.creditMatrix (matrix) ->
+        res.send
+          data:
+            last_updated: new Date()
+            credit_matrix: matrix
 
     app.get '/members/:id/creditgrade/image', (req, res) ->
 

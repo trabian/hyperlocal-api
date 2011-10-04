@@ -32,7 +32,7 @@ vows.describe('Member details').addBatch
       'should be returned in the session': (member) ->
         assert.ok member, '"member_details" object was unavailable'
 
-      'should include fields:': api.structure.assertFields 'email_address', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'tier_group', 'tier_group_last_updated'
+      'should include fields:': api.structure.assertFields 'email_address', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'tier_group', 'tier_group_last_updated', 'tier_group_range'
 
       'should have a res_address': api.structure.assertAddress 'res_address'
 
