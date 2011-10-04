@@ -16,3 +16,10 @@ module.exports = new Schema
   mfaQuestion:
     question: String
     answer: String
+  last_login:
+    type: Date
+    default: Date.now
+  tier_group: String
+  tier_group_last_updated:
+    type: Date
+    default: Date.now

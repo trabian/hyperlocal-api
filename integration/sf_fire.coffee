@@ -70,6 +70,16 @@ routes =
     rewrite: (req, res) ->
       "/members/#{req.app.member_number}/accounts/sort"
 
+  creditGradeDetail:
+    pattern: /^\/creditgrade\/detail/
+    rewrite: (req, res) ->
+      "/members/#{req.app.member_number}/creditgrade/detail"
+
+  creditGradeImage:
+    pattern: /^\/creditgrade\/image/
+    rewrite: (req, res) ->
+      "/members/#{req.app.member_number}/creditgrade/image"
+
 module.exports =
 
   middleware: (req, res, next) ->

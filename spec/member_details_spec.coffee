@@ -32,7 +32,7 @@ vows.describe('Member details').addBatch
       'should be returned in the session': (member) ->
         assert.ok member, '"member_details" object was unavailable'
 
-      'should include fields:': api.structure.assertFields 'email_address', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address'
+      'should include fields:': api.structure.assertFields 'email_address', 'first_name', 'middle_name', 'last_name', 'phone_list', 'res_address', 'tier_group', 'tier_group_last_updated'
 
       'should have a res_address': api.structure.assertAddress 'res_address'
 
@@ -85,5 +85,22 @@ vows.describe('Member details').addBatch
 
           'should include the updated email address': (err, sampleMember, updatedMember) ->
             assert.deepEqual updatedMember.email, sampleMember.email
+
+    'Viewing credit grade image':
+
+      topic: api.request.get urls.creditGrade.image
+
+      'should return a 200': api.assertStatus 200
+
+      'should be a PDF': (err, req, res) ->
+        assert.equal res.headers['content-type'], 'image/jpg'
+
+    'Viewing credit details':
+
+      topic: ->
+        api.request.getWithCallback urls.creditGrade.detail, null, (err, req, res) =>
+          @callback null, res.body.data
+
+      'should include fields:': api.structure.assertFields 'last_updated', 'credit_matrix'
 
 .export module

@@ -49,3 +49,6 @@ module.exports =
       updateAccountSort: '/AccountDetails/customsort'
     stopPayments:
       create: '/AccountDetails/accounts/{{account_id}}/stop_payments'
+    creditGrade:
+      image: '/creditgrade/image'
+      detail: '/creditgrade/detail'

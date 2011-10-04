@@ -41,6 +41,7 @@ module.exports =
         question: "What was your first pet's name?"
         answer: "Fido"
       password: 'password'
+      tier_group: "A"
 
     member.save ->
       callback(member)
